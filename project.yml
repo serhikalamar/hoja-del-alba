@@ -28,7 +28,7 @@ targets:
     dependencies:
       - package: GameCore
     info:
-      path: GameTest1/Info.plist
+      path: Support/Info-iOS.plist
       properties:
         CFBundleDisplayName: Game Test 1
         CFBundleShortVersionString: $(MARKETING_VERSION)
@@ -63,7 +63,7 @@ targets:
     dependencies:
       - package: GameCore
     info:
-      path: GameTest1/Info-macOS.plist
+      path: Support/Info-macOS.plist
       properties:
         CFBundleDisplayName: Game Test 1
         CFBundleShortVersionString: $(MARKETING_VERSION)

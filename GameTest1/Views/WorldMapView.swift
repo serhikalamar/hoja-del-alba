@@ -3,6 +3,8 @@ import SwiftUI
 
 struct WorldMapView: View {
     @Environment(GameStore.self) private var store
+    /// Vista del pueblo detrás del camino de niveles.
+    private static let backdrop = VillageArt.background(width: 340, height: 120, level: Worlds.village.levels[0])
 
     var body: some View {
         VStack(spacing: 8) {
@@ -33,7 +35,7 @@ struct WorldMapView: View {
                             unlocked: store.profile.isUnlocked(level: level.id),
                             completed: store.profile.completedLevels.contains(level.id),
                             selected: store.selectedLevel == level.id,
-                            isBoss: level.monsterKinds.contains(.goblinKing)
+                            isBoss: level.id == store.world.levels.count
                         ) {
                             store.selectedLevel = level.id
                         }
@@ -41,7 +43,13 @@ struct WorldMapView: View {
                     }
                 }
             }
-            .background(Color(hex: 0x2E5A3A).opacity(0.5))
+            .background(
+                Image(decorative: Self.backdrop, scale: 1)
+                    .resizable()
+                    .interpolation(.none)
+                    .opacity(0.55)
+            )
+            .clipped()
             .overlay(Rectangle().strokeBorder(Color.black, lineWidth: 3))
 
             if let level = store.world.level(store.selectedLevel) {
@@ -109,19 +117,32 @@ private struct LevelDetail: View {
                 Text("NIVEL \(level.id) · \(level.name.uppercased())")
                     .font(Theme.font(15, weight: .black))
                     .foregroundStyle(Theme.text)
-                Text("\(level.roundCount) rondas · \(level.waves.map(\.totalMonsters).reduce(0, +)) goblins")
+                Text("\(level.roundCount) rondas · \(level.waves.map(\.totalMonsters).reduce(0, +)) enemigos")
                     .font(Theme.font(11, weight: .bold))
                     .foregroundStyle(Theme.textDim)
                 HStack(spacing: 4) {
                     Text("Recompensa:").font(Theme.font(11, weight: .bold)).foregroundStyle(Theme.textDim)
                     GoldLabel(amount: totalReward, prefix: "~", size: 12)
                 }
+                if let boss = level.boss, let part = boss.specialPartID.flatMap(PartCatalog.part) {
+                    HStack(spacing: 4) {
+                        Text(store.profile.defeatedBosses.contains(boss.id) ? "✓ Jefe:" : "Jefe:")
+                            .foregroundStyle(store.profile.defeatedBosses.contains(boss.id) ? Theme.green : Theme.orange)
+                        Text("\(boss.name) → \(part.name)").foregroundStyle(Theme.gold)
+                    }
+                    .font(Theme.font(9, weight: .bold))
+                }
             }
             HStack(alignment: .bottom, spacing: 8) {
-                ForEach(level.monsterKinds, id: \.self) { kind in
+                ForEach(level.newEnemies) { enemy in
                     VStack(spacing: 2) {
-                        PixelImage(image: Art.goblinImage(kind), scale: kind.isBoss ? 3.4 : 2.6)
-                        Text(kind.name).font(Theme.font(8)).foregroundStyle(Theme.textDim)
+                        PixelImage(image: Art.enemyImage(enemy.id), scale: enemy.isBoss ? 2.6 : 2.2)
+                        Text(enemy.name)
+                            .font(Theme.font(7))
+                            .foregroundStyle(enemy.isBoss ? Theme.orange : Theme.textDim)
+                            .frame(width: 58)
+                            .lineLimit(2)
+                            .multilineTextAlignment(.center)
                     }
                 }
             }

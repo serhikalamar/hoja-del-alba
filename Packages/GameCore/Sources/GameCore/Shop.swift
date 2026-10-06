@@ -3,6 +3,8 @@ import Foundation
 public struct ShopOffer: Identifiable, Equatable, Sendable {
     public enum Kind: Equatable, Sendable {
         case equipment(Item)
+        /// Pieza de arma para el ritual.
+        case part(WeaponPart)
         /// Cura inmediata: fracción de la vida máxima.
         case potion(healFraction: Double)
     }
@@ -23,23 +25,37 @@ public struct ShopOffer: Identifiable, Equatable, Sendable {
         if case .equipment(let item) = kind { return item }
         return nil
     }
+
+    public var part: WeaponPart? {
+        if case .part(let part) = kind { return part }
+        return nil
+    }
 }
 
+/// La forja del enano: vende piezas de arma, una armadura y una poción.
 public enum ShopGenerator {
-    public static let equipmentOfferCount = 4
+    public static let partOfferCount = 5
 
-    /// Ofertas tras una ronda: 4 piezas de equipo + 1 poción.
     public static func offers<G: RandomNumberGenerator>(level: Int, using rng: inout G) -> [ShopOffer] {
-        let available = Catalog.blueprints(upToTier: Catalog.maxTier(forLevel: level))
-        // Favorece los tiers altos disponibles: peso = tier^2.
-        let blueprintWeights = available.map { ($0, Double($0.tier * $0.tier)) }
-        let rarityWeights = Rarity.allCases.map { ($0, $0.shopWeight) }
+        let parts = PartCatalog.shopParts(level: level)
+        let slotWeights: [(PartSlot, Double)] = [(.head, 4), (.hilt, 3), (.grip, 3)]
+        var offers: [ShopOffer] = []
+        var used = Set<String>()
+        while offers.count < partOfferCount {
+            let slot = WeightedPicker.pick(slotWeights, using: &rng)
+            // Favorece los materiales de tier alto disponibles: peso = tier^2.
+            let pool = parts.filter { $0.slot == slot && !used.contains($0.id) }
+            guard !pool.isEmpty else { continue }
+            let part = WeightedPicker.pick(pool.map { ($0, Double($0.tier * $0.tier)) }, using: &rng)
+            used.insert(part.id)
+            offers.append(ShopOffer(kind: .part(part), price: part.price))
+        }
 
-        var offers: [ShopOffer] = (0..<equipmentOfferCount).map { _ in
-            let blueprint = WeightedPicker.pick(blueprintWeights, using: &rng)
-            let rarity = WeightedPicker.pick(rarityWeights, using: &rng)
+        let armors = Catalog.armors.filter { $0.tier <= Catalog.maxTier(forLevel: level) }
+        if let blueprint = armors.randomElement(using: &rng) {
+            let rarity = WeightedPicker.pick(Rarity.allCases.map { ($0, $0.shopWeight) }, using: &rng)
             let item = Catalog.makeShopItem(blueprint, rarity: rarity, level: level)
-            return ShopOffer(kind: .equipment(item), price: item.value)
+            offers.append(ShopOffer(kind: .equipment(item), price: item.value))
         }
         offers.append(ShopOffer(kind: .potion(healFraction: 0.5), price: 15 + 5 * level))
         return offers

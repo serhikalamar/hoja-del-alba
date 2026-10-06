@@ -6,39 +6,46 @@ import SpriteKit
 final class BattleScene: SKScene {
     weak var session: BattleSession?
 
-    private let knight = KnightNode()
+    private let hero = HeroNode()
     private var groundNode: SKSpriteNode?
     private let decorLayer = SKNode()
-    private var goblins: [GoblinNode] = []
+    private var enemies: [EnemyNode] = []
+    private var projectiles: [ProjectileNode] = []
     private var pickups: [MineralPickupNode] = []
+    private var partPickups: [PartPickupNode] = []
 
-    private var spawnQueue: [MonsterKind] = []
+    private var spawnQueue: [String] = []
     private var spawnTimer: TimeInterval = 0
     private var spawnInterval: TimeInterval = 1
     private var attackTimer: TimeInterval = 0
+    private var attackCount = 0
+    private var dustTimer: TimeInterval = 0
     private var lastTime: TimeInterval = 0
+    private var elapsed: TimeInterval = 0
     private var clearTimer: TimeInterval?
     private var running = false
 
-    private var level = 1
-    private(set) var stats = Stats.knightBase
+    private var level: LevelDefinition = Worlds.village.levels[0]
+    private(set) var stats = Race.human.baseStats
+    private var ability: Ability?
     private(set) var hp: Double = 100
     private var reportedHP = -1
     private var rng = SystemRandomNumberGenerator()
     private var builtSize = CGSize.zero
 
-    /// Zona jugable (deja una franja arriba para los árboles).
+    /// Zona jugable (deja la franja de casas arriba).
     private var arena: CGRect {
-        CGRect(x: 28, y: 24, width: max(10, size.width - 56), height: max(10, size.height - 24 - 70))
+        let top = CGFloat(VillageArt.bandHeight) * PX + 6
+        return CGRect(x: 28, y: 24, width: max(10, size.width - 56), height: max(10, size.height - 24 - top))
     }
 
     override init(size: CGSize) {
         super.init(size: size)
-        backgroundColor = SKColor(red: 0.35, green: 0.63, blue: 0.29, alpha: 1)
+        backgroundColor = SKColor(rgb: 0x4A4440)
         anchorPoint = .zero
         addChild(decorLayer)
-        addChild(knight)
-        knight.position = CGPoint(x: size.width / 2, y: size.height / 2)
+        addChild(hero)
+        hero.position = CGPoint(x: size.width / 2, y: size.height / 2)
     }
 
     @available(*, unavailable)
@@ -46,12 +53,15 @@ final class BattleScene: SKScene {
 
     // MARK: - API para BattleSession
 
-    func prepare(level: Int, stats: Stats, hp: Double, armorIcon: String, weaponIcon: String) {
+    func prepare(level: LevelDefinition, stats: Stats, hp: Double, armorIcon: String, weapon: Item?, race: Race) {
+        let levelChanged = level.id != self.level.id
         self.level = level
         self.stats = stats
+        self.ability = weapon?.ability
         self.hp = min(hp, stats.maxHP)
         reportedHP = -1
-        knight.setEquipment(armorIcon: armorIcon, weaponIcon: weaponIcon)
+        hero.setEquipment(armorIcon: armorIcon, weapon: weapon, race: race)
+        if levelChanged && builtSize != .zero { buildScenery() }
         reportHP()
     }
 
@@ -67,16 +77,16 @@ final class BattleScene: SKScene {
     func setRunning(_ value: Bool) {
         running = value
         isPaused = !value
-        if !value { knight.setWalking(false) }
+        if !value { hero.setWalking(false) }
     }
 
     func heal(_ amount: Double) {
         hp = min(stats.maxHP, hp + amount)
         reportHP()
-        floatingText("+\(Int(amount))", at: knight.position + CGVector(dx: 0, dy: 30), color: .green, size: 14)
+        floatingText("+\(Int(amount))", at: hero.position + CGVector(dx: 0, dy: 30), color: .green, size: 14)
     }
 
-    // MARK: - Ciclo de vida
+    // MARK: - Escenario
 
     override func didChangeSize(_ oldSize: CGSize) {
         super.didChangeSize(oldSize)
@@ -84,7 +94,7 @@ final class BattleScene: SKScene {
               abs(size.width - builtSize.width) > 1 || abs(size.height - builtSize.height) > 1 else { return }
         builtSize = size
         buildScenery()
-        knight.position = clamp(knight.position == .zero ? CGPoint(x: size.width / 2, y: size.height / 2) : knight.position)
+        hero.position = clamp(hero.position == .zero ? CGPoint(x: size.width / 2, y: size.height / 2) : hero.position)
     }
 
     private func buildScenery() {
@@ -93,128 +103,186 @@ final class BattleScene: SKScene {
 
         let artW = Int((size.width / PX).rounded(.up))
         let artH = Int((size.height / PX).rounded(.up))
-        let ground = SKSpriteNode(texture: ArtCache.texture(fromImage: Art.grassBackground(width: artW, height: artH, seed: UInt64(level * 7919))))
+        let image = VillageArt.background(width: artW, height: artH, level: level)
+        let ground = SKSpriteNode(texture: ArtCache.texture(fromImage: image))
         ground.size = CGSize(width: CGFloat(artW) * PX, height: CGFloat(artH) * PX)
-        ground.anchorPoint = .zero
+        ground.anchorPoint = CGPoint(x: 0, y: 1)
+        ground.position = CGPoint(x: 0, y: size.height)
         ground.zPosition = -10
         addChild(ground)
         groundNode = ground
 
-        var decorRNG = SeededGenerator(seed: UInt64(level))
-        // Hilera de árboles arriba.
-        let treeSize = CGSize(width: 16 * PX, height: 16 * PX)
-        var x: CGFloat = -10
-        while x < size.width + 20 {
-            let tree = SKSpriteNode(texture: Art.tree, size: treeSize)
-            tree.anchorPoint = CGPoint(x: 0.5, y: 0)
-            let y = size.height - treeSize.height + CGFloat.random(in: -6...14, using: &decorRNG)
-            tree.position = CGPoint(x: x, y: y)
-            tree.zPosition = depth(for: y) - 5
-            decorLayer.addChild(tree)
-            x += CGFloat.random(in: 26...40, using: &decorRNG)
+        // Decoración en los bordes de la zona de juego.
+        var decorRNG = SeededGenerator(seed: UInt64(level.id * 31))
+        let props: [PixelSprite] = switch level.ground {
+        case "farm": [Sprites.hay, Sprites.crate, Sprites.barrel]
+        case "graveyard": [Sprites.gravestone, Sprites.gravestone, Sprites.lampPost]
+        case "castle": [Sprites.barrel, Sprites.lampPost]
+        default: [Sprites.barrel, Sprites.crate, Sprites.lampPost]
         }
-        // Algunas rocas decorativas.
-        for _ in 0..<5 {
-            let rock = SKSpriteNode(texture: Art.rock, size: CGSize(width: 8 * PX, height: 5 * PX))
-            rock.position = CGPoint(
-                x: CGFloat.random(in: arena.minX...arena.maxX, using: &decorRNG),
-                y: CGFloat.random(in: arena.minY...arena.maxY, using: &decorRNG)
-            )
-            rock.zPosition = -5
-            decorLayer.addChild(rock)
+        let a = arena
+        for i in 0..<7 {
+            let sprite = props[Int.random(in: 0..<props.count, using: &decorRNG)]
+            let node = SKSpriteNode(texture: ArtCache.texture(fromImage: sprite.makeCGImage()))
+            node.size = CGSize(width: CGFloat(sprite.width) * PX, height: CGFloat(sprite.height) * PX)
+            node.anchorPoint = CGPoint(x: 0.5, y: 0)
+            let onLeft = i % 2 == 0
+            let x = onLeft ? CGFloat.random(in: 6...a.minX + 20, using: &decorRNG)
+                           : CGFloat.random(in: a.maxX - 20...size.width - 6, using: &decorRNG)
+            let y = CGFloat.random(in: a.minY...a.maxY - 20, using: &decorRNG)
+            node.position = CGPoint(x: x, y: y)
+            node.zPosition = depth(for: y)
+            decorLayer.addChild(node)
+            if level.time != .day, sprite.rows == Sprites.lampPost.rows {
+                let glow = SKShapeNode(circleOfRadius: 46)
+                glow.fillColor = SKColor(rgb: 0xFFD870, alpha: 0.13)
+                glow.strokeColor = .clear
+                glow.position = CGPoint(x: 0, y: node.size.height - 4)
+                glow.blendMode = .add
+                node.addChild(glow)
+            }
         }
     }
+
+    // MARK: - Bucle
 
     override func update(_ currentTime: TimeInterval) {
         let dt = lastTime == 0 ? 0 : min(1.0 / 20, currentTime - lastTime)
         lastTime = currentTime
         guard running, dt > 0 else { return }
+        elapsed += dt
 
-        updateKnight(dt)
+        updateHero(dt)
         updateSpawning(dt)
-        updateGoblins(dt)
-        guard running else { return }   // el caballero puede haber muerto
-        updateKnightAttack(dt)
+        updateEnemies(dt)
+        guard running else { return }
+        updateProjectiles(dt)
+        guard running else { return }
+        updateHeroAttack(dt)
         updatePickups(dt)
         checkRoundEnd(dt)
     }
 
-    // MARK: - Caballero
+    // MARK: - Héroe
 
-    private func updateKnight(_ dt: TimeInterval) {
+    private func updateHero(_ dt: TimeInterval) {
         let input = session?.joystick ?? .zero
         let magnitude = min(1, input.length)
         if magnitude > 0.05 {
             let dir = input.normalized
-            knight.position = clamp(knight.position + dir * (CGFloat(stats.moveSpeed * dt) * magnitude))
-            knight.face(dx: dir.dx)
-            knight.setWalking(true)
+            hero.position = clamp(hero.position + dir * (CGFloat(stats.moveSpeed * dt) * magnitude))
+            hero.face(dx: dir.dx)
+            hero.setWalking(true)
+            dustTimer -= dt
+            if dustTimer <= 0 {
+                dustTimer = 0.22
+                dust(at: hero.position + CGVector(dx: -dir.dx * 10, dy: -hero.size.height / 2 + 6))
+            }
         } else {
-            knight.setWalking(false)
+            hero.setWalking(false)
         }
-        knight.zPosition = depth(for: knight.position.y)
-
+        hero.zPosition = depth(for: hero.position.y)
         if stats.regen > 0, hp < stats.maxHP {
             hp = min(stats.maxHP, hp + stats.regen * dt)
             reportHP()
         }
     }
 
-    private func updateKnightAttack(_ dt: TimeInterval) {
+    private func updateHeroAttack(_ dt: TimeInterval) {
         attackTimer -= dt
         guard attackTimer <= 0 else { return }
-        let reach = CGFloat(stats.range) + KnightNode.bodyRadius * 0.5
-        let candidates = goblins.filter { !$0.isDying && $0.position.distance(to: knight.position) - $0.radius <= reach }
+        let reach = CGFloat(stats.range) + HeroNode.bodyRadius * 0.5
+        let candidates = enemies.filter { !$0.isDying && $0.position.distance(to: hero.position) - $0.radius <= reach }
         guard let target = candidates.min(by: {
-            $0.position.distance(to: knight.position) < $1.position.distance(to: knight.position)
+            $0.position.distance(to: hero.position) < $1.position.distance(to: hero.position)
         }) else { return }
 
         attackTimer = 1 / stats.attackSpeed
-        let aim = (target.position - knight.position).normalized
-        knight.face(dx: aim.dx)
-        knight.swing()
+        attackCount += 1
+        let aim = (target.position - hero.position).normalized
+        hero.face(dx: aim.dx)
+        hero.swing(speed: stats.attackSpeed)
         slashEffect(direction: aim, reach: reach)
 
         // El objetivo recibe el golpe completo; los demás dentro del arco (~145°), el 75%.
-        for goblin in candidates {
-            let dir = (goblin.position - knight.position).normalized
-            let isPrimary = goblin === target
-            let inArc = dir.dx * aim.dx + dir.dy * aim.dy > 0.3
-            guard isPrimary || inArc else { continue }
+        for enemy in candidates {
+            let dir = (enemy.position - hero.position).normalized
+            let isPrimary = enemy === target
+            guard isPrimary || dir.dx * aim.dx + dir.dy * aim.dy > 0.3 else { continue }
             var hit = Combat.rollHit(stats: stats, using: &rng)
             if !isPrimary { hit.amount *= 0.75 }
-            damage(goblin, hit: hit)
+            applyHit(enemy, hit: hit, primary: isPrimary)
+        }
+
+        guard let ability else { return }
+        if ability.pulseEvery > 0, attackCount % ability.pulseEvery == 0 {
+            pulse(radius: CGFloat(ability.pulseRadius), damage: stats.attack * ability.pulseDamage, color: abilityColor)
+        }
+        if ability.strikeEvery > 0, attackCount % ability.strikeEvery == 0,
+           let strongest = enemies.filter({ !$0.isDying }).max(by: { $0.hp < $1.hp }) {
+            strike(strongest, damage: stats.attack * ability.strikeDamage)
         }
     }
 
-    private func damage(_ goblin: GoblinNode, hit: Combat.Hit) {
-        let died = goblin.takeDamage(hit.amount, from: knight.position)
+    private var abilityColor: UInt32 {
+        ability?.elements.first?.color ?? 0xFFFFFF
+    }
+
+    /// Golpe del héroe con todos los efectos de la habilidad del arma.
+    private func applyHit(_ enemy: EnemyNode, hit: Combat.Hit, primary: Bool) {
+        let died = deal(enemy, amount: hit.amount, isCrit: hit.isCrit, source: hero.position)
+        guard let ability else { return }
+
+        if hit.isCrit, ability.critExplosion > 0 {
+            explosion(at: enemy.position, radius: 60, damage: stats.attack * ability.critExplosion, color: 0xFF9A40)
+        }
+        if primary, ability.chain > 0 {
+            chainLightning(from: enemy, jumps: ability.chain, damage: hit.amount * ability.chainDamage)
+        }
+        guard !died, !enemy.isDying else { return }
+        if ability.burn > 0 { enemy.addBurn(dps: hit.amount * ability.burn / 3) }
+        if ability.poison > 0 { enemy.addPoison(dps: hit.amount * ability.poison / 3) }
+        if ability.slow > 0 { enemy.applySlow(ability.slow, now: elapsed) }
+        if ability.execute > 0, enemy.hp / enemy.maxHP < ability.execute, !enemy.definition.isBoss {
+            floatingText("¡EJECUTADO!", at: enemy.position + CGVector(dx: 0, dy: enemy.size.height / 2 + 8),
+                         color: SKColor(rgb: 0xC879F2), size: 12)
+            _ = enemy.takeDamage(enemy.hp + 1, from: nil)
+            kill(enemy)
+        }
+    }
+
+    /// Aplica daño y muestra el número. Devuelve `true` si el enemigo muere.
+    @discardableResult
+    private func deal(_ enemy: EnemyNode, amount: Double, isCrit: Bool, source: CGPoint?, color: SKColor? = nil) -> Bool {
+        guard !enemy.isDying else { return false }
+        let died = enemy.takeDamage(amount, from: source)
         floatingText(
-            hit.isCrit ? "\(Int(hit.amount))!" : "\(Int(hit.amount))",
-            at: goblin.position + CGVector(dx: CGFloat.random(in: -6...6), dy: goblin.size.height / 2),
-            color: hit.isCrit ? SKColor(red: 1, green: 0.8, blue: 0.3, alpha: 1) : .white,
-            size: hit.isCrit ? 17 : 13
+            isCrit ? "\(Int(amount))!" : "\(Int(amount))",
+            at: enemy.position + CGVector(dx: CGFloat.random(in: -6...6), dy: enemy.size.height / 2),
+            color: color ?? (isCrit ? SKColor(rgb: 0xFFCD45) : .white),
+            size: isCrit ? 17 : 13
         )
         if stats.lifesteal > 0 {
-            hp = min(stats.maxHP, hp + hit.amount * stats.lifesteal)
+            hp = min(stats.maxHP, hp + amount * stats.lifesteal)
             reportHP()
         }
-        if died { kill(goblin) }
+        if died { kill(enemy) }
+        return died
     }
 
-    private func knightHit(by raw: Double) {
+    private func heroHit(by raw: Double) {
         let amount = Combat.incomingDamage(raw: raw, defense: stats.defense)
         hp -= amount
-        knight.hurtFlash()
-        floatingText("-\(Int(amount.rounded()))", at: knight.position + CGVector(dx: 0, dy: 26), color: SKColor(red: 1, green: 0.3, blue: 0.3, alpha: 1), size: 13)
+        hero.hurtFlash()
+        floatingText("-\(Int(amount.rounded()))", at: hero.position + CGVector(dx: 0, dy: 26), color: SKColor(rgb: 0xFF5050), size: 13)
         reportHP()
-        session?.knightWasHit()
+        session?.heroWasHit()
         if hp <= 0 {
             hp = 0
             running = false
-            knight.setWalking(false)
-            knight.playDeath()
-            run(.sequence([.wait(forDuration: 1.2), .run { [weak self] in self?.session?.knightDied() }]))
+            hero.setWalking(false)
+            hero.playDeath()
+            run(.sequence([.wait(forDuration: 1.2), .run { [weak self] in self?.session?.heroDied() }]))
         }
     }
 
@@ -222,10 +290,10 @@ final class BattleScene: SKScene {
         let rounded = Int(hp.rounded(.up))
         guard rounded != reportedHP else { return }
         reportedHP = rounded
-        session?.knightHPChanged(hp: hp, maxHP: stats.maxHP)
+        session?.heroHPChanged(hp: hp, maxHP: stats.maxHP)
     }
 
-    // MARK: - Goblins
+    // MARK: - Enemigos
 
     private func updateSpawning(_ dt: TimeInterval) {
         guard !spawnQueue.isEmpty else { return }
@@ -235,44 +303,94 @@ final class BattleScene: SKScene {
         spawn(spawnQueue.removeFirst())
     }
 
-    private func spawn(_ kind: MonsterKind) {
-        let goblin = GoblinNode(kind: kind, level: level)
+    private func spawn(_ id: String) {
+        guard let definition = Bestiary.enemy(id) else { return }
+        let enemy = EnemyNode(definition: definition, level: level.id)
         let a = arena
         let margin: CGFloat = 30
         switch Int.random(in: 0..<4, using: &rng) {
-        case 0: goblin.position = CGPoint(x: -margin, y: CGFloat.random(in: a.minY...a.maxY, using: &rng))
-        case 1: goblin.position = CGPoint(x: size.width + margin, y: CGFloat.random(in: a.minY...a.maxY, using: &rng))
-        case 2: goblin.position = CGPoint(x: CGFloat.random(in: a.minX...a.maxX, using: &rng), y: -margin)
-        default: goblin.position = CGPoint(x: CGFloat.random(in: a.minX...a.maxX, using: &rng), y: a.maxY + 20)
+        case 0: enemy.position = CGPoint(x: -margin, y: CGFloat.random(in: a.minY...a.maxY, using: &rng))
+        case 1: enemy.position = CGPoint(x: size.width + margin, y: CGFloat.random(in: a.minY...a.maxY, using: &rng))
+        case 2: enemy.position = CGPoint(x: CGFloat.random(in: a.minX...a.maxX, using: &rng), y: -margin)
+        default: enemy.position = CGPoint(x: CGFloat.random(in: a.minX...a.maxX, using: &rng), y: a.maxY + 20)
         }
-        goblin.zPosition = depth(for: goblin.position.y)
-        addChild(goblin)
-        goblins.append(goblin)
-
-        if kind.isBoss {
-            floatingText("¡EL REY GOBLIN!", at: CGPoint(x: size.width / 2, y: size.height / 2 + 40), color: SKColor(red: 1, green: 0.8, blue: 0.3, alpha: 1), size: 24, duration: 1.8)
+        if definition.isBoss {
+            enemy.position = CGPoint(x: size.width / 2, y: a.maxY + 10)
+            floatingText("¡\(definition.name.uppercased())!", at: CGPoint(x: size.width / 2, y: size.height / 2 + 40),
+                         color: SKColor(rgb: 0xFFCD45), size: 22, duration: 2)
+            shake(intensity: 6)
         }
+        enemy.zPosition = depth(for: enemy.position.y)
+        addChild(enemy)
+        enemies.append(enemy)
     }
 
-    private func updateGoblins(_ dt: TimeInterval) {
-        for goblin in goblins where !goblin.isDying {
-            let contact = KnightNode.bodyRadius + goblin.radius + CGFloat(goblin.stats.attackRange)
-            if let damage = goblin.step(dt: dt, target: knight.position, contactDistance: contact) {
-                knightHit(by: damage)
-                if !running { return }
+    private func updateEnemies(_ dt: TimeInterval) {
+        for enemy in enemies where !enemy.isDying {
+            if let action = enemy.step(dt: dt, now: elapsed, target: hero.position, heroRadius: HeroNode.bodyRadius) {
+                switch action {
+                case .hit(let damage):
+                    heroHit(by: damage)
+                    if !running { return }
+                case .shoot(let damage):
+                    shoot(from: enemy, damage: damage)
+                }
+            }
+            let (dot, particle) = enemy.tickStatuses(dt: dt, now: elapsed)
+            if let particle { statusParticle(on: enemy, color: particle) }
+            if dot > 0, enemy.takeDamage(dot, from: nil, flash: false) {
+                kill(enemy)
             }
         }
-        separateGoblins()
-        for goblin in goblins { goblin.zPosition = depth(for: goblin.position.y) }
+        separateEnemies()
+        let bounds = arena.insetBy(dx: -6, dy: -6)
+        for enemy in enemies {
+            // Los que ya entraron no pueden salir (si no, los tiradores huirían fuera de alcance).
+            if enemy.hasEntered {
+                enemy.position = CGPoint(x: min(bounds.maxX, max(bounds.minX, enemy.position.x)),
+                                         y: min(bounds.maxY, max(bounds.minY, enemy.position.y)))
+            } else if bounds.contains(enemy.position) {
+                enemy.hasEntered = true
+            }
+            enemy.zPosition = depth(for: enemy.position.y)
+        }
     }
 
-    /// Evita que los goblins se amontonen en el mismo punto.
-    private func separateGoblins() {
-        let count = goblins.count
+    private func shoot(from enemy: EnemyNode, damage: Double) {
+        let dir = (hero.position - enemy.position).normalized
+        let projectile = ProjectileNode(enemyID: enemy.definition.id, damage: damage, velocity: dir * 210)
+        projectile.position = enemy.position + CGVector(dx: dir.dx * enemy.radius, dy: 6)
+        projectile.zPosition = 120
+        addChild(projectile)
+        projectiles.append(projectile)
+    }
+
+    private func updateProjectiles(_ dt: TimeInterval) {
+        for projectile in projectiles.reversed() {
+            projectile.position = projectile.position + projectile.velocity * CGFloat(dt)
+            projectile.life -= dt
+            if projectile.position.distance(to: hero.position) < HeroNode.bodyRadius + 4 {
+                heroHit(by: projectile.damage)
+                remove(projectile)
+                if !running { return }
+            } else if projectile.life <= 0 {
+                remove(projectile)
+            }
+        }
+    }
+
+    private func remove(_ projectile: ProjectileNode) {
+        projectiles.removeAll { $0 === projectile }
+        projectile.removeFromParent()
+    }
+
+    /// Evita que los enemigos se amontonen en el mismo punto.
+    private func separateEnemies() {
+        let count = enemies.count
         guard count > 1 else { return }
         for i in 0..<(count - 1) {
             for j in (i + 1)..<count {
-                let a = goblins[i], b = goblins[j]
+                let a = enemies[i], b = enemies[j]
                 let delta = b.position - a.position
                 let dist = delta.length
                 let minDist = (a.radius + b.radius) * 0.85
@@ -285,43 +403,65 @@ final class BattleScene: SKScene {
         }
     }
 
-    private func kill(_ goblin: GoblinNode) {
-        goblin.isDying = true
-        goblins.removeAll { $0 === goblin }
-        session?.goblinKilled(goblin.kind)
+    private func kill(_ enemy: EnemyNode) {
+        guard !enemy.isDying else { return }
+        enemy.isDying = true
+        enemies.removeAll { $0 === enemy }
+        session?.enemyKilled(enemy.definition)
 
-        goblin.removeAllActions()
-        goblin.run(.sequence([
-            .group([.fadeOut(withDuration: 0.25), .scaleY(to: 0.3, duration: 0.25)]),
+        if let ability, ability.healOnKill > 0 {
+            hp = min(stats.maxHP, hp + stats.maxHP * ability.healOnKill)
+            reportHP()
+        }
+
+        enemy.removeAllActions()
+        let away: CGFloat = enemy.position.x >= hero.position.x ? 1 : -1
+        enemy.run(.sequence([
+            .group([
+                .moveBy(x: 14 * away, y: 16, duration: 0.14),
+                .rotate(byAngle: -0.9 * away, duration: 0.28),
+            ]),
+            .group([.moveBy(x: 6 * away, y: -18, duration: 0.14), .fadeOut(withDuration: 0.2), .scaleY(to: 0.5, duration: 0.2)]),
             .removeFromParent(),
         ]))
-        burst(at: goblin.position, color: SKColor(red: 0.22, green: 0.72, blue: 0.39, alpha: 1), count: burstCount(for: goblin.kind))
+        burst(at: enemy.position, color: SKColor(rgb: 0xC8C8D0), count: enemy.definition.isBoss ? 40 : 8)
 
-        for mineral in goblin.stats.rollDrops(using: &rng) {
+        for mineral in enemy.stats.rollDrops(using: &rng) {
             let pickup = MineralPickupNode(mineral: mineral)
-            let offset = CGVector(dx: CGFloat.random(in: -18...18, using: &rng), dy: CGFloat.random(in: -12...12, using: &rng))
-            pickup.position = goblin.position + offset
+            pickup.position = enemy.position + CGVector(dx: CGFloat.random(in: -18...18, using: &rng), dy: CGFloat.random(in: -12...12, using: &rng))
             pickup.zPosition = -2
             addChild(pickup)
             pickups.append(pickup)
         }
+        if enemy.definition.isBoss, let partID = enemy.definition.specialPartID, let part = PartCatalog.part(partID) {
+            let drop = PartPickupNode(part: part)
+            drop.position = enemy.position
+            drop.zPosition = 5
+            addChild(drop)
+            partPickups.append(drop)
+            shake(intensity: 10)
+            floatingText("¡\(part.name)!", at: enemy.position + CGVector(dx: 0, dy: 50), color: SKColor(rgb: 0xFFCD45), size: 16, duration: 2)
+        }
     }
 
-    private func burstCount(for kind: MonsterKind) -> Int {
-        kind.isBoss ? 30 : (kind == .goblinBrute ? 14 : 8)
-    }
-
-    // MARK: - Minerales
+    // MARK: - Botín
 
     private func updatePickups(_ dt: TimeInterval) {
         for pickup in pickups.reversed() {
-            let toKnight = knight.position - pickup.position
-            let distance = toKnight.length
-            if distance < 22 {
+            let toHero = hero.position - pickup.position
+            if toHero.length < 22 {
                 collect(pickup)
-            } else if pickup.magnetized || distance < 80 {
+            } else if pickup.magnetized || toHero.length < 80 {
                 pickup.magnetized = true
-                pickup.position = pickup.position + toKnight.normalized * CGFloat(340 * dt)
+                pickup.position = pickup.position + toHero.normalized * CGFloat(340 * dt)
+            }
+        }
+        for drop in partPickups.reversed() {
+            let toHero = hero.position - drop.position
+            if toHero.length < 26 {
+                collectPart(drop)
+            } else if drop.magnetized {
+                drop.position = drop.position + toHero.normalized * CGFloat(220 * dt)
             }
         }
     }
@@ -330,45 +470,161 @@ final class BattleScene: SKScene {
         pickups.removeAll { $0 === pickup }
         pickup.removeFromParent()
         session?.mineralCollected(pickup.mineral)
-        let c = Sprites.mineralColors(pickup.mineral).mid
-        let color = SKColor(red: CGFloat((c >> 16) & 0xFF) / 255, green: CGFloat((c >> 8) & 0xFF) / 255, blue: CGFloat(c & 0xFF) / 255, alpha: 1)
-        floatingText("+1 \(pickup.mineral.name)", at: knight.position + CGVector(dx: 0, dy: 34), color: color, size: 12)
+        floatingText("+1 \(pickup.mineral.name)", at: hero.position + CGVector(dx: 0, dy: 34),
+                     color: SKColor(rgb: Sprites.mineralColors(pickup.mineral).mid), size: 12)
+    }
+
+    private func collectPart(_ drop: PartPickupNode) {
+        partPickups.removeAll { $0 === drop }
+        drop.removeFromParent()
+        session?.partCollected(drop.part)
+        floatingText("¡PIEZA ESPECIAL!", at: hero.position + CGVector(dx: 0, dy: 44), color: SKColor(rgb: 0xFFCD45), size: 16, duration: 1.5)
     }
 
     // MARK: - Fin de ronda
 
     private func checkRoundEnd(_ dt: TimeInterval) {
-        guard spawnQueue.isEmpty, goblins.isEmpty else { return }
+        guard spawnQueue.isEmpty, enemies.isEmpty else { return }
         if clearTimer == nil {
             clearTimer = 2.5
             pickups.forEach { $0.magnetized = true }
+            partPickups.forEach { $0.magnetized = true }
+            projectiles.forEach { $0.removeFromParent() }
+            projectiles.removeAll()
         }
         clearTimer! -= dt
-        if pickups.isEmpty || clearTimer! <= 0 {
+        if (pickups.isEmpty && partPickups.isEmpty) || clearTimer! <= 0 {
             pickups.forEach(collect)
+            partPickups.forEach(collectPart)
             setRunning(false)
             session?.roundCleared()
         }
     }
 
-    // MARK: - Efectos
+    // MARK: - Efectos de habilidades
+
+    private func pulse(radius: CGFloat, damage: Double, color: UInt32) {
+        let ring = SKShapeNode(circleOfRadius: 10)
+        ring.strokeColor = SKColor(rgb: color)
+        ring.fillColor = SKColor(rgb: color, alpha: 0.15)
+        ring.lineWidth = 4
+        ring.position = hero.position
+        ring.zPosition = 140
+        addChild(ring)
+        ring.run(.sequence([.group([.scale(to: radius / 10, duration: 0.25), .fadeOut(withDuration: 0.3)]), .removeFromParent()]))
+        for enemy in enemies where !enemy.isDying && enemy.position.distance(to: hero.position) - enemy.radius <= radius {
+            deal(enemy, amount: damage, isCrit: false, source: hero.position, color: SKColor(rgb: color))
+            if let ability, !enemy.isDying {
+                if ability.burn > 0 { enemy.addBurn(dps: damage * ability.burn / 3) }
+                if ability.poison > 0 { enemy.addPoison(dps: damage * ability.poison / 3) }
+                if ability.slow > 0 { enemy.applySlow(ability.slow, now: elapsed) }
+            }
+        }
+    }
+
+    private func strike(_ enemy: EnemyNode, damage: Double) {
+        let path = CGMutablePath()
+        var point = CGPoint(x: enemy.position.x + CGFloat.random(in: -20...20), y: size.height + 10)
+        path.move(to: point)
+        while point.y > enemy.position.y + 10 {
+            point = CGPoint(x: enemy.position.x + CGFloat.random(in: -10...10), y: point.y - 30)
+            path.addLine(to: point)
+        }
+        path.addLine(to: enemy.position)
+        let bolt = SKShapeNode(path: path)
+        bolt.strokeColor = SKColor(rgb: 0xFFF4C0)
+        bolt.lineWidth = 4
+        bolt.glowWidth = 3
+        bolt.zPosition = 160
+        addChild(bolt)
+        bolt.run(.sequence([.fadeOut(withDuration: 0.25), .removeFromParent()]))
+        burst(at: enemy.position, color: SKColor(rgb: 0xFFE066), count: 12)
+        deal(enemy, amount: damage, isCrit: true, source: nil, color: SKColor(rgb: 0xFFE066))
+    }
+
+    private func chainLightning(from first: EnemyNode, jumps: Int, damage: Double) {
+        var current = first
+        var hit: Set<ObjectIdentifier> = [ObjectIdentifier(first)]
+        for _ in 0..<jumps {
+            guard let next = enemies
+                .filter({ !$0.isDying && !hit.contains(ObjectIdentifier($0)) && $0.position.distance(to: current.position) < 130 })
+                .min(by: { $0.position.distance(to: current.position) < $1.position.distance(to: current.position) }) else { break }
+            hit.insert(ObjectIdentifier(next))
+            lightningLine(from: current.position, to: next.position)
+            let target = next
+            current = next
+            deal(target, amount: damage, isCrit: false, source: nil, color: SKColor(rgb: 0xFFE066))
+        }
+    }
+
+    private func lightningLine(from a: CGPoint, to b: CGPoint) {
+        let path = CGMutablePath()
+        path.move(to: a)
+        let steps = 4
+        for i in 1..<steps {
+            let t = CGFloat(i) / CGFloat(steps)
+            path.addLine(to: CGPoint(x: a.x + (b.x - a.x) * t + CGFloat.random(in: -8...8),
+                                     y: a.y + (b.y - a.y) * t + CGFloat.random(in: -8...8)))
+        }
+        path.addLine(to: b)
+        let line = SKShapeNode(path: path)
+        line.strokeColor = SKColor(rgb: 0xFFE066)
+        line.lineWidth = 3
+        line.zPosition = 150
+        addChild(line)
+        line.run(.sequence([.fadeOut(withDuration: 0.18), .removeFromParent()]))
+    }
+
+    private func explosion(at point: CGPoint, radius: CGFloat, damage: Double, color: UInt32) {
+        let blast = SKShapeNode(circleOfRadius: radius)
+        blast.fillColor = SKColor(rgb: color, alpha: 0.35)
+        blast.strokeColor = SKColor(rgb: color)
+        blast.lineWidth = 3
+        blast.position = point
+        blast.zPosition = 140
+        blast.setScale(0.2)
+        addChild(blast)
+        blast.run(.sequence([.group([.scale(to: 1, duration: 0.15), .fadeOut(withDuration: 0.25)]), .removeFromParent()]))
+        for enemy in enemies where !enemy.isDying && enemy.position.distance(to: point) - enemy.radius <= radius {
+            deal(enemy, amount: damage, isCrit: false, source: point, color: SKColor(rgb: color))
+        }
+    }
+
+    // MARK: - Efectos visuales
 
     private func slashEffect(direction: CGVector, reach: CGFloat) {
         let path = CGMutablePath()
-        let radius = max(20, reach * 0.75)
-        path.addArc(center: .zero, radius: radius, startAngle: 1.25, endAngle: -1.25, clockwise: true)
+        path.addArc(center: .zero, radius: max(20, reach * 0.75), startAngle: 1.25, endAngle: -1.25, clockwise: true)
         let arc = SKShapeNode(path: path)
-        arc.strokeColor = SKColor(white: 1, alpha: 0.85)
+        arc.strokeColor = SKColor(rgb: ability != nil ? abilityColor : 0xFFFFFF, alpha: 0.9)
         arc.lineWidth = 4
         arc.lineCap = .square
-        arc.position = knight.position
+        arc.position = hero.position
         arc.zRotation = atan2(direction.dy, direction.dx)
         arc.zPosition = 150
         addChild(arc)
-        arc.run(.sequence([
-            .group([.fadeOut(withDuration: 0.18), .scale(to: 1.15, duration: 0.18)]),
-            .removeFromParent(),
-        ]))
+        arc.run(.sequence([.group([.fadeOut(withDuration: 0.18), .scale(to: 1.15, duration: 0.18)]), .removeFromParent()]))
+    }
+
+    private func dust(at point: CGPoint) {
+        for i in 0..<2 {
+            let puff = SKSpriteNode(color: SKColor(rgb: 0xD8D0C0, alpha: 0.7), size: CGSize(width: PX * 2, height: PX * 2))
+            puff.position = point + CGVector(dx: CGFloat(i * 6 - 3), dy: 0)
+            puff.zPosition = 5
+            addChild(puff)
+            puff.run(.sequence([
+                .group([.moveBy(x: CGFloat.random(in: -6...6), y: 8, duration: 0.35), .fadeOut(withDuration: 0.35), .scale(to: 0.4, duration: 0.35)]),
+                .removeFromParent(),
+            ]))
+        }
+    }
+
+    private func statusParticle(on enemy: EnemyNode, color: UInt32) {
+        let bit = SKSpriteNode(color: SKColor(rgb: color), size: CGSize(width: PX * 1.4, height: PX * 1.4))
+        bit.position = enemy.position + CGVector(dx: CGFloat.random(in: -10...10), dy: CGFloat.random(in: -4...enemy.size.height / 3))
+        bit.zPosition = 145
+        addChild(bit)
+        bit.run(.sequence([.group([.moveBy(x: 0, y: 18, duration: 0.5), .fadeOut(withDuration: 0.5)]), .removeFromParent()]))
     }
 
     private func burst(at point: CGPoint, color: SKColor, count: Int) {
@@ -380,13 +636,17 @@ final class BattleScene: SKScene {
             let angle = CGFloat.random(in: 0..<(2 * .pi))
             let distance = CGFloat.random(in: 12...34)
             bit.run(.sequence([
-                .group([
-                    .moveBy(x: cos(angle) * distance, y: sin(angle) * distance, duration: 0.3),
-                    .fadeOut(withDuration: 0.3),
-                ]),
+                .group([.moveBy(x: cos(angle) * distance, y: sin(angle) * distance, duration: 0.3), .fadeOut(withDuration: 0.3)]),
                 .removeFromParent(),
             ]))
         }
+    }
+
+    private func shake(intensity: CGFloat) {
+        let moves = (0..<6).map { _ in
+            SKAction.moveBy(x: CGFloat.random(in: -intensity...intensity), y: CGFloat.random(in: -intensity...intensity), duration: 0.03)
+        }
+        groundNode?.run(.sequence(moves + [.move(to: CGPoint(x: 0, y: size.height), duration: 0.03)]))
     }
 
     private func floatingText(_ text: String, at point: CGPoint, color: SKColor, size: CGFloat, duration: TimeInterval = 0.7) {

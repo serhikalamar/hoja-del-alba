@@ -1,23 +1,23 @@
 import Foundation
 
-/// Una ronda (oleada) de monstruos.
+/// Una ronda (oleada) de enemigos.
 public struct Wave: Equatable, Sendable {
-    public var spawns: [MonsterKind: Int]
+    /// Enemigos por id del bestiario.
+    public var spawns: [String: Int]
     /// Segundos entre apariciones.
     public var spawnInterval: Double
 
     public var totalMonsters: Int { spawns.values.reduce(0, +) }
 
     /// Orden de aparición barajado; los jefes siempre salen al final.
-    public func spawnOrder<G: RandomNumberGenerator>(using rng: inout G) -> [MonsterKind] {
-        var normal: [MonsterKind] = []
-        var bosses: [MonsterKind] = []
-        for kind in MonsterKind.allCases {
-            let count = spawns[kind, default: 0]
-            if kind.isBoss {
-                bosses += Array(repeating: kind, count: count)
+    public func spawnOrder<G: RandomNumberGenerator>(using rng: inout G) -> [String] {
+        var normal: [String] = []
+        var bosses: [String] = []
+        for (id, count) in spawns.sorted(by: { $0.key < $1.key }) {
+            if Bestiary.enemy(id)?.isBoss == true {
+                bosses += Array(repeating: id, count: count)
             } else {
-                normal += Array(repeating: kind, count: count)
+                normal += Array(repeating: id, count: count)
             }
         }
         normal.shuffle(using: &rng)
@@ -25,16 +25,29 @@ public struct Wave: Equatable, Sendable {
     }
 }
 
+/// Momento del día del nivel (la app lo usa para el ambiente).
+public enum TimeOfDay: String, Sendable {
+    case day, sunset, night
+}
+
 public struct LevelDefinition: Identifiable, Equatable, Sendable {
     /// 1...10
     public let id: Int
     public let name: String
+    /// Ambiente del suelo: "cobble", "farm", "graveyard", "castle".
+    public let ground: String
+    public let time: TimeOfDay
     public let waves: [Wave]
 
     public var roundCount: Int { waves.count }
 
-    public var monsterKinds: [MonsterKind] {
-        MonsterKind.allCases.filter { kind in waves.contains { $0.spawns[kind, default: 0] > 0 } }
+    /// Enemigos nuevos de este nivel (incluido su jefe).
+    public var newEnemies: [EnemyDefinition] { Bestiary.introduced(at: id) }
+
+    public var boss: EnemyDefinition? { newEnemies.first(where: \.isBoss) }
+
+    public var enemyIDs: Set<String> {
+        Set(waves.flatMap { $0.spawns.keys })
     }
 
     /// Oro por superar la ronda `round` (1-based), antes de bonificaciones.
@@ -57,45 +70,49 @@ public struct World: Identifiable, Sendable {
 }
 
 public enum Worlds {
-    public static let forest: World = {
-        let names = [
-            "Linde del bosque",
-            "Sendero musgoso",
-            "Claro de los hongos",
-            "Arroyo turbio",
-            "Campamento goblin",
-            "Cueva húmeda",
-            "Ruinas cubiertas",
-            "Pantano negro",
-            "Empalizada goblin",
-            "Trono del Rey Goblin",
+    /// Mundo 1: el pueblo medieval de Valdehierro, tomado por los goblins.
+    public static let village: World = {
+        let info: [(String, String, TimeOfDay)] = [
+            ("Puerta del pueblo", "cobble", .day),
+            ("Calle del mercado", "cobble", .day),
+            ("Huertos del molino", "farm", .day),
+            ("Plaza de la herrería", "cobble", .sunset),
+            ("Cementerio de la capilla", "graveyard", .sunset),
+            ("Pozo de la bruja", "cobble", .sunset),
+            ("Molino en ruinas", "farm", .night),
+            ("Abadía abandonada", "graveyard", .night),
+            ("Murallas del castillo", "castle", .night),
+            ("Salón del trono goblin", "castle", .night),
         ]
-        let levels = names.enumerated().map { index, name in
+        let levels = info.enumerated().map { index, entry in
             let number = index + 1
             let rounds = 3 + (number - 1) / 3   // 3,3,3,4,4,4,5,5,5,6
             let waves = (1...rounds).map { makeWave(level: number, round: $0, totalRounds: rounds) }
-            return LevelDefinition(id: number, name: name, waves: waves)
+            return LevelDefinition(id: number, name: entry.0, ground: entry.1, time: entry.2, waves: waves)
         }
-        return World(id: 1, name: "Bosque Goblin", levels: levels)
+        return World(id: 1, name: "Pueblo de Valdehierro", levels: levels)
     }()
 
+    /// Oleada determinista: la mitad de los enemigos son los nuevos del nivel, el resto de niveles anteriores.
     static func makeWave(level: Int, round: Int, totalRounds: Int) -> Wave {
-        var spawns: [MonsterKind: Int] = [:]
-        spawns[.goblin] = 2 + 2 * level + 2 * (round - 1)
-        if level >= 2 {
-            spawns[.goblinRunner] = (level - 1) / 2 + (round - 1) / 2 + 1
+        var rng = SeededGenerator(seed: UInt64(level * 1000 + round))
+        let fresh = Bestiary.introduced(at: level).filter { !$0.isBoss }
+        let older = Bestiary.all.filter { !$0.isBoss && $0.level < level && $0.level >= level - 3 }
+        var candidates = fresh.map { ($0.id, 2.0) } + older.map { ($0.id, 1.0) }
+        // En la primera ronda de cada nivel solo salen los enemigos más débiles del nivel.
+        if round == 1 && level == 1 {
+            candidates = [("rat", 1), ("goblin", 2)]
         }
-        if level >= 4 {
-            spawns[.goblinBrute] = (level - 2) / 2 + (round - 1) / 2
+
+        let total = 3 + 2 * level + 2 * (round - 1)
+        var spawns: [String: Int] = [:]
+        for _ in 0..<total {
+            spawns[WeightedPicker.pick(candidates, using: &rng), default: 0] += 1
         }
-        let isFinalRound = round == totalRounds
-        if level == 5 && isFinalRound {
-            spawns[.goblinBrute, default: 0] += 2   // mini-jefe
-        }
-        if level == 10 && isFinalRound {
-            spawns[.goblinKing] = 1
+        if round == totalRounds, let boss = Bestiary.introduced(at: level).first(where: \.isBoss) {
+            spawns[boss.id] = 1
         }
         let interval = max(0.6, 1.6 - 0.05 * Double(level) - 0.05 * Double(round))
-        return Wave(spawns: spawns.filter { $0.value > 0 }, spawnInterval: interval)
+        return Wave(spawns: spawns, spawnInterval: interval)
     }
 }

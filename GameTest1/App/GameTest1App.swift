@@ -43,9 +43,11 @@ struct RootView: View {
                         .id(ObjectIdentifier(battle))
                 }
             case .forge:
-                ScreenFrame(title: "FORJA") { ForgeView() }
-            case .equipment:
-                ScreenFrame(title: "EQUIPO") { EquipmentView() }
+                RitualForgeView(showsBackButton: true)
+            case .inventory:
+                ScreenFrame(title: "INVENTARIO") { InventoryView() }
+            case .race:
+                RaceSelectView()
             }
         }
     }

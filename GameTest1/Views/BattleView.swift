@@ -201,11 +201,16 @@ private struct LevelIntroPanel: View {
                 .font(Theme.font(26, weight: .black))
                 .foregroundStyle(Theme.gold)
             HStack(alignment: .bottom, spacing: 10) {
-                ForEach(session.level.monsterKinds, id: \.self) { kind in
-                    PixelImage(image: Art.goblinImage(kind), scale: kind.isBoss ? 4 : 3)
+                ForEach(session.level.newEnemies) { enemy in
+                    PixelImage(image: Art.enemyImage(enemy.id), scale: enemy.isBoss ? 3.4 : 2.8)
                 }
             }
-            Text("\(session.totalRounds) rondas · \(Self.controlsHint)\nTu caballero ataca solo al acercarse un goblin.")
+            if let boss = session.level.boss {
+                Text("Jefe final: \(boss.name)")
+                    .font(Theme.font(12))
+                    .foregroundStyle(Theme.orange)
+            }
+            Text("\(session.totalRounds) rondas · \(Self.controlsHint)\nTu héroe ataca solo al acercarse un enemigo.")
                 .font(Theme.font(12, weight: .bold))
                 .foregroundStyle(Theme.text)
                 .multilineTextAlignment(.center)
@@ -249,6 +254,15 @@ private struct LootSummary: View {
                     .font(Theme.font(16))
                     .foregroundStyle(Theme.text)
             }
+            ForEach(Array(session.partsEarned.enumerated()), id: \.offset) { _, part in
+                HStack(spacing: 8) {
+                    PixelImage(image: Art.partImage(part), scale: 2.4)
+                    VStack(alignment: .leading, spacing: 2) {
+                        Text("¡PIEZA ESPECIAL!").font(Theme.font(10)).foregroundStyle(Theme.orange)
+                        Text(part.name).font(Theme.font(13, weight: .black)).foregroundStyle(Theme.gold)
+                    }
+                }
+            }
             let minerals = Mineral.allCases.filter { session.mineralsEarned[$0, default: 0] > 0 }
             if minerals.isEmpty {
                 Text("Sin minerales").font(Theme.font(11)).foregroundStyle(Theme.textDim)
@@ -279,8 +293,8 @@ private struct VictoryPanel: View {
             HStack(spacing: 12) {
                 Button("MAPA") { store.go(to: .worldMap) }
                     .buttonStyle(.pixel(Theme.panelLight, size: 14))
-                Button("FORJA") { store.go(to: .forge) }
-                    .buttonStyle(.pixel(Theme.orange, text: .black, size: 14))
+                Button("RITUAL") { store.go(to: .forge) }
+                    .buttonStyle(.pixel(Theme.purple, text: .white, size: 14))
                 let next = session.level.id + 1
                 if store.world.level(next) != nil {
                     Button("NIVEL \(next) ▶") { store.startBattle(level: next) }
@@ -314,8 +328,8 @@ private struct DefeatPanel: View {
             HStack(spacing: 12) {
                 Button("MAPA") { store.go(to: .worldMap) }
                     .buttonStyle(.pixel(Theme.panelLight, size: 14))
-                Button("FORJA") { store.go(to: .forge) }
-                    .buttonStyle(.pixel(Theme.orange, text: .black, size: 14))
+                Button("RITUAL") { store.go(to: .forge) }
+                    .buttonStyle(.pixel(Theme.purple, text: .white, size: 14))
                 Button("REINTENTAR") { store.startBattle(level: session.level.id) }
                     .buttonStyle(.pixel(Theme.green, text: .black, size: 14))
             }

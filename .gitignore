@@ -4,7 +4,7 @@
 xcuserdata/
 DerivedData/
 build/
-GameTest1/Info*.plist
+Support/
 
 # Swift Package Manager
 .build/

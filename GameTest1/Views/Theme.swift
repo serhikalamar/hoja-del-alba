@@ -225,3 +225,39 @@ struct CompareBadge: View {
         }
     }
 }
+
+/// Etiquetas de color con los elementos de una pieza.
+struct ElementChips: View {
+    let elements: [Element]
+    var fontSize: CGFloat = 8
+
+    var body: some View {
+        HStack(spacing: 3) {
+            ForEach(Array(elements.enumerated()), id: \.offset) { _, element in
+                Text(element.name.uppercased())
+                    .font(Theme.font(fontSize, weight: .black))
+                    .foregroundStyle(.black)
+                    .padding(.horizontal, 3)
+                    .padding(.vertical, 1)
+                    .background(Color(hex: element.color))
+                    .overlay(Rectangle().strokeBorder(Color.black.opacity(0.6), lineWidth: 1))
+            }
+        }
+    }
+}
+
+/// Nombre de la habilidad de un arma ("???" si aún es secreta).
+struct AbilityTag: View {
+    @Environment(GameStore.self) private var store
+    let ability: Ability?
+    var fontSize: CGFloat = 10
+
+    var body: some View {
+        if let ability {
+            let known = store.profile.discoveredAbilities.contains(ability.id)
+            Text(known ? "✦ \(ability.name)" : "✦ ???")
+                .font(Theme.font(fontSize, weight: .black))
+                .foregroundStyle(known ? Color(hex: ability.elements.first?.color ?? 0xFFFFFF) : Theme.textDim)
+        }
+    }
+}

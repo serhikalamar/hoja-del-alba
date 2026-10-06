@@ -27,118 +27,56 @@ enum Pal {
 }
 
 enum Sprites {
-    // MARK: - Caballero (16x16, mirando a la derecha)
+    // MARK: - Iconos de armaduras y espada de entrenamiento (12x12)
 
-    private static let knightRows = [
-        "......RR........",
-        ".....RRRR.......",
-        "....KKKKKK......",
-        "...KWSSSSSK.....",
-        "...KSSSSSSK.....",
-        "...KSSSKKKK.....",
-        "...KSSSSSsK.....",
-        "....KKKKKK......",
-        "...KBBBBBBK.....",
-        "..KsBBBBBBBsK...",
-        "..KsBYYYYYBsK...",
-        "..KKBBBBBBBKK...",
-        "...KbbbKbbbK....",
-        "...KLLK.KLLK....",
-        "...KLLK.KLLK....",
-        "...KKKK.KKKK....",
+    private static let swordRows = [
+        ".....K......",
+        "....KWK.....",
+        "....KWK.....",
+        "....KWK.....",
+        "....KWK.....",
+        "....KWK.....",
+        "....KWK.....",
+        "..KKKYKKK...",
+        "..KYYYYYK...",
+        "....KHK.....",
+        "....KHK.....",
+        "....KYK.....",
     ]
 
-    private static let knightWalkA = [
-        "...KbbbKbbbK....",
-        "..KLLK...KLLK...",
-        "..KLLK...KLLK...",
-        "..KKKK...KKKK...",
+    private static let armorRows = [
+        "..KK....KK..",
+        ".KSSK..KSSK.",
+        "KSSSSKKSSSSK",
+        "KSSSSSSSSSSK",
+        ".KKSSSSSSKK.",
+        "..KSSSSSSK..",
+        "..KSWSSSSK..",
+        "..KSSSSSSK..",
+        "..KsssssSK..",
+        "..KSSSSSSK..",
+        "..KsSsSsSK..",
+        "..KKKKKKKK..",
     ]
 
-    private static let knightWalkB = [
-        "...KbbbKbbbK....",
-        "....KLLKLLK.....",
-        "....KLLKLLK.....",
-        "....KKKKKKK.....",
-    ]
-
-    enum KnightFrame: String { case idle, walkA, walkB }
-
-    /// El color del cuerpo depende de la armadura equipada.
-    static func knight(_ frame: KnightFrame, armorIcon: String) -> PixelSprite {
-        let armor = itemPalette(armorIcon)
-        let base = PixelSprite(rows: knightRows, palette: [
-            "K": Pal.outline,
-            "W": Pal.white,
-            "S": Pal.steelLight,
-            "s": Pal.steelDark,
-            "R": Pal.red,
-            "B": armor["S"] ?? Pal.blue,
-            "b": armor["s"] ?? Pal.navy,
-            "Y": Pal.yellow,
-            "L": Pal.night,
-        ])
-        switch frame {
-        case .idle: return base
-        case .walkA: return base.replacingRows(from: 12, with: knightWalkA)
-        case .walkB: return base.replacingRows(from: 12, with: knightWalkB)
+    static func itemPalette(_ icon: String) -> [Character: UInt32] {
+        switch icon {
+        case "sword_wood": ["W": 0xD9A066, "Y": Pal.wood, "H": Pal.woodDark]
+        case "armor_tunic": ["S": 0xD9B48F, "s": 0xA77B5B, "W": 0xF0DCC0]
+        case "armor_leather": ["S": 0x8F563B, "s": 0x5E3A24, "W": Pal.woodLight]
+        case "armor_chain": ["S": Pal.steel, "s": Pal.steelDark, "W": Pal.white]
+        case "armor_scale": ["S": Pal.green, "s": Pal.teal, "W": Pal.lime]
+        case "armor_plate": ["S": Pal.steelLight, "s": 0x8B93AF, "W": 0xFFFFFF]
+        case "armor_elven": ["S": Pal.cyan, "s": Pal.sky, "W": Pal.yellow]
+        default: ["S": Pal.blue, "s": Pal.navy, "W": Pal.white]
         }
     }
 
-    // MARK: - Goblins (14x14, mirando a la derecha)
-
-    private static let goblinRows = [
-        "..............",
-        "..KK......KK..",
-        "..KGKKKKKKGK..",
-        "...KGGGGGGK...",
-        "...KGGGEGEK...",
-        "...KGGGGGGGK..",
-        "...KGGKTKTK...",
-        "....KKKKKK....",
-        "...KCCCCCCK...",
-        "..KGKCCCCKGK..",
-        "..KGKCccCKGK..",
-        "...KKCCCCKK...",
-        "....KgKKgK....",
-        "....KK..KK....",
-    ]
-
-    private static let goblinWalk = [
-        "...KgK..KgK...",
-        "...KK....KK...",
-    ]
-
-    static func goblinPalette(_ kind: MonsterKind) -> [Character: UInt32] {
-        var p: [Character: UInt32] = ["K": Pal.outline, "T": Pal.white]
-        switch kind {
-        case .goblin:
-            p["G"] = Pal.green; p["g"] = Pal.teal; p["E"] = Pal.yellow
-            p["C"] = Pal.wood; p["c"] = Pal.woodDark
-        case .goblinRunner:
-            p["G"] = Pal.lime; p["g"] = Pal.green; p["E"] = Pal.orange
-            p["C"] = Pal.purple; p["c"] = Pal.outline
-        case .goblinBrute:
-            p["G"] = 0x3E7A3A; p["g"] = 0x24502A; p["E"] = Pal.red
-            p["C"] = Pal.steelDark; p["c"] = Pal.night
-        case .goblinKing:
-            p["G"] = 0x5A9E3A; p["g"] = Pal.teal; p["E"] = Pal.yellow
-            p["C"] = Pal.red; p["c"] = Pal.purple
-        }
-        return p
+    static func item(icon: String) -> PixelSprite {
+        var palette = itemPalette(icon)
+        palette["K"] = Pal.outline
+        return PixelSprite(rows: icon.hasPrefix("armor") ? armorRows : swordRows, palette: palette)
     }
-
-    static func goblin(_ kind: MonsterKind, frame: Int) -> PixelSprite {
-        let sprite = PixelSprite(rows: goblinRows, palette: goblinPalette(kind))
-        return frame == 0 ? sprite : sprite.replacingRows(from: 12, with: goblinWalk)
-    }
-
-    static let crown = PixelSprite(rows: [
-        "Y..Y..Y",
-        "YY.Y.YY",
-        "YYYRYYY",
-        "YYYYYYY",
-    ], palette: ["Y": Pal.yellow, "R": Pal.red])
 
     // MARK: - Minerales (7x7)
 
@@ -170,133 +108,6 @@ enum Sprites {
     static func mineral(_ mineral: Mineral) -> PixelSprite {
         let c = mineralColors(mineral)
         return PixelSprite(rows: gemRows, palette: ["K": Pal.outline, "L": c.light, "M": c.mid, "D": c.dark])
-    }
-
-    // MARK: - Iconos de objetos (12x12, verticales: también se usan en la mano)
-
-    private static let swordRows = [
-        ".....K......",
-        "....KWK.....",
-        "....KWK.....",
-        "....KWK.....",
-        "....KWK.....",
-        "....KWK.....",
-        "....KWK.....",
-        "..KKKYKKK...",
-        "..KYYYYYK...",
-        "....KHK.....",
-        "....KHK.....",
-        "....KYK.....",
-    ]
-
-    private static let axeRows = [
-        "..KKKKKKK...",
-        ".KSSSSKHK...",
-        "KSSSSSKHK...",
-        "KSWSSSKHK...",
-        "KSSSSSKHK...",
-        ".KSSSSKHK...",
-        "..KKKKKHK...",
-        "......KHK...",
-        "......KHK...",
-        "......KHK...",
-        "......KHK...",
-        "......KKK...",
-    ]
-
-    private static let hammerRows = [
-        "..KKKKKKKK..",
-        "..KSSSSSSK..",
-        "..KSWSSSSK..",
-        "..KSSSSSSK..",
-        "..KKKKKKKK..",
-        ".....KHK....",
-        ".....KHK....",
-        ".....KHK....",
-        ".....KHK....",
-        ".....KHK....",
-        ".....KHK....",
-        ".....KKK....",
-    ]
-
-    private static let spearRows = [
-        ".....K......",
-        "....KWK.....",
-        "....KWK.....",
-        "...KWSWK....",
-        "...KSSSK....",
-        "....KYK.....",
-        "....KHK.....",
-        "....KHK.....",
-        "....KHK.....",
-        "....KHK.....",
-        "....KHK.....",
-        "....KKK.....",
-    ]
-
-    private static let greatswordRows = [
-        ".....KK.....",
-        "....KWSK....",
-        "....KWSK....",
-        "....KWSK....",
-        "....KWSK....",
-        "....KWSK....",
-        "....KWSK....",
-        "..KKKYYKKK..",
-        "..KYYYYYYK..",
-        ".....KHK....",
-        ".....KHK....",
-        ".....KYK....",
-    ]
-
-    private static let armorRows = [
-        "..KK....KK..",
-        ".KSSK..KSSK.",
-        "KSSSSKKSSSSK",
-        "KSSSSSSSSSSK",
-        ".KKSSSSSSKK.",
-        "..KSSSSSSK..",
-        "..KSWSSSSK..",
-        "..KSSSSSSK..",
-        "..KsssssSK..",
-        "..KSSSSSSK..",
-        "..KsSsSsSK..",
-        "..KKKKKKKK..",
-    ]
-
-    static func itemPalette(_ icon: String) -> [Character: UInt32] {
-        switch icon {
-        case "sword_wood": ["W": 0xD9A066, "Y": Pal.wood, "H": Pal.woodDark]
-        case "sword_iron": ["W": Pal.steelLight, "Y": Pal.steelDark, "H": Pal.wood]
-        case "sword_steel": ["W": Pal.white, "Y": Pal.yellow, "H": Pal.purple]
-        case "sword_rune": ["W": Pal.cyan, "Y": Pal.sky, "H": Pal.navy]
-        case "axe": ["S": Pal.steel, "W": Pal.white, "H": Pal.wood]
-        case "hammer": ["S": Pal.steelDark, "W": Pal.steel, "H": Pal.wood]
-        case "spear": ["W": Pal.white, "S": Pal.steel, "Y": Pal.red, "H": Pal.woodLight]
-        case "greatsword": ["W": Pal.white, "S": Pal.steel, "Y": Pal.yellow, "H": Pal.night]
-        case "armor_tunic": ["S": 0xD9B48F, "s": 0xA77B5B, "W": 0xF0DCC0]
-        case "armor_leather": ["S": 0x8F563B, "s": 0x5E3A24, "W": Pal.woodLight]
-        case "armor_chain": ["S": Pal.steel, "s": Pal.steelDark, "W": Pal.white]
-        case "armor_scale": ["S": Pal.green, "s": Pal.teal, "W": Pal.lime]
-        case "armor_plate": ["S": Pal.steelLight, "s": 0x8B93AF, "W": 0xFFFFFF]
-        case "armor_elven": ["S": Pal.cyan, "s": Pal.sky, "W": Pal.yellow]
-        default: ["S": Pal.blue, "s": Pal.navy, "W": Pal.white]
-        }
-    }
-
-    static func item(icon: String) -> PixelSprite {
-        let rows: [String]
-        switch icon {
-        case "axe": rows = axeRows
-        case "hammer": rows = hammerRows
-        case "spear": rows = spearRows
-        case "greatsword": rows = greatswordRows
-        case let other where other.hasPrefix("armor"): rows = armorRows
-        default: rows = swordRows
-        }
-        var palette = itemPalette(icon)
-        palette["K"] = Pal.outline
-        return PixelSprite(rows: rows, palette: palette)
     }
 
     // MARK: - Iconos de interfaz
@@ -345,53 +156,170 @@ enum Sprites {
         "..KKK..",
     ], palette: ["K": Pal.outline, "W": Pal.white])
 
-    static let tree = PixelSprite(rows: [
-        ".....KKKKKK.....",
-        "...KKGGGGGGKK...",
-        "..KGGGgGGGGGGK..",
-        ".KGGGGGGGgGGGGK.",
-        ".KGgGGGGGGGGGGK.",
-        "KGGGGGGgGGGGGGGK",
-        "KGGGGGGGGGGgGGGK",
-        "KGgGGGGGGGGGGGGK",
-        ".KGGGGgGGGGGGgK.",
-        ".KGGGGGGGGGGGGK.",
-        "..KKGGGGGGGGKK..",
-        "....KKKKKKKK....",
-        "......KTTK......",
-        "......KTTK......",
-        "......KTTK......",
-        ".....KTTTTK.....",
-    ], palette: ["K": 0x10241A, "G": 0x2E7D4A, "g": 0x1F5E3A, "T": Pal.wood])
+    static let crown = PixelSprite(rows: [
+        "Y..Y..Y",
+        "YY.Y.YY",
+        "YYYRYYY",
+        "YYYYYYY",
+    ], palette: ["Y": Pal.yellow, "R": Pal.red])
 
-    static let rock = PixelSprite(rows: [
+    // MARK: - El enano herrero (tienda)
+
+    static let dwarf: PixelGrid = {
+        let rows = [
+            ".......SSSSSS",
+            ".....SSWWSSSSSs",
+            "....SSWSSSSSSSSs",
+            "...sSSSSSSSSSSSSs",
+            "...ddddYddddYdddd",
+            "....FFFFFFFFFFFf",
+            "...FFEeFFFFFEeFf",
+            "...FFFFFfNNfFFFf",
+            "...OBBBBFNNNFBBBB",
+            "..OBBBBBBMMMBBBBBb",
+            "..BBBBBBBBBBBBBBBb",
+            "..BBBBbBBBBBBbBBBb",
+            "...BBBBBBBBBBBBBb",
+            ".CCBBBBbBBBbBBBBCC",
+            "CCCCcBBBBBBBBBBcCCC",
+            "CCCCABBBBYBBBBBACCC",
+            "FFCCAAABBBBBBAAACFF",
+            "FFC.AAAABBYBBAAAA.CFF",
+            "ff..AAAAABBBAAAAA..ff",
+            "....AAAAAABAAAAAA",
+            "....AAaAAAAAAAaAA",
+            "....AAAAAAAAAAAAA",
+            "....aaaaaaaaaaaaa",
+            ".....LLL.....LLL",
+            ".....LLL.....LLL",
+            "....EEEE....EEEE",
+        ]
+        let palette: [Character: UInt32] = [
+            "S": Pal.steelLight, "s": 0x8B93AF, "W": 0xFFFFFF, "d": Pal.steelDark, "Y": Pal.yellow,
+            "F": 0xF4C095, "f": 0xC8875E, "E": Pal.outline, "e": 0xFFFFFF, "N": 0xE89A7A,
+            "O": 0xFFB060, "B": 0xE07A30, "b": 0xA04E1E, "M": 0x8A3A1A,
+            "C": 0x4F7A3A, "c": 0x335228, "A": 0x8F563B, "a": 0x5E3A24, "L": 0x4A3A2A,
+        ]
+        return PixelGrid(PixelSprite(rows: rows, palette: palette)).outlined()
+    }()
+
+    static let anvil: PixelGrid = {
+        let rows = [
+            "WSSSSSSSSSSSSSSSWW",
+            ".sSSSSSSSSSSSSSSSs",
+            "..ssssssSSSSSSSs",
+            "......dSSSSd",
+            ".......dSSd",
+            ".......dSSd",
+            ".....ddSSSSdd",
+            "....dSSSSSSSSd",
+            "....dddddddddd",
+        ]
+        return PixelGrid(PixelSprite(rows: rows, palette: ["W": 0xFFFFFF, "S": 0x6A6A78, "s": 0x4A4A56, "d": 0x33333C])).outlined()
+    }()
+
+    static let hammer: PixelGrid = {
+        let rows = [
+            "SSSSSS",
+            "SWSSSs",
+            "SSSSSs",
+            "..HH",
+            "..HH",
+            "..HH",
+            "..HH",
+            "..hh",
+        ]
+        return PixelGrid(PixelSprite(rows: rows, palette: ["S": 0x8A8A96, "s": 0x4A4A56, "W": 0xFFFFFF, "H": Pal.woodLight, "h": Pal.wood])).outlined()
+    }()
+
+    // MARK: - Decoración del pueblo
+
+    static let barrel = PixelSprite(rows: [
+        ".KKKKKKK.",
+        "KWWWWWWWK",
+        "KBBBBBBbK",
+        "KMMMMMMmK",
+        "KBBBBBBbK",
+        "KBBBBBBbK",
+        "KMMMMMMmK",
+        "KBBBBBBbK",
+        ".KKKKKKK.",
+    ], palette: ["K": Pal.outline, "W": 0xC08A5A, "B": 0x9A6A3A, "b": 0x6A4422, "M": 0x6A6A78, "m": 0x4A4A56])
+
+    static let crate = PixelSprite(rows: [
+        "KKKKKKKKKK",
+        "KWWWWWWWbK",
+        "KWbWWWWbbK",
+        "KWWbWWbWbK",
+        "KWWWbbWWbK",
+        "KWWbWWbWbK",
+        "KWbWWWWbbK",
+        "KbbbbbbbbK",
+        "KKKKKKKKKK",
+    ], palette: ["K": Pal.outline, "W": 0xC8A070, "b": 0x8A6A40])
+
+    static let lampPost = PixelSprite(rows: [
+        ".KKKKK.",
+        "KYWYYYK",
+        "KYYYYYK",
+        ".KKKKK.",
+        "...K...",
+        "...K...",
+        "...K...",
+        "...K...",
+        "...K...",
+        "...K...",
+        "...K...",
+        "...K...",
+        "..KKK..",
+        ".KKKKK.",
+    ], palette: ["K": 0x2A2E40, "Y": 0xFFD870, "W": 0xFFFFFF])
+
+    static let gravestone = PixelSprite(rows: [
         "..KKKK..",
-        ".KSSWSK.",
+        ".KSSSSK.",
+        "KSSWSSsK",
+        "KSWWWSsK",
+        "KSSWSSsK",
+        "KSSWSSsK",
         "KSSSSSsK",
-        "KsSSSssK",
-        ".KKKKKK.",
-    ], palette: ["K": Pal.outline, "S": Pal.steel, "s": Pal.steelDark, "W": Pal.white])
+        "KsssssssK",
+    ], palette: ["K": Pal.outline, "S": 0x9A9AA6, "s": 0x6A6A78, "W": 0x5A5A66])
+
+    static let hay = PixelSprite(rows: [
+        "..KKKKKKK..",
+        ".KYYYYYYYK.",
+        "KYyYYyYYyYK",
+        "KYYYYYYYYYK",
+        "KyYYyYYyYYK",
+        "KYYYYYYYYyK",
+        ".KKKKKKKKK.",
+    ], palette: ["K": Pal.outline, "Y": 0xE8C060, "y": 0xB08A30])
+
+    static let banner = PixelSprite(rows: [
+        "KKKKKKKKK",
+        "KRRRRRRRK",
+        "KRRYYYRRK",
+        "KRYYRYYRK",
+        "KRRYYYRRK",
+        "KRRRYRRRK",
+        "KRRRRRRRK",
+        "KRRRRRRRK",
+        "KRRK.KRRK",
+        "KRK...KRK",
+        "KK.....KK",
+    ], palette: ["K": Pal.outline, "R": 0x2A7A3A, "Y": Pal.yellow])
 }
 
 // MARK: - Accesos con caché
 
 enum Art {
-    static func knightTexture(_ frame: Sprites.KnightFrame, armorIcon: String) -> SKTexture {
-        ArtCache.texture("knight.\(frame.rawValue).\(armorIcon)") { Sprites.knight(frame, armorIcon: armorIcon) }
+    static func heroTexture(_ pose: HeroArt.Pose, armorIcon: String, race: Race) -> SKTexture {
+        ArtCache.texture("hero.\(pose.rawValue).\(armorIcon).\(race.rawValue)", grid: { HeroArt.grid(race: race, armorIcon: armorIcon, pose: pose) })
     }
 
-    static func knightImage(armorIcon: String) -> CGImage {
-        ArtCache.image("knight.idle.\(armorIcon)") { Sprites.knight(.idle, armorIcon: armorIcon) }
-    }
-
-    static func goblinTextures(_ kind: MonsterKind) -> [SKTexture] {
-        (0...1).map { frame in
-            ArtCache.texture("goblin.\(kind.rawValue).\(frame)") { Sprites.goblin(kind, frame: frame) }
-        }
-    }
-
-    static func goblinImage(_ kind: MonsterKind) -> CGImage {
-        ArtCache.image("goblin.\(kind.rawValue).0") { Sprites.goblin(kind, frame: 0) }
+    static func heroImage(armorIcon: String, race: Race) -> CGImage {
+        ArtCache.image("hero.idle0.\(armorIcon).\(race.rawValue)", grid: { HeroArt.grid(race: race, armorIcon: armorIcon, pose: .idle0) })
     }
 
     static func mineralTexture(_ mineral: Mineral) -> SKTexture {
@@ -402,71 +330,48 @@ enum Art {
         ArtCache.image("mineral.\(mineral.rawValue)") { Sprites.mineral(mineral) }
     }
 
-    static func itemTexture(icon: String) -> SKTexture {
-        ArtCache.texture("item.\(icon)") { Sprites.item(icon: icon) }
+    /// Icono de un objeto: armas forjadas (dibujo propio o compuesto) o iconos clásicos.
+    static func itemImage(_ item: Item) -> CGImage {
+        if item.slot == .weapon, item.partIDs != nil {
+            return weaponImage(item)
+        }
+        return itemImage(icon: item.icon)
     }
 
     static func itemImage(icon: String) -> CGImage {
         ArtCache.image("item.\(icon)") { Sprites.item(icon: icon) }
     }
 
+    static func itemTexture(_ item: Item) -> SKTexture {
+        ArtCache.texture(fromImage: itemImage(item))
+    }
+
+    static func weaponImage(_ item: Item) -> CGImage {
+        if let custom = item.customSprite, !custom.isEmpty {
+            return PixelGrid(custom: custom).makeCGImage()
+        }
+        let ids = item.partIDs ?? []
+        return ArtCache.image("weapon.\(ids.joined(separator: "|"))", grid: { WeaponArt.composite(partIDs: ids) })
+    }
+
+    static func partImage(_ part: WeaponPart) -> CGImage {
+        ArtCache.image("part.\(part.id)", grid: { WeaponArt.single(part) })
+    }
+
+    static func gridImage(_ key: String, _ grid: @autoclosure () -> PixelGrid) -> CGImage {
+        ArtCache.image(key, grid: grid)
+    }
+
+    static func gridTexture(_ key: String, _ grid: @autoclosure () -> PixelGrid) -> SKTexture {
+        ArtCache.texture(key, grid: grid)
+    }
+
     static var crown: SKTexture { ArtCache.texture("crown") { Sprites.crown } }
-    static var tree: SKTexture { ArtCache.texture("tree") { Sprites.tree } }
-    static var rock: SKTexture { ArtCache.texture("rock") { Sprites.rock } }
-    static var treeImage: CGImage { ArtCache.image("tree") { Sprites.tree } }
     static var coin: CGImage { ArtCache.image("coin") { Sprites.coin } }
     static var heart: CGImage { ArtCache.image("heart") { Sprites.heart } }
     static var potion: CGImage { ArtCache.image("potion") { Sprites.potion } }
     static var skull: CGImage { ArtCache.image("skull") { Sprites.skull } }
-
-    /// Fondo de hierba generado proceduralmente (1 pixel = 1 pixel de arte).
-    static func grassBackground(width: Int, height: Int, seed: UInt64) -> CGImage {
-        var rng = SeededGenerator(seed: seed)
-        let shades: [UInt32] = [0x5AA04A, 0x4F9442, 0x63AB52, 0x56994A]
-        let dark: UInt32 = 0x3F7D38
-        let flowers: [UInt32] = [Pal.yellow, Pal.white, 0xF29AC0, Pal.cyan]
-        let cell = 6
-        let cellsX = width / cell + 2
-        let cellsY = height / cell + 2
-        let cellShade = (0..<(cellsX * cellsY)).map { _ in shades[Int.random(in: 0..<shades.count, using: &rng)] }
-
-        var pixels = [UInt8](repeating: 255, count: width * height * 4)
-        func put(_ x: Int, _ y: Int, _ color: UInt32) {
-            guard x >= 0, y >= 0, x < width, y < height else { return }
-            let i = (y * width + x) * 4
-            pixels[i] = UInt8((color >> 16) & 0xFF)
-            pixels[i + 1] = UInt8((color >> 8) & 0xFF)
-            pixels[i + 2] = UInt8(color & 0xFF)
-            pixels[i + 3] = 255
-        }
-        for y in 0..<height {
-            for x in 0..<width {
-                // Celdas con un pequeño desplazamiento para que no se vea la cuadrícula.
-                let jitter = (x * 7 + y * 13) % 3
-                let cx = (x + jitter) / cell
-                let cy = (y + jitter) / cell
-                put(x, y, cellShade[cy * cellsX + cx])
-            }
-        }
-        // Matas de hierba oscura
-        for _ in 0..<(width * height / 40) {
-            let x = Int.random(in: 0..<width, using: &rng)
-            let y = Int.random(in: 0..<height, using: &rng)
-            put(x, y, dark)
-            put(x, y - 1, dark)
-            if Bool.random(using: &rng) { put(x + 1, y, dark) }
-        }
-        // Flores
-        for _ in 0..<(width * height / 500) {
-            let x = Int.random(in: 0..<width, using: &rng)
-            let y = Int.random(in: 0..<height, using: &rng)
-            let color = flowers[Int.random(in: 0..<flowers.count, using: &rng)]
-            put(x, y, Pal.yellow)
-            put(x - 1, y, color)
-            put(x + 1, y, color)
-            put(x, y - 1, color)
-            put(x, y + 1, color)
-        }
-        return PixelCanvas.image(width: width, height: height, pixels: pixels)
-    }
+    static var dwarf: CGImage { gridImage("dwarf", Sprites.dwarf) }
+    static var anvil: CGImage { gridImage("anvil", Sprites.anvil) }
+    static var smithHammer: CGImage { gridImage("smithHammer", Sprites.hammer) }
 }

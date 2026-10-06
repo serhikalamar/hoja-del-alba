@@ -1,12 +1,14 @@
 import GameCore
 import SwiftUI
 
-/// Ruleta de forja. El resultado ya está decidido; la animación lo revela.
-struct RouletteView: View {
+/// Final del ritual: la ruleta decide la potencia y después se revela el arma y su habilidad.
+struct RitualRevealView: View {
+    enum Action { case equip, draw, keep }
+
     @Environment(GameStore.self) private var store
     let result: CraftResult
     let luck: Double
-    let onClose: () -> Void
+    let onFinish: (Action) -> Void
 
     @State private var rotation: Double = 0
     @State private var revealed = false
@@ -18,11 +20,11 @@ struct RouletteView: View {
 
     var body: some View {
         ZStack {
-            Color.black.opacity(0.75).ignoresSafeArea()
-            HStack(spacing: 28) {
+            Color.black.opacity(0.8).ignoresSafeArea()
+            HStack(spacing: 24) {
                 ZStack(alignment: .top) {
                     Wheel(probabilities: Roulette.probabilities(luck: luck))
-                        .frame(width: 210, height: 210)
+                        .frame(width: 190, height: 190)
                         .rotationEffect(.degrees(rotation))
                     Pointer()
                         .fill(Color.white)
@@ -30,7 +32,7 @@ struct RouletteView: View {
                         .frame(width: 26, height: 24)
                         .offset(y: -10)
                 }
-                resultPanel.frame(width: 230)
+                resultPanel.frame(width: 330)
             }
         }
         .onAppear(perform: spin)
@@ -41,41 +43,60 @@ struct RouletteView: View {
         if revealed {
             let item = result.item
             let quality = result.quality
-            VStack(alignment: .leading, spacing: 8) {
-                Text(quality.name.uppercased())
-                    .font(Theme.font(24, weight: .black))
-                    .foregroundStyle(Self.color(for: result.segmentIndex))
-                Text("Potencia x\(quality.multiplier, specifier: "%.1f")")
-                    .font(Theme.font(12))
-                    .foregroundStyle(Theme.textDim)
-                HStack(spacing: 8) {
-                    PixelImage(image: Art.itemImage(icon: item.icon), scale: 3.5)
-                    VStack(alignment: .leading) {
-                        Text(item.name)
-                            .font(Theme.font(12, weight: .black))
-                            .foregroundStyle(Theme.rarityColor(item.rarity))
-                            .fixedSize(horizontal: false, vertical: true)
-                        CompareBadge(item: item, equipped: store.profile.equipped(item.slot))
+            HStack(alignment: .top, spacing: 12) {
+                PixelImage(image: Art.itemImage(item), scale: 4)
+                    .shadow(color: Self.color(for: result.segmentIndex), radius: 10)
+                VStack(alignment: .leading, spacing: 5) {
+                    Text("\(quality.name.uppercased()) ×\(quality.multiplier, specifier: "%.1f")")
+                        .font(Theme.font(18, weight: .black))
+                        .foregroundStyle(Self.color(for: result.segmentIndex))
+                    Text(item.name)
+                        .font(Theme.font(12, weight: .black))
+                        .foregroundStyle(Theme.rarityColor(item.rarity))
+                        .fixedSize(horizontal: false, vertical: true)
+                    CompareBadge(item: item, equipped: store.profile.equipped(item.slot))
+                    StatLines(stats: item.stats, fontSize: 10)
+                    if let ability = item.ability {
+                        VStack(alignment: .leading, spacing: 2) {
+                            if result.discoveredNewAbility {
+                                Text("¡HABILIDAD SECRETA DESCUBIERTA!")
+                                    .font(Theme.font(9, weight: .black))
+                                    .foregroundStyle(Theme.gold)
+                            }
+                            Text("✦ \(ability.name)")
+                                .font(Theme.font(13, weight: .black))
+                                .foregroundStyle(Color(hex: ability.elements.first?.color ?? 0xFFFFFF))
+                            Text(ability.description)
+                                .font(Theme.font(9, weight: .bold))
+                                .foregroundStyle(Theme.text)
+                                .fixedSize(horizontal: false, vertical: true)
+                        }
+                        .padding(6)
+                        .background(Color(hex: 0x2A1640))
+                        .overlay(Rectangle().strokeBorder(Color(hex: 0xC879F2), lineWidth: 2))
+                    } else {
+                        Text("Sin habilidad secreta")
+                            .font(Theme.font(9, weight: .bold))
+                            .foregroundStyle(Theme.textDim)
                     }
-                }
-                StatLines(stats: item.stats, fontSize: 11)
-                HStack(spacing: 8) {
-                    Button("EQUIPAR") {
-                        store.equip(item)
-                        onClose()
+                    HStack(spacing: 6) {
+                        Button("EQUIPAR") { onFinish(.equip) }
+                            .buttonStyle(.pixel(Theme.green, text: .black, size: 11))
+                        Button("✎ CREA TU ARMA") { onFinish(.draw) }
+                            .buttonStyle(.pixel(Color(hex: 0xC879F2), text: .black, size: 11))
+                        Button("GUARDAR") { onFinish(.keep) }
+                            .buttonStyle(.pixel(Theme.panelLight, size: 11))
                     }
-                    .buttonStyle(.pixel(Theme.green, text: .black, size: 13))
-                    Button("GUARDAR") { onClose() }
-                        .buttonStyle(.pixel(Theme.panelLight, size: 13))
+                    .padding(.top, 2)
                 }
             }
-            .padding(14)
+            .padding(12)
             .pixelPanel()
             .transition(.scale.combined(with: .opacity))
         } else {
-            Text("¡GIRANDO!")
-                .font(Theme.font(22, weight: .black))
-                .foregroundStyle(Theme.gold)
+            Text("¡EL RITUAL\nESTÁ EN MARCHA!")
+                .font(Theme.font(20, weight: .black))
+                .foregroundStyle(Color(hex: 0xC879F2))
         }
     }
 
@@ -111,7 +132,7 @@ private struct Wheel: View {
         for (index, p) in probabilities.enumerated() {
             let sweep = p * 360
             let path = wedge(center: center, radius: radius, start: start, sweep: sweep)
-            context.fill(path, with: .color(RouletteView.color(for: index)))
+            context.fill(path, with: .color(RitualRevealView.color(for: index)))
             context.stroke(path, with: .color(.black), lineWidth: 2)
             if sweep > 16 {
                 drawLabel(index: index, in: context, center: center, radius: radius, angle: start + sweep / 2)

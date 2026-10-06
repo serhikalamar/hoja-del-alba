@@ -83,6 +83,12 @@ public struct Item: Codable, Identifiable, Equatable, Sendable {
     public var minerals: [Mineral: Int]
     /// Valor base en oro.
     public var value: Int
+    /// Piezas (hoja, guarda, empuñadura) de un arma forjada.
+    public var partIDs: [String]?
+    /// Habilidad secreta del arma forjada.
+    public var abilityID: String?
+    /// Dibujo hecho por el jugador en el editor de pixel-art.
+    public var customSprite: CustomSprite?
 
     public init(
         id: UUID = UUID(),
@@ -109,7 +115,30 @@ public struct Item: Codable, Identifiable, Equatable, Sendable {
         self.value = value
     }
 
+    /// Arma forjada con piezas en el ritual.
+    public init(forgedName name: String, partIDs: [String], tier: Int, stats: Stats, rarity: Rarity,
+                qualityName: String, qualityMultiplier: Double, minerals: [Mineral: Int], value: Int, abilityID: String?) {
+        self.id = UUID()
+        self.blueprintID = "forged"
+        self.name = name
+        self.slot = .weapon
+        self.tier = tier
+        self.icon = "forged"
+        self.rarity = rarity
+        self.stats = stats
+        self.qualityName = qualityName
+        self.qualityMultiplier = qualityMultiplier
+        self.minerals = minerals
+        self.value = value
+        self.partIDs = partIDs
+        self.abilityID = abilityID
+    }
+
     public var isCrafted: Bool { qualityName != nil }
+
+    public var parts: [WeaponPart] { (partIDs ?? []).compactMap(PartCatalog.part) }
+
+    public var ability: Ability? { AbilityBook.ability(abilityID) }
 
     public var sellPrice: Int { max(1, value * 4 / 10) }
 
@@ -135,23 +164,9 @@ public struct Item: Codable, Identifiable, Equatable, Sendable {
 
 public enum Catalog {
     public static let blueprints: [Blueprint] = [
-        // Armas
-        Blueprint(id: "wood_sword", name: "Espada de madera", slot: .weapon, tier: 1, icon: "sword_wood",
+        // Arma inicial (las demás armas se forjan con piezas)
+        Blueprint(id: "wood_sword", name: "Espada de entrenamiento", slot: .weapon, tier: 1, icon: "sword_wood",
                   baseStats: Stats(attack: 3), basePrice: 20),
-        Blueprint(id: "short_sword", name: "Espada corta", slot: .weapon, tier: 1, icon: "sword_iron",
-                  baseStats: Stats(attack: 6, attackSpeed: 0.1), basePrice: 45),
-        Blueprint(id: "hand_axe", name: "Hacha de mano", slot: .weapon, tier: 2, icon: "axe",
-                  baseStats: Stats(attack: 15, attackSpeed: -0.1, critMultiplier: 0.1), basePrice: 110),
-        Blueprint(id: "long_sword", name: "Espada larga", slot: .weapon, tier: 2, icon: "sword_steel",
-                  baseStats: Stats(attack: 14, range: 6), basePrice: 120),
-        Blueprint(id: "spear", name: "Lanza", slot: .weapon, tier: 3, icon: "spear",
-                  baseStats: Stats(attack: 18, range: 20), basePrice: 220),
-        Blueprint(id: "greatsword", name: "Mandoble", slot: .weapon, tier: 3, icon: "greatsword",
-                  baseStats: Stats(attack: 24, attackSpeed: -0.1, range: 8), basePrice: 260),
-        Blueprint(id: "war_hammer", name: "Martillo de guerra", slot: .weapon, tier: 4, icon: "hammer",
-                  baseStats: Stats(attack: 36, attackSpeed: -0.25, critMultiplier: 0.3), basePrice: 420),
-        Blueprint(id: "rune_sword", name: "Espada rúnica", slot: .weapon, tier: 4, icon: "sword_rune",
-                  baseStats: Stats(attack: 30, attackSpeed: 0.1, critChance: 0.08), basePrice: 450),
         // Armaduras
         Blueprint(id: "padded_tunic", name: "Túnica acolchada", slot: .armor, tier: 1, icon: "armor_tunic",
                   baseStats: Stats(maxHP: 10, defense: 2), basePrice: 20),
@@ -171,7 +186,9 @@ public enum Catalog {
         blueprints.first { $0.id == id }
     }
 
-    /// Nivel máximo de equipo disponible según el nivel de juego: 1-2 → T1, 3-5 → T2, 6-8 → T3, 9-10 → T4.
+    public static var armors: [Blueprint] { blueprints.filter { $0.slot == .armor } }
+
+    /// Nivel máximo de armadura disponible según el nivel de juego: 1-2 → T1, 3-5 → T2, 6-8 → T3, 9-10 → T4.
     public static func maxTier(forLevel level: Int) -> Int {
         min(4, 1 + level / 3)
     }
@@ -205,4 +222,23 @@ extension Rarity {
         case (.legendary, _): "legendaria"
         }
     }
+}
+
+/// Dibujo pixel-art del jugador. Cada pixel es 0xRRGGBB o -1 (transparente).
+public struct CustomSprite: Codable, Equatable, Hashable, Sendable {
+    public var width: Int
+    public var height: Int
+    public var pixels: [Int]
+
+    public init(width: Int, height: Int, pixels: [Int]) {
+        self.width = width
+        self.height = height
+        self.pixels = pixels
+    }
+
+    public static func empty(width: Int, height: Int) -> CustomSprite {
+        CustomSprite(width: width, height: height, pixels: Array(repeating: -1, count: width * height))
+    }
+
+    public var isEmpty: Bool { pixels.allSatisfy { $0 < 0 } }
 }

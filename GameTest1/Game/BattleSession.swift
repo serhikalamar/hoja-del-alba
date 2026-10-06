@@ -21,6 +21,8 @@ final class BattleSession {
     private(set) var kills = 0
     private(set) var goldEarned = 0
     private(set) var mineralsEarned: [Mineral: Int] = [:]
+    /// Piezas especiales conseguidas en esta partida.
+    private(set) var partsEarned: [WeaponPart] = []
     private(set) var lastRoundReward = 0
     private(set) var levelClearBonus = 0
     private(set) var shopOffers: [ShopOffer] = []
@@ -54,11 +56,12 @@ final class BattleSession {
     private func applyEquipment(hp: Double) {
         let profile = store.profile
         scene.prepare(
-            level: level.id,
+            level: level,
             stats: profile.totalStats,
             hp: hp,
             armorIcon: profile.equippedArmor?.icon ?? "armor_tunic",
-            weaponIcon: profile.equippedWeapon?.icon ?? "sword_wood"
+            weapon: profile.equippedWeapon,
+            race: profile.race
         )
     }
 
@@ -92,20 +95,27 @@ final class BattleSession {
 
     // MARK: - Callbacks de la escena
 
-    func knightHPChanged(hp: Double, maxHP: Double) {
+    func heroHPChanged(hp: Double, maxHP: Double) {
         self.hp = hp
         self.maxHP = maxHP
     }
 
-    func knightWasHit() {
+    func heroWasHit() {
         #if os(iOS)
         haptics.impactOccurred()
         #endif
     }
 
-    func goblinKilled(_ kind: MonsterKind) {
+    func enemyKilled(_ enemy: EnemyDefinition) {
         kills += 1
         enemiesLeft = max(0, enemiesLeft - 1)
+        if enemy.isBoss { store.profile.defeatedBosses.insert(enemy.id) }
+    }
+
+    func partCollected(_ part: WeaponPart) {
+        partsEarned.append(part)
+        store.profile.addPart(part.id)
+        store.save()
     }
 
     func mineralCollected(_ mineral: Mineral) {
@@ -120,7 +130,7 @@ final class BattleSession {
         if round >= totalRounds {
             levelClearBonus = store.profile.earnGold(level.clearBonus)
             goldEarned += levelClearBonus
-            store.profile.completeLevel(level.id, totalLevels: Worlds.forest.levels.count)
+            store.profile.completeLevel(level.id, totalLevels: Worlds.village.levels.count)
             phase = .victory
         } else {
             shopOffers = ShopGenerator.offers(level: level.id, using: &rng)
@@ -130,7 +140,7 @@ final class BattleSession {
         store.save()
     }
 
-    func knightDied() {
+    func heroDied() {
         joystick = .zero
         phase = .defeat
         store.save()
@@ -159,8 +169,8 @@ final class BattleSession {
             guard store.profile.gold >= offer.price, hp < maxHP else { return }
             store.profile.gold -= offer.price
             scene.heal(maxHP * fraction)
-        case .equipment:
-            guard (try? store.profile.buy(offer)) != nil else { return }
+        case .equipment, .part:
+            do { try store.profile.buy(offer) } catch { return }
         }
         shopOffers[index].sold = true
         store.save()

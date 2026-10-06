@@ -11,7 +11,7 @@ public struct SaveStore: Sendable {
     public static func defaultURL() -> URL {
         let base = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first
             ?? FileManager.default.temporaryDirectory
-        return base.appendingPathComponent("GameTest1", isDirectory: true).appendingPathComponent("save.json")
+        return base.appendingPathComponent("GameTest1", isDirectory: true).appendingPathComponent("save-v2.json")
     }
 
     public func load() -> PlayerProfile? {

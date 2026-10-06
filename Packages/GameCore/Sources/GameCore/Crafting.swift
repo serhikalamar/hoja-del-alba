@@ -41,80 +41,100 @@ public enum Roulette {
     }
 }
 
-/// Lo que el jugador elige en la forja: tipo de objeto + minerales.
-public struct CraftRecipe: Equatable, Sendable {
-    public static let minMinerals = 3
+/// Lo que el jugador pone en el ritual: hoja, guarda, empuñadura y minerales.
+public struct WeaponRecipe: Equatable, Sendable {
     public static let maxMinerals = 12
 
-    public var blueprint: Blueprint
+    public var headID: String
+    public var guardID: String
+    public var gripID: String
     public var minerals: [Mineral: Int]
 
-    public init(blueprint: Blueprint, minerals: [Mineral: Int] = [:]) {
-        self.blueprint = blueprint
+    public init(headID: String, guardID: String, gripID: String, minerals: [Mineral: Int] = [:]) {
+        self.headID = headID
+        self.guardID = guardID
+        self.gripID = gripID
         self.minerals = minerals.filter { $0.value > 0 }
     }
 
+    public var partIDs: [String] { [headID, guardID, gripID] }
+
+    public var parts: [WeaponPart] { partIDs.compactMap(PartCatalog.part) }
+
+    public var head: WeaponPart? { PartCatalog.part(headID) }
+
     public var totalMinerals: Int { minerals.values.reduce(0, +) }
 
-    public var goldCost: Int { 15 * blueprint.tier }
+    public var tier: Int { parts.map(\.tier).max() ?? 1 }
 
-    /// Suerte de la ruleta: los minerales raros la aumentan (máx. 1.5).
+    public var goldCost: Int { 10 * tier + 5 }
+
+    /// Suerte de la ruleta: minerales raros y piezas de jefe (máx. 1.5).
     public var luck: Double {
-        let raw = minerals.reduce(0.0) { acc, entry in
+        let mineralLuck = minerals.reduce(0.0) { acc, entry in
             acc + Double(entry.value * (entry.key.rarityTier - 1)) * 0.03
         }
-        return min(1.5, raw)
+        let specialLuck = Double(parts.filter(\.isSpecial).count) * 0.3
+        return min(1.5, mineralLuck + specialLuck)
     }
 
-    /// Bonificaciones de los minerales sin multiplicador.
     public var mineralBuffs: Stats {
         minerals.reduce(Stats.zero) { acc, entry in
             acc + entry.key.buffPerUnit * Double(entry.value)
         }
     }
 
-    public func stats(multiplier: Double) -> Stats {
-        (blueprint.baseStats + mineralBuffs) * multiplier
+    public var partStats: Stats {
+        parts.reduce(Stats.zero) { $0 + $1.stats }
     }
 
-    /// Mineral con más unidades (da nombre al objeto).
-    public var dominantMineral: Mineral? {
-        minerals.max { a, b in
-            a.value != b.value ? a.value < b.value : a.key.rarityTier < b.key.rarityTier
-        }?.key
+    public func stats(multiplier: Double) -> Stats {
+        (partStats + mineralBuffs) * multiplier
+    }
+
+    /// Habilidad secreta que despertará esta combinación.
+    public var ability: Ability? { AbilityBook.resolve(parts: parts) }
+
+    /// "Hacha de Obsidiana"
+    public var weaponName: String {
+        guard let head, let shape = head.weaponShape else { return "Arma" }
+        if head.isSpecial { return head.name }
+        return "\(shape.name) de \(head.materialName)"
     }
 
     public func makeItem(quality: CraftQuality) -> Item {
         let mineralValue = minerals.reduce(0) { $0 + $1.key.value * $1.value }
-        let value = Int((Double(blueprint.basePrice + mineralValue) * quality.multiplier).rounded())
-        let name = dominantMineral.map { "\(blueprint.name) de \($0.name)" } ?? blueprint.name
+        let partValue = parts.reduce(0) { $0 + ($1.isSpecial ? 300 : $1.price) }
+        let value = Int((Double(partValue + mineralValue) * quality.multiplier).rounded())
         return Item(
-            blueprint: blueprint,
-            name: name,
-            rarity: quality.rarity,
+            forgedName: weaponName,
+            partIDs: partIDs,
+            tier: tier,
             stats: stats(multiplier: quality.multiplier),
+            rarity: quality.rarity,
             qualityName: quality.name,
             qualityMultiplier: quality.multiplier,
             minerals: minerals,
-            value: value
+            value: value,
+            abilityID: ability?.id
         )
     }
 }
 
 public enum CraftError: Error, Equatable {
-    case notEnoughMinerals
+    case missingPart(PartSlot)
+    case wrongSlot(PartSlot)
     case tooManyMinerals
     case missingMineral(Mineral)
     case notEnoughGold
-    case blueprintLocked
 
     public var message: String {
         switch self {
-        case .notEnoughMinerals: "Necesitas al menos \(CraftRecipe.minMinerals) minerales"
-        case .tooManyMinerals: "Máximo \(CraftRecipe.maxMinerals) minerales"
+        case .missingPart(let slot): "Falta la pieza: \(slot.name.lowercased())"
+        case .wrongSlot(let slot): "Esa pieza no sirve como \(slot.name.lowercased())"
+        case .tooManyMinerals: "Máximo \(WeaponRecipe.maxMinerals) minerales"
         case .missingMineral(let m): "No tienes suficiente \(m.name)"
         case .notEnoughGold: "No tienes oro suficiente"
-        case .blueprintLocked: "Este objeto aún no está desbloqueado"
         }
     }
 }
@@ -122,5 +142,7 @@ public enum CraftError: Error, Equatable {
 public struct CraftResult: Equatable, Sendable {
     public let item: Item
     public let segmentIndex: Int
+    /// `true` si es la primera vez que se descubre esta habilidad.
+    public let discoveredNewAbility: Bool
     public var quality: CraftQuality { Roulette.segments[segmentIndex] }
 }
