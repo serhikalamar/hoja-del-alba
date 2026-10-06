@@ -1,4 +1,4 @@
-# game_test_1 (nombre provisional) · v0.2
+# game_test_1 (nombre provisional) · v0.3
 
 Juego incremental pixel-art para iPhone/iPad en **horizontal** (y Mac para probar), hecho con **SwiftUI + SpriteKit**.
 
@@ -15,13 +15,55 @@ para crear tu propia arma, que despierta una **habilidad secreta** según los el
 | XcodeGen (`brew install xcodegen`) | Generar `GameTest1.xcodeproj` desde `project.yml` |
 
 ```bash
-make test      # 23 tests de la lógica (GameCore)
+make test      # tests de la lógica (GameCore)
+make verify    # tests + flujo del pueblo + compilar Mac e iOS
 make open      # genera el proyecto y lo abre en Xcode
 make mac       # compila y abre la versión de Mac (WASD/flechas + ratón, Esc = pausa)
 ```
 
 Para usar el panel del simulador desde Claude Code hace falta seleccionar Xcode una vez:
 `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`.
+
+## Novedades de la v0.3: el pueblo explorable
+
+- **Jugar = explorar Valdehierro**: un pueblo entero en vista 3/4 con cámara que sigue al héroe.
+  Castillo con torres y reloj, plaza con fuente, barrios oeste y este, mercado con puestos y muralla sur.
+- **Zonas** (Puerta sur, Mercado, Barrio oeste, Barrio este, Plaza mayor, Patio del castillo): cada una con
+  sus enemigos y su dificultad. Los enemigos esperan hasta verte (y no ven a través de muros).
+  Al limpiar una zona se libera y da oro. Los enemigos muertos no reaparecen.
+- **Casas en las que se entra**: panadería, casa de la tejedora, del molinero, capilla, posada y alquimista.
+  Dentro hay monstruos (algunos jefes) y un **aldeano atrapado**: despeja la sala y habla con él para rescatarlo.
+  Cada aldeano da recompensa y después aparece en la plaza.
+- **Forja del enano**: su casa en el barrio este abre la tienda, el ritual y el inventario.
+  La forja mejora sus piezas al liberar zonas y rescatar aldeanos.
+- **El castillo** se abre al rescatar a los 6 aldeanos. En el salón del trono espera el Rey Goblin;
+  al vencerlo, la **princesa Aurora** te entrega la pieza legendaria **Hoja del Alba** (habilidad *Amanecer*).
+- Fuera de combate se recupera vida poco a poco. Si caes, vuelves a la puerta sur con todo lo conseguido.
+- **Arena de oleadas infinitas** (menú → ARENA): cada oleada es más difícil y no hay final.
+  Cada 2 oleadas se abre la forja del enano (tienda, ritual e inventario); entre las demás hay un respiro
+  corto y la siguiente empieza sola. Cada 5 oleadas sale un jefe y cambia el escenario
+  (calle, huertos, cementerio, murallas, molino, abadía, salón del trono…). Se guarda tu récord.
+- Mismo tamaño de pixel para todo (héroe, arma, enemigos y pueblo): el arma ya va a escala del cuerpo.
+
+### Cómo editar el mapa
+
+El pueblo y los interiores están en `src/GameCore/Sources/GameCore/Town.swift` como texto,
+un carácter por casilla de 24×24 pixeles:
+
+| Carácter | Casilla | | Carácter | Casilla (interiores) |
+|---|---|---|---|---|
+| `.` `,` | hierba / hierba con flores | | `X` | pared |
+| `#` | calle empedrada | | `_` `:` | suelo de madera / piedra |
+| `=` | losas de plaza | | `r` | alfombra |
+| `T` | árbol | | `s` `k` | estantería / horno |
+| `w` | muralla | | `t` `z` `o` | mesa / cama / barril |
+| `S` | escalinata | | `I` `Y` | columna / trono |
+| `l` `b` | farola / arbusto | | `D` | salida |
+| `m` `c` | puesto de mercado / cajas | | | |
+| `F` `~` `f` | fuente / agua / valla | | | |
+
+Los edificios, zonas, enemigos y aldeanos se colocan con coordenadas (columna, fila) en ese mismo fichero.
+Los tests comprueban que todo esté en casillas pisables y que las puertas den a algún sitio.
 
 ## Novedades de la v0.2
 
@@ -71,23 +113,23 @@ En el ritual se ven los elementos que llevas, pero la habilidad aparece como **?
 ## Estructura
 
 ```
-Packages/GameCore/      Lógica pura + tests: razas, piezas, habilidades, bestiario, niveles, tienda, ritual, perfil
-GameTest1/App/          Entrada y estado global (GameStore)
-GameTest1/Game/         SpriteKit: escena, nodos (héroe, enemigos, proyectiles, botín), teclado de Mac
-GameTest1/Views/        Menú, razas, mapa, HUD, forja del enano, ritual, revelación, editor, inventario
-GameTest1/Art/          Pixel-art en código: héroe, enemigos, piezas de arma, pueblo procedural
+src/GameTest1/   App iOS/Mac (SwiftUI + SpriteKit) y todo el pixel-art en código
+src/GameCore/    Lógica del juego + tests
+assets/          Diseño por áreas (GDD, mapas, personajes, arte, historia, balance)
+tools/Harness/   Banco de pruebas: simulación, balance, sprites, capturas
+.claude/agents/  Agentes de Claude Code que organizan cada área (ver docs/AGENTES.md)
 ```
 
-## Balance
+## Balance de la arena
 
-Ajustado simulando partidas completas sin pantalla con un bot que persigue enemigos y nunca compra.
-Arma forjada con el mejor material disponible y unos cuantos minerales comunes:
+Simulado con un bot que persigue enemigos y nunca compra (oleada en la que cae):
 
-| Calidad de la ruleta | Niveles que gana el bot |
+| Equipo | Oleada |
 |---|---|
-| Normal ×1.0 | 1-3 (a veces 4) |
-| Fina ×1.2 | 1-4, 9 |
-| Excelente ×1.5 | 1-7, 9-10 |
+| Inicial (espada de entrenamiento) | 5 (primer jefe) |
+| Arma T2 Normal | 9 |
+| Arma T3-T4 Fina | 12-13 |
+| Arma T5 Excelente | 18-20 |
+| Arma T6 Obra maestra | 25 |
 
-El nivel 8 (Abadía abandonada) es el muro: pide buenas piezas, piezas de jefe o una buena habilidad.
-Los valores están en `Enemy.swift`, `Level.swift` y `Parts.swift`.
+Los valores están en `Arena.swift` (oleadas), `Enemy.swift` y `Parts.swift`.
