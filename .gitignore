@@ -1,0 +1,15 @@
+# Xcode (el proyecto se genera con XcodeGen)
+*.xcodeproj
+*.xcworkspace
+xcuserdata/
+DerivedData/
+build/
+GameTest1/Info*.plist
+
+# Swift Package Manager
+.build/
+.swiftpm/
+Package.resolved
+
+# macOS
+.DS_Store

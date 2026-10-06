@@ -1,0 +1,97 @@
+# Proyecto generado con XcodeGen: `make project` (o `xcodegen generate`).
+# El .xcodeproj NO se versiona; se regenera desde este fichero.
+name: GameTest1
+
+options:
+  bundleIdPrefix: com.sergimartinez
+  deploymentTarget:
+    iOS: "17.0"
+    macOS: "14.0"
+  createIntermediateGroups: true
+
+packages:
+  GameCore:
+    path: Packages/GameCore
+
+settings:
+  base:
+    SWIFT_VERSION: "5.0"
+    MARKETING_VERSION: "0.1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  GameTest1:
+    type: application
+    platform: iOS
+    sources:
+      - path: GameTest1
+    dependencies:
+      - package: GameCore
+    info:
+      path: GameTest1/Info.plist
+      properties:
+        CFBundleDisplayName: Game Test 1
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        UILaunchScreen: {}
+        UIRequiresFullScreen: true
+        UIStatusBarHidden: true
+        UIApplicationSceneManifest:
+          UIApplicationSupportsMultipleScenes: false
+        # Juego solo en horizontal
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.sergimartinez.gametest1
+        TARGETED_DEVICE_FAMILY: "1,2"
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_STYLE: Automatic
+        ENABLE_PREVIEWS: YES
+
+  # Versión de escritorio para probar en el Mac (WASD + ratón)
+  GameTest1Mac:
+    type: application
+    platform: macOS
+    sources:
+      - path: GameTest1
+    dependencies:
+      - package: GameCore
+    info:
+      path: GameTest1/Info-macOS.plist
+      properties:
+        CFBundleDisplayName: Game Test 1
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        LSApplicationCategoryType: public.app-category.games
+        NSHighResolutionCapable: true
+    settings:
+      base:
+        PRODUCT_NAME: GameTest1
+        PRODUCT_BUNDLE_IDENTIFIER: com.sergimartinez.gametest1.mac
+        ASSETCATALOG_COMPILER_APPICON_NAME: ""
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+        CODE_SIGN_STYLE: Automatic
+        CODE_SIGN_IDENTITY: "-"
+        ENABLE_HARDENED_RUNTIME: NO
+
+schemes:
+  GameTest1:
+    build:
+      targets:
+        GameTest1: all
+    run:
+      config: Debug
+    archive:
+      config: Release
+  GameTest1Mac:
+    build:
+      targets:
+        GameTest1Mac: all
+    run:
+      config: Debug
