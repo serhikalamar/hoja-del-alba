@@ -9,12 +9,40 @@ convierte las ideas en diseño y reparte el trabajo entre los especialistas.
 ├── game-designer.md        Director: GDD, plan y reparto de tareas       → assets/design/
 ├── map-designer.md         Mapas, zonas, edificios, interiores           → assets/maps/
 ├── character-designer.md   Razas, enemigos, aldeanos, jefes              → assets/characters/
-├── pixel-artist.md         Pixel-art y animaciones                       → assets/art/
+├── pixel-artist.md         Personajes, objetos y sus animaciones         → assets/art/
+├── environment-artist.md   Escenarios: pueblo, interiores, mazmorra      → assets/art/
 ├── story-writer.md         Historia, lore y diálogos                     → assets/story/
 ├── balance-designer.md     Números, dificultad y economía                → assets/balance/
 ├── game-programmer.md      Mecánicas, pantallas, sistemas, bugs          → src/
-└── qa-tester.md            Pruebas y bugs (informa, no arregla)
+├── qa-tester.md            Pruebas y bugs (informa, no arregla)
+├── world-designer.md       Director del mundo: 6 continentes, niveles 1-60  → assets/world/
+├── continent-lead.md       Jefe de UN continente (se lanza uno por cada)    → assets/world/continentes/<id>/
+└── backend-engineer.md     Cuentas y guardado en la nube (Supabase)         → backend/, src/GameTest1/Account/
 ```
+
+## Importante: abrir Claude Code en esta carpeta
+
+Los agentes de `.claude/agents/` solo se cargan cuando Claude Code se abre **dentro de `game_test_1`**
+(en la app de escritorio: nueva sesión con la carpeta `game_test_1`). Si la sesión se abrió en otra carpeta,
+Claude puede usarlos igualmente pidiéndole a un agente general que siga las instrucciones del fichero del agente.
+
+## El mundo: un equipo por continente
+
+El modo historia crece a 6 continentes (niveles 1-60). Para que se pueda trabajar en paralelo:
+
+```
+world-designer  ── biblia del mundo, tabla de continentes, progresión 1-60, un brief por continente
+     │
+     ├── continent-lead (continente 1) ─┐  diseñan su continente en su carpeta (en paralelo)
+     ├── continent-lead (continente 2)  │  y escriben `encargos.md`: el trabajo listo para su "equipo"
+     └── …  (6)                        ─┘
+                     │
+   hilo principal lanza, por continente, a los especialistas con esos encargos:
+   map-designer · character-designer · story-writer · pixel-artist · environment-artist · balance-designer
+```
+
+Los agentes no pueden lanzar a otros agentes: cada lead deja sus encargos escritos y el hilo principal reparte.
+Así cada continente tiene su propio equipo sin pisarse (cada uno escribe en su carpeta y en sus ficheros).
 
 ## Cómo trabajan juntos
 
@@ -24,7 +52,7 @@ Tu idea ──► game-designer ──► plan en assets/design/tareas.md
           ┌───────────────┬───────┴───────┬────────────────┐
      map-designer   character-designer  story-writer   game-programmer    (en paralelo si no se pisan)
           └───────────────┴───────┬───────┴────────────────┘
-                            pixel-artist ──► balance-designer ──► qa-tester
+             pixel-artist + environment-artist ──► balance-designer ──► qa-tester
 ```
 
 1. **Peticiones grandes o ambiguas** («quiero un segundo mundo», «prepara la v0.4»): pide primero al
@@ -44,6 +72,7 @@ Tu idea ──► game-designer ──► plan en assets/design/tareas.md
 - «Usa el **map-designer** para pasar al juego el mapa que he dejado en `assets/maps/borradores/`.»
 - «**character-designer**: diseña un jefe nuevo para el molino, una araña gigante que lanza telarañas.»
 - «Que el **pixel-artist** dé a cada jefe una silueta propia, siguiendo `assets/art/referencias/`.»
+- «**environment-artist**: haz que la cripta de la arena dé más miedo: niebla, velas y telarañas.»
 - «**story-writer**: el héroe es un caballero exiliado que vuelve a su pueblo natal. Escribe la historia.»
 - «**balance-designer**: la arena se hace aburrida entre las oleadas 10 y 15.»
 - «Pasa el **qa-tester** antes de cerrar la versión.»
@@ -53,7 +82,7 @@ Tu idea ──► game-designer ──► plan en assets/design/tareas.md
 | Carpeta | Documentos |
 |---|---|
 | `assets/design/` | `GDD.md` (visión, pilares, sistemas, decisiones), `tareas.md` (tablero), `catalogo.md` (piezas y habilidades, generado) |
-| `assets/maps/` | `README.md` (formato y cómo preparar borradores), `valdehierro.md` (zonas y ruta), `borradores/` |
+| `assets/maps/` | `README.md` (formato y cómo preparar borradores), `valdehierro.md` (zonas y ruta), `mazmorra.md` (pisos de la arena), `borradores/` |
 | `assets/characters/` | `razas.md`, `enemigos.md`, `aldeanos.md` (generados), `conceptos.md` (ideas) |
 | `assets/art/` | `README.md` (guía de estilo), `referencias/` (tus imágenes de ejemplo) |
 | `assets/story/` | `historia.md` (biblia del mundo) |
@@ -68,7 +97,8 @@ Tu idea ──► game-designer ──► plan en assets/design/tareas.md
 make check-town   # flujo del pueblo
 make balance      # oleada de la arena en la que cae un bot con cada equipo
 make sprites      # hojas de sprites            ┐
-make maps         # mapas completos             ├→ tools/Harness/output/
+make maps         # mapas completos             │
+make dungeon      # pisos de la mazmorra        ├→ tools/Harness/output/
 make shots        # capturas en juego           ┘
 make fichas       # regenera las fichas de assets/ desde el código
 make verify       # tests + flujo del pueblo + compilar Mac e iOS

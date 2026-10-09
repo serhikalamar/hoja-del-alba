@@ -74,7 +74,7 @@ struct RitualRevealView: View {
                         .padding(6)
                         .background(Color(hex: 0x2A1640))
                         .overlay(Rectangle().strokeBorder(Color(hex: 0xC879F2), lineWidth: 2))
-                    } else {
+                    } else if item.slot == .weapon {
                         Text("Sin habilidad secreta")
                             .font(Theme.font(9, weight: .bold))
                             .foregroundStyle(Theme.textDim)
@@ -82,8 +82,10 @@ struct RitualRevealView: View {
                     HStack(spacing: 6) {
                         Button("EQUIPAR") { onFinish(.equip) }
                             .buttonStyle(.pixel(Theme.green, text: .black, size: 11))
-                        Button("✎ CREA TU ARMA") { onFinish(.draw) }
-                            .buttonStyle(.pixel(Color(hex: 0xC879F2), text: .black, size: 11))
+                        if item.slot == .weapon {
+                            Button("✎ CREA TU ARMA") { onFinish(.draw) }
+                                .buttonStyle(.pixel(Color(hex: 0xC879F2), text: .black, size: 11))
+                        }
                         Button("GUARDAR") { onFinish(.keep) }
                             .buttonStyle(.pixel(Theme.panelLight, size: 11))
                     }

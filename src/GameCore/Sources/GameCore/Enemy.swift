@@ -62,8 +62,11 @@ public struct MonsterStats: Equatable, Sendable {
 
     /// Minerales soltados al morir.
     public func rollDrops<G: RandomNumberGenerator>(using rng: inout G) -> [Mineral] {
-        (0..<dropRolls).compactMap { _ in
-            Double.random(in: 0..<1, using: &rng) < dropChance ? Mineral.roll(using: &rng) : nil
+        // Los jefes siempre sueltan algo, pero la mitad que antes; el resto, mucho menos (minerales escasos).
+        let rolls = dropChance >= 1 ? max(1, dropRolls / 2) : dropRolls
+        let chance = dropChance >= 1 ? 1 : dropChance * Mineral.dropRateMultiplier
+        return (0..<rolls).compactMap { _ in
+            Double.random(in: 0..<1, using: &rng) < chance ? Mineral.roll(using: &rng) : nil
         }
     }
 }
@@ -153,6 +156,9 @@ public enum Bestiary {
         e("armoredBoar", "Jabalí acorazado", 10, "boar", .charger, hp: 120, dmg: 20, speed: 75, cd: 2.4, radius: 18, scale: 1.3, drop: 0.9),
         e("goblinStandard", "Abanderado goblin", 10, "goblin", hp: 160, dmg: 14, speed: 40, cd: 1.6, radius: 18, scale: 1.4, drop: 1, rolls: 2),
         boss("goblinKing", "Rey Goblin", 10, "goblin", hp: 2600, dmg: 34, speed: 50, cd: 1.4, range: 14, radius: 34, scale: 2.4),
+        // Monstruos de continente (fuera de la arena: ver `Arena.originalEnemyIDs`)
+        // Valdemar · Orden del Eclipse: dispara una esfera de sombra lenta, algo más dañina que la del cultista.
+        e("eclipseAcolyte", "Acólito del Eclipse", 7, "human", .ranged, hp: 45, dmg: 13, speed: 50, cd: 2.4, range: 180, radius: 15, scale: 1.05, drop: 0.7),
     ]
 
     private static let byID: [String: EnemyDefinition] = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
@@ -163,5 +169,29 @@ public enum Bestiary {
 
     public static func introduced(at level: Int) -> [EnemyDefinition] {
         all.filter { $0.level == level }
+    }
+}
+
+// MARK: - Jefes de la historia (balance, B1)
+
+extension EnemyDefinition {
+    /// Vida y daño de los jefes en el modo historia (pueblo, campo y mazmorras de historia); la arena usa los números
+    /// base. Objetivos de `progresion.md` §7 medidos con `make historia`: jefe de zona 40-60 s, jefe final 60-120 s, y
+    /// que el bot con equipo de tier 1 bien hecho los pase (con algún susto).
+    public static let storyBossTuning: [String: (hp: Double, damage: Double)] = [
+        "ogre": (1.8, 0.8),
+        "alphaWolf": (1.5, 0.45),
+        "abbot": (2.0, 0.6),
+        "warlord": (1.0, 0.8),
+        "goblinKing": (0.95, 0.5),
+    ]
+
+    /// La definición que se usa en la historia (igual que la base salvo los jefes de `storyBossTuning`).
+    public var forStory: EnemyDefinition {
+        guard let t = Self.storyBossTuning[id] else { return self }
+        return EnemyDefinition(id: id, name: name, level: level, template: template, behavior: behavior,
+                               hp: hp * t.hp, damage: damage * t.damage, speed: speed, attackCooldown: attackCooldown,
+                               attackRange: attackRange, bodyRadius: bodyRadius, scale: scale, dropChance: dropChance,
+                               dropRolls: dropRolls, isBoss: isBoss, specialPartID: specialPartID)
     }
 }

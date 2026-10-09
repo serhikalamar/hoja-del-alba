@@ -59,7 +59,8 @@ public struct LevelDefinition: Identifiable, Equatable, Sendable {
     public var clearBonus: Int { 50 * id }
 }
 
-public struct World: Identifiable, Sendable {
+/// Mundo de niveles por oleadas (modo antiguo; se sigue usando para fondos). No confundir con `World` (continentes).
+public struct LevelWorld: Identifiable, Sendable {
     public let id: Int
     public let name: String
     public let levels: [LevelDefinition]
@@ -71,7 +72,7 @@ public struct World: Identifiable, Sendable {
 
 public enum Worlds {
     /// Mundo 1: el pueblo medieval de Valdehierro, tomado por los goblins.
-    public static let village: World = {
+    public static let village: LevelWorld = {
         let info: [(String, String, TimeOfDay)] = [
             ("Puerta del pueblo", "cobble", .day),
             ("Calle del mercado", "cobble", .day),
@@ -90,14 +91,16 @@ public enum Worlds {
             let waves = (1...rounds).map { makeWave(level: number, round: $0, totalRounds: rounds) }
             return LevelDefinition(id: number, name: entry.0, ground: entry.1, time: entry.2, waves: waves)
         }
-        return World(id: 1, name: "Pueblo de Valdehierro", levels: levels)
+        return LevelWorld(id: 1, name: "Pueblo de Valdehierro", levels: levels)
     }()
 
     /// Oleada determinista: la mitad de los enemigos son los nuevos del nivel, el resto de niveles anteriores.
     static func makeWave(level: Int, round: Int, totalRounds: Int) -> Wave {
         var rng = SeededGenerator(seed: UInt64(level * 1000 + round))
-        let fresh = Bestiary.introduced(at: level).filter { !$0.isBoss }
-        let older = Bestiary.all.filter { !$0.isBoss && $0.level < level && $0.level >= level - 3 }
+        // Solo los 50 originales (como la arena): los monstruos de continente no cambian estas oleadas.
+        let original = Arena.enemies.filter { !$0.isBoss }
+        let fresh = original.filter { $0.level == level }
+        let older = original.filter { $0.level < level && $0.level >= level - 3 }
         var candidates = fresh.map { ($0.id, 2.0) } + older.map { ($0.id, 1.0) }
         // En la primera ronda de cada nivel solo salen los enemigos más débiles del nivel.
         if round == 1 && level == 1 {

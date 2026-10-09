@@ -1,13 +1,27 @@
 import Foundation
 
-public enum EquipmentSlot: String, Codable, CaseIterable, Sendable {
-    case weapon, armor
+public enum EquipmentSlot: String, Codable, CaseIterable, Identifiable, Sendable {
+    case weapon, helmet, chest, gloves, boots
+
+    public var id: String { rawValue }
 
     public var name: String {
         switch self {
         case .weapon: "Arma"
-        case .armor: "Armadura"
+        case .helmet: "Casco"
+        case .chest: "Peto"
+        case .gloves: "Guantes"
+        case .boots: "Botas"
         }
+    }
+
+    /// Huecos de armadura (todo menos el arma).
+    public static let gear: [EquipmentSlot] = [.helmet, .chest, .gloves, .boots]
+
+    /// Las partidas antiguas tenían un único hueco "armor": pasa a ser el peto.
+    public init(from decoder: Decoder) throws {
+        let raw = try decoder.singleValueContainer().decode(String.self)
+        self = raw == "armor" ? .chest : (EquipmentSlot(rawValue: raw) ?? .chest)
     }
 }
 
@@ -89,6 +103,10 @@ public struct Item: Codable, Identifiable, Equatable, Sendable {
     public var abilityID: String?
     /// Dibujo hecho por el jugador en el editor de pixel-art.
     public var customSprite: CustomSprite?
+    /// Pieza de armadura forjada: estilo de diseño, material y tinte elegido por el jugador.
+    public var styleID: String?
+    public var materialID: String?
+    public var dye: Int?
 
     public init(
         id: UUID = UUID(),
@@ -168,17 +186,17 @@ public enum Catalog {
         Blueprint(id: "wood_sword", name: "Espada de entrenamiento", slot: .weapon, tier: 1, icon: "sword_wood",
                   baseStats: Stats(attack: 3), basePrice: 20),
         // Armaduras
-        Blueprint(id: "padded_tunic", name: "Túnica acolchada", slot: .armor, tier: 1, icon: "armor_tunic",
+        Blueprint(id: "padded_tunic", name: "Túnica acolchada", slot: .chest, tier: 1, icon: "armor_tunic",
                   baseStats: Stats(maxHP: 10, defense: 2), basePrice: 20),
-        Blueprint(id: "leather_armor", name: "Cota de cuero", slot: .armor, tier: 1, icon: "armor_leather",
+        Blueprint(id: "leather_armor", name: "Cota de cuero", slot: .chest, tier: 1, icon: "armor_leather",
                   baseStats: Stats(maxHP: 15, defense: 5), basePrice: 50),
-        Blueprint(id: "chainmail", name: "Cota de malla", slot: .armor, tier: 2, icon: "armor_chain",
+        Blueprint(id: "chainmail", name: "Cota de malla", slot: .chest, tier: 2, icon: "armor_chain",
                   baseStats: Stats(maxHP: 25, defense: 13, moveSpeed: -5), basePrice: 120),
-        Blueprint(id: "scale_armor", name: "Armadura de escamas", slot: .armor, tier: 3, icon: "armor_scale",
+        Blueprint(id: "scale_armor", name: "Armadura de escamas", slot: .chest, tier: 3, icon: "armor_scale",
                   baseStats: Stats(maxHP: 45, defense: 22, moveSpeed: -8), basePrice: 230),
-        Blueprint(id: "plate_armor", name: "Armadura de placas", slot: .armor, tier: 4, icon: "armor_plate",
+        Blueprint(id: "plate_armor", name: "Armadura de placas", slot: .chest, tier: 4, icon: "armor_plate",
                   baseStats: Stats(maxHP: 80, defense: 32, moveSpeed: -15), basePrice: 430),
-        Blueprint(id: "elven_mail", name: "Malla élfica", slot: .armor, tier: 4, icon: "armor_elven",
+        Blueprint(id: "elven_mail", name: "Malla élfica", slot: .chest, tier: 4, icon: "armor_elven",
                   baseStats: Stats(maxHP: 50, defense: 22, moveSpeed: 10, regen: 1), basePrice: 440),
     ]
 
@@ -186,7 +204,7 @@ public enum Catalog {
         blueprints.first { $0.id == id }
     }
 
-    public static var armors: [Blueprint] { blueprints.filter { $0.slot == .armor } }
+    public static var armors: [Blueprint] { blueprints.filter { $0.slot == .chest } }
 
     /// Nivel máximo de armadura disponible según el nivel de juego: 1-2 → T1, 3-5 → T2, 6-8 → T3, 9-10 → T4.
     public static func maxTier(forLevel level: Int) -> Int {
@@ -216,9 +234,9 @@ extension Rarity {
         switch (self, blueprint.slot) {
         case (.common, _): ""
         case (.rare, .weapon): "afilada"
-        case (.rare, .armor): "reforzada"
+        case (.rare, _): "reforzada"
         case (.epic, .weapon): "del campeón"
-        case (.epic, .armor): "del guardián"
+        case (.epic, _): "del guardián"
         case (.legendary, _): "legendaria"
         }
     }

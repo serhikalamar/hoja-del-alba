@@ -10,7 +10,7 @@ Responsable: `pixel-artist`. Referencias del usuario en `referencias/`:
   Luz desde arriba a la izquierda.
 - Contorno exterior oscuro `#1A1C2C` (automático con `.outlined()`); detalles interiores dibujados a mano.
 - **Un único tamaño de pixel** para todo el mundo (`PX` = 2 puntos): personajes, armas, enemigos y escenario.
-- Casillas de 24×24 pixeles en el pueblo; héroe de 34×40; enemigos de ~16-22 pixeles de alto.
+- Casillas de 24×24 pixeles en el pueblo; héroe de 42×50 (44×52 con contorno); enemigos de ~20-25 pixeles de alto (6 frames: 4 de paso, preparación y golpe).
 - Paleta base Sweetie 16 (`Pal` en `Sprites.swift`), ampliable con tonos por material.
 - Cada raza y cada jefe deben distinguirse por la silueta, no solo por el color.
 

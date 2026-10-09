@@ -36,13 +36,17 @@ public struct ShopOffer: Identifiable, Equatable, Sendable {
 public enum ShopGenerator {
     public static let partOfferCount = 5
 
-    public static func offers<G: RandomNumberGenerator>(level: Int, using rng: inout G) -> [ShopOffer] {
-        let parts = PartCatalog.shopParts(level: level)
+    /// Ofertas de la forja. `maxTier` = tier de material de la historia (`PlayerProfile.storyForgeTier`);
+    /// nil = el que toque por `level` (arena).
+    public static func offers<G: RandomNumberGenerator>(level: Int, maxTier: Int? = nil, using rng: inout G) -> [ShopOffer] {
+        let tierCap = maxTier ?? PartCatalog.maxShopTier(forLevel: level)
+        let parts = PartCatalog.shopParts(level: maxTier == nil ? level : 10).filter { $0.tier <= tierCap }
         let slotWeights: [(PartSlot, Double)] = [(.head, 4), (.hilt, 3), (.grip, 3)]
         var offers: [ShopOffer] = []
         var used = Set<String>()
         while offers.count < partOfferCount {
-            let slot = WeightedPicker.pick(slotWeights, using: &rng)
+            // Siempre hay al menos una hoja, una guarda y una empuñadura (el ritual nunca se queda cojo); el resto, al azar.
+            let slot = offers.count < PartSlot.allCases.count ? PartSlot.allCases[offers.count] : WeightedPicker.pick(slotWeights, using: &rng)
             // Favorece los materiales de tier alto disponibles: peso = tier^2.
             let pool = parts.filter { $0.slot == slot && !used.contains($0.id) }
             guard !pool.isEmpty else { continue }
@@ -51,10 +55,10 @@ public enum ShopGenerator {
             offers.append(ShopOffer(kind: .part(part), price: part.price))
         }
 
-        let armors = Catalog.armors.filter { $0.tier <= Catalog.maxTier(forLevel: level) }
-        if let blueprint = armors.randomElement(using: &rng) {
-            let rarity = WeightedPicker.pick(Rarity.allCases.map { ($0, $0.shopWeight) }, using: &rng)
-            let item = Catalog.makeShopItem(blueprint, rarity: rarity, level: level)
+        // Una pieza de armadura (casco, peto, guantes o botas) del material disponible.
+        if let style = ArmorCatalog.styles.randomElement(using: &rng),
+           let dye = ArmorCatalog.dyes.randomElement(using: &rng) {
+            let item = ArmorCatalog.makeShopItem(style, tier: tierCap, dye: dye)
             offers.append(ShopOffer(kind: .equipment(item), price: item.value))
         }
         offers.append(ShopOffer(kind: .potion(healFraction: 0.5), price: 15 + 5 * level))

@@ -37,9 +37,21 @@ public enum Mineral: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
 
-    /// 1 (común) ... 10 (legendario).
+    /// 1 (común) ... 10 (legendario). Dato explícito por mineral (no depende del orden de la lista: al añadir
+    /// minerales de otros continentes, estos no cambian).
     public var rarityTier: Int {
-        Mineral.allCases.firstIndex(of: self)! + 1
+        switch self {
+        case .copper: 1
+        case .iron: 2
+        case .silver: 3
+        case .gold: 4
+        case .emerald: 5
+        case .sapphire: 6
+        case .ruby: 7
+        case .amethyst: 8
+        case .diamond: 9
+        case .mithril: 10
+        }
     }
 
     /// Bonificación que aporta cada unidad al forjar.
@@ -60,8 +72,22 @@ public enum Mineral: String, CaseIterable, Codable, Identifiable, Sendable {
 
     /// Valor en oro de cada unidad (afecta al precio de venta de lo forjado).
     public var value: Int {
-        [2, 3, 5, 8, 12, 16, 24, 32, 50, 80][rarityTier - 1]
+        switch self {
+        case .copper: 2
+        case .iron: 3
+        case .silver: 5
+        case .gold: 8
+        case .emerald: 12
+        case .sapphire: 16
+        case .ruby: 24
+        case .amethyst: 32
+        case .diamond: 50
+        case .mithril: 80
+        }
     }
+
+    /// Los minerales son escasos: multiplica la probabilidad de soltar de cada enemigo.
+    public static let dropRateMultiplier = 0.15
 
     /// Tira el dado de minerales según `dropPercent`.
     public static func roll<G: RandomNumberGenerator>(using rng: inout G) -> Mineral {

@@ -12,12 +12,14 @@ struct InventoryView: View {
     }
 
     @Environment(GameStore.self) private var store
+    /// En la tienda se puede vender y dibujar el arma; en la pausa solo revisar y cambiar de equipo.
+    var allowsTrading = true
     @State private var tab: Tab = .weapons
     @State private var editingItemID: UUID?
 
     var body: some View {
         HStack(alignment: .top, spacing: 12) {
-            characterPanel.frame(width: 190)
+            characterPanel.frame(width: 210)
             VStack(alignment: .leading, spacing: 8) {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 6) {
@@ -30,8 +32,8 @@ struct InventoryView: View {
                 }
                 ScrollView {
                     switch tab {
-                    case .weapons: itemList(.weapon)
-                    case .armor: itemList(.armor)
+                    case .weapons: itemList([.weapon])
+                    case .armor: itemList(EquipmentSlot.gear)
                     case .parts: partsList
                     case .minerals: mineralsList
                     case .abilities: abilitiesList
@@ -52,14 +54,16 @@ struct InventoryView: View {
         let profile = store.profile
         let stats = profile.totalStats
         return VStack(alignment: .leading, spacing: 5) {
-            HStack(alignment: .bottom, spacing: 4) {
-                PixelImage(image: Art.heroImage(armorIcon: profile.equippedArmor?.icon ?? "armor_tunic", race: profile.race), scale: 3.4)
-                if let weapon = profile.equippedWeapon {
-                    PixelImage(image: Art.itemImage(weapon), scale: weapon.partIDs != nil ? 2.2 : 3)
+            HStack(alignment: .center, spacing: 6) {
+                HeroPreview(look: HeroLook(profile: profile), weapon: profile.equippedWeapon, scale: 2.2)
+                VStack(spacing: 4) {
+                    ForEach(EquipmentSlot.allCases) { slot in
+                        EquipmentSlotCell(slot: slot)
+                    }
                 }
             }
             .frame(maxWidth: .infinity)
-            Text(profile.race.name.uppercased())
+            Text("\((profile.name ?? "Héroe").uppercased()) · NV \(profile.characterLevel) · \(profile.race.name.uppercased())")
                 .font(Theme.font(12, weight: .black))
                 .foregroundStyle(Theme.gold)
             if let ability = profile.activeAbility {
@@ -84,24 +88,24 @@ struct InventoryView: View {
 
     // MARK: - Objetos
 
-    private func itemList(_ slot: EquipmentSlot) -> some View {
+    private func itemList(_ slots: [EquipmentSlot]) -> some View {
         let profile = store.profile
         let items = profile.inventory
-            .filter { $0.slot == slot }
+            .filter { slots.contains($0.slot) }
             .sorted { a, b in
                 let ae = profile.isEquipped(a), be = profile.isEquipped(b)
                 if ae != be { return ae }
                 return a.powerScore > b.powerScore
             }
         return VStack(spacing: 6) {
-            if slot == .weapon && items.count <= 1 {
+            if slots == [.weapon] && items.count <= 1 {
                 Text("Forja armas nuevas en el ritual combinando piezas.")
                     .font(Theme.font(10, weight: .bold))
                     .foregroundStyle(Theme.textDim)
                     .frame(maxWidth: .infinity, alignment: .leading)
             }
             ForEach(items) { item in
-                ItemRow(item: item) { editingItemID = item.id }
+                ItemRow(item: item, allowsTrading: allowsTrading) { editingItemID = item.id }
             }
         }
         .padding(.trailing, 6)
@@ -198,7 +202,9 @@ struct InventoryView: View {
 private struct ItemRow: View {
     @Environment(GameStore.self) private var store
     let item: Item
+    let allowsTrading: Bool
     let onDraw: () -> Void
+    @State private var showDyes = false
 
     var body: some View {
         let equipped = store.profile.isEquipped(item)
@@ -225,16 +231,32 @@ private struct ItemRow: View {
             }
             Spacer(minLength: 4)
             CompareBadge(item: item, equipped: store.profile.equipped(item.slot))
-            if item.partIDs != nil {
+            if allowsTrading, item.partIDs != nil {
                 Button("✎") { onDraw() }
                     .buttonStyle(.pixel(Color(hex: 0xC879F2), text: .black, size: 11))
             }
+            if item.styleID != nil {
+                Button("🎨") { showDyes.toggle() }
+                    .buttonStyle(.pixel(Theme.panelLight, size: 11))
+                    .popover(isPresented: $showDyes) {
+                        VStack(alignment: .leading, spacing: 6) {
+                            Text("TEÑIR").font(Theme.font(11, weight: .black)).foregroundStyle(Theme.gold)
+                            DyePicker(selection: Binding(get: { UInt32(item.dye ?? 0) }, set: { store.setDye($0, for: item) }))
+                        }
+                        .padding(10)
+                        .background(Theme.panel)
+                    }
+            }
             if equipped {
+                if item.slot != .weapon {
+                    Button("QUITAR") { store.unequip(item.slot) }
+                        .buttonStyle(.pixel(Theme.panelLight, size: 9))
+                }
                 Text("EQUIPADO").font(Theme.font(9)).foregroundStyle(Theme.green)
             } else {
                 Button("EQUIPAR") { store.equip(item) }
-                    .buttonStyle(.pixel(Theme.blue, text: .black, size: 9))
-                Button {
+                    .buttonStyle(.pixel(Theme.blue, text: .black, size: 11, minHeight: 36))
+                if allowsTrading { Button {
                     store.sell(item)
                 } label: {
                     HStack(spacing: 3) {
@@ -242,11 +264,32 @@ private struct ItemRow: View {
                         Text("\(item.sellPrice)")
                     }
                 }
-                .buttonStyle(.pixel(Theme.panelLight, size: 9))
+                .buttonStyle(.pixel(Theme.panelLight, size: 11, minHeight: 36)) }
             }
         }
         .padding(6)
         .background(equipped ? Theme.panelLight : Theme.panel)
         .overlay(Rectangle().strokeBorder(equipped ? Theme.green : Color.black, lineWidth: 2))
+    }
+}
+
+/// Hueco de equipo del personaje (arma, casco, peto, guantes, botas).
+private struct EquipmentSlotCell: View {
+    @Environment(GameStore.self) private var store
+    let slot: EquipmentSlot
+
+    var body: some View {
+        let item = store.profile.equipped(slot)
+        ZStack {
+            Rectangle().fill(Color.black.opacity(0.45))
+            if let item {
+                PixelImage(image: Art.itemImage(item), scale: item.partIDs != nil ? 1 : 1.8)
+            } else {
+                Text(slot.name.prefix(1)).font(Theme.font(12, weight: .black)).foregroundStyle(Theme.textDim.opacity(0.5))
+            }
+        }
+        .frame(width: 30, height: 30)
+        .overlay(Rectangle().strokeBorder(item.map { Theme.rarityColor($0.rarity) } ?? Theme.border.opacity(0.4), lineWidth: 2))
+        .help(item?.name ?? "\(slot.name): vacío")
     }
 }

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Plantilla de configuración de las cuentas (Supabase). Ver backend/README.md.
+
+  1. Cópiala a  src/GameTest1/Resources/SupabaseConfig.plist  (ese fichero NO se sube a git).
+  2. Rellena la URL del proyecto y la clave PÚBLICA (anon o sb_publishable_...).
+     NUNCA pongas aquí la clave service_role ni una sb_secret_...: la app las rechaza.
+  3. Ejecuta `make project` para que Xcode incluya el fichero en la app.
+
+  Sin este fichero (o con los valores de ejemplo) el juego funciona en local, sin cuentas.
+-->
+<plist version="1.0">
+<dict>
+	<key>SUPABASE_URL</key>
+	<string>https://TU-PROYECTO.supabase.co</string>
+	<key>SUPABASE_CLAVE_PUBLICA</key>
+	<string>PEGA-AQUI-LA-CLAVE-PUBLICA</string>
+	<!-- Email sintético de cada jugador: {usuario} se sustituye por su nombre de usuario. Ver backend/README.md. -->
+	<key>EMAIL_PLANTILLA</key>
+	<string>{usuario}@jugadores.valdehierro.app</string>
+</dict>
+</plist>

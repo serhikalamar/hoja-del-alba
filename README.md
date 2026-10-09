@@ -1,4 +1,4 @@
-# game_test_1 (nombre provisional) · v0.3
+# game_test_1 (nombre provisional) · v0.6
 
 Juego incremental pixel-art para iPhone/iPad en **horizontal** (y Mac para probar), hecho con **SwiftUI + SpriteKit**.
 
@@ -23,6 +23,51 @@ make mac       # compila y abre la versión de Mac (WASD/flechas + ratón, Esc =
 
 Para usar el panel del simulador desde Claude Code hace falta seleccionar Xcode una vez:
 `sudo xcode-select -s /Applications/Xcode.app/Contents/Developer`.
+
+## Novedades de la v0.6: niveles, arena roguelike y el continente de Valdemar
+
+- **Niveles 1-60** con experiencia por matar (más si el enemigo es de más nivel) y estadísticas por nivel. La
+  diferencia de nivel cambia el daño (×0,4 a ×1,5). Minerales mucho más escasos.
+- **Arena roguelike**: cada partida empieza de cero (nivel 1, 50 de oro, sin equipo) y solo se guarda el récord.
+  Los enemigos suben de nivel con las oleadas y desde la 20 hay un muro: sin mejorar el equipo se hace cuesta arriba.
+- **Mundo de Ardenia**: 6 continentes diseñados (`assets/world/`), cada uno con su historia, zonas, monstruos,
+  minerales y piezas. El primero, **Valdemar** (niveles 1-10), ya se juega:
+  - 5 áreas de campo (Huertos, Robleda, Abadía de Valsombra, Colinas del Pedregal, Paso del Norte) con hogueras,
+    monstruos que reaparecen y jefes; viajes entre áreas, salidas bloqueadas por la historia.
+  - 11 misiones con «!»/«?», diario y mapa del continente en la pausa; el Capitán Vela, la carta de «— M.».
+  - Mazmorras de historia (la Cripta del Abad Morcar y los Calabozos) con oleadas fijas y diálogo del jefe.
+  - Escenarios nuevos (trigales quemados, bosque, cementerio, colinas, montaña) y el Acólito del Eclipse.
+  - Balance medido con simulación (`make historia`): nivel ~6 al liberar el pueblo, ~10 al terminar.
+- **Cuentas** (preparado): usuario y contraseña con Supabase para guardar los personajes en la nube
+  (ver `backend/README.md`; sin configurar, el juego funciona igual en local).
+
+## Novedades de la v0.5: la mazmorra y los escenarios
+
+- **Arena = mazmorra explorable** de unas 2×2 pantallas con cámara que sigue al héroe. Los monstruos salen
+  por puertas y rejillas que no ves, rodean pilares y paredes para llegar a ti y el jefe entra por su gran puerta.
+- **5 pisos** (uno nuevo cada 5 oleadas): calabozos, cripta de los reyes, cloacas inundadas, mina de cristal y
+  forja de lava, cada uno con su mapa, su decoración, luces de antorchas y líquido animado.
+- **Pueblo redibujado**: tejados, entramados, carteles de oficio, castillo con torres y reloj, árboles,
+  interiores amueblados por oficio; luces que parpadean, humo en las chimeneas y agua en la fuente.
+- Nuevo agente `environment-artist` (escenarios). Ver los pisos: `make dungeon`.
+- **Sin menú intermedio**: desde la selección de personaje se elige **JUGAR** (historia) o **ARENA**.
+- **Inventario en la pausa** (revisar y cambiar equipo, sin vender ni forjar).
+- **Nueva forja del enano** (pueblo y arena): el herrero, grande y animado, te mira desde el mostrador con la
+  fragua encendida detrás; pestañas grandes TIENDA / RITUAL / ARMERÍA / VENDER y cartas con botones cómodos para el dedo.
+- Los diálogos del modo historia ocupan solo el texto, abajo; aldeanos a la misma escala que el héroe.
+
+## Novedades de la v0.4: personajes y armadura
+
+- **Inicio estilo MMO**: pantalla de **selección de personaje** (héroe sobre un pedestal ante el castillo,
+  lista de hasta 8 personajes, «ENTRAR EN EL MUNDO», borrar) y de **creación** (raza con estadísticas,
+  peinado, color de pelo, piel y ojos, **nombre** propio). La partida anterior pasa a ser el primer personaje.
+- **Casco, peto, guantes y botas**: 18 diseños de metal, cuero o tela, 6 materiales por tipo y 12 tintes.
+  Se forjan en la **armería** del enano (con minerales y ruleta) y se ven puestos en el personaje.
+  En el inventario puedes quitarlos y cambiarles el tinte.
+- **Héroe redibujado**: silueta propia por raza (enano ancho con barba, elfo esbelto, hombre lobo con hocico
+  y cola), **carrera de 6 frames** con brazos contrarios, rebote y pelo al viento, respiración y parpadeo.
+- **Enemigos y aldeanos redibujados**: más detalle, paso de 4 frames, preparación y golpe claros;
+  cada jefe con diseño propio.
 
 ## Novedades de la v0.3: el pueblo explorable
 

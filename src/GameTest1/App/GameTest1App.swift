@@ -3,12 +3,19 @@ import SwiftUI
 @main
 struct GameTest1App: App {
     @State private var store = GameStore()
+    /// Cuenta y guardado en la nube (sin configuración de Supabase, no hace nada).
+    @State private var account = AccountManager()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
         WindowGroup {
             RootView()
                 .environment(store)
+                .environment(account)
+                .onAppear { account.attach(to: store) }
+            #if DEBUG
+                .onAppear { DebugLaunch.apply(to: store) }
+            #endif
                 .preferredColorScheme(.dark)
             #if os(iOS)
                 .statusBarHidden()
@@ -22,6 +29,7 @@ struct GameTest1App: App {
         #endif
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { store.appWentToBackground() }
+            if phase == .active { account.scheduleSync(after: 1) }
         }
     }
 }
@@ -33,8 +41,6 @@ struct RootView: View {
         ZStack {
             Theme.background.ignoresSafeArea()
             switch store.screen {
-            case .menu:
-                MainMenuView()
             case .town:
                 if let explore = store.explore {
                     ExploreView(session: explore)
@@ -45,12 +51,10 @@ struct RootView: View {
                     BattleView(session: battle)
                         .id(ObjectIdentifier(battle))
                 }
-            case .forge:
-                RitualForgeView(showsBackButton: true)
-            case .inventory:
-                ScreenFrame(title: "INVENTARIO") { InventoryView() }
-            case .race:
-                RaceSelectView()
+            case .characterSelect:
+                CharacterSelectView()
+            case .characterCreate:
+                CharacterCreateView()
             }
         }
     }

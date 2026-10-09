@@ -25,14 +25,15 @@ Eres el director de diseño de game_test_1. Lee primero `CLAUDE.md`, `assets/des
 |---|---|---|
 | `map-designer` | Mapas, zonas, edificios, interiores, rutas | `maps/` |
 | `character-designer` | Razas, enemigos, aldeanos, jefes (concepto + datos) | `characters/` |
-| `pixel-artist` | Todo el arte en pixel y animaciones | `art/` |
+| `pixel-artist` | Personajes, enemigos, armas, iconos y sus animaciones | `art/` |
+| `environment-artist` | Escenarios: pueblo, interiores, mazmorra; luces y ambiente | `art/` |
 | `story-writer` | Historia, lore, diálogos, nombres | `story/` |
 | `balance-designer` | Números, dificultad, economía | `balance/` |
 | `game-programmer` | Mecánicas, pantallas, sistemas, bugs | — (`src/`) |
 | `qa-tester` | Probar y encontrar bugs | — |
 
 Orden habitual: diseño (tú) → contenido (`map-designer`, `character-designer`, `story-writer`) y sistemas
-(`game-programmer`) → arte (`pixel-artist`) → números (`balance-designer`) → pruebas (`qa-tester`).
+(`game-programmer`) → arte (`pixel-artist`, `environment-artist`) → números (`balance-designer`) → pruebas (`qa-tester`).
 Marca qué tareas pueden ir **en paralelo** (no tocan los mismos ficheros).
 
 ## Formato de la respuesta

@@ -198,6 +198,18 @@ public struct PartMaterial: Identifiable, Hashable, Sendable {
     /// Multiplicador de estadísticas por tier.
     public var power: Double { [1.0, 1.6, 2.4, 3.3, 4.4, 5.6][tier - 1] }
 
+    /// Estadísticas de una pieza (o armadura) de este material. El material multiplica la vida, el ataque,
+    /// la defensa y la regeneración; la velocidad, el alcance y los porcentajes crecen mucho menos
+    /// (antes una daga de mithril atacaba +2 veces por segundo y un martillo de glacita no podía atacar).
+    public func scale(_ base: Stats) -> Stats {
+        var s = base * power
+        let soft = 1 + (power - 1) * 0.2
+        for kind: StatKind in [.attackSpeed, .range, .moveSpeed, .critChance, .critMultiplier, .lifesteal, .goldBonus] {
+            s[kind] = base[kind] * soft
+        }
+        return s
+    }
+
     public static let metals: [PartMaterial] = [
         PartMaterial(id: "copper", name: "Cobre", tier: 1, element: .storm, palette: [0xF0A070, 0xC8693C, 0x7A3A1E]),
         PartMaterial(id: "iron", name: "Hierro", tier: 2, element: .earth, palette: [0xC8C8D0, 0x8A8A96, 0x4A4A56]),
@@ -253,7 +265,7 @@ public enum PartCatalog {
                 shape: shape,
                 materialName: material.name,
                 tier: material.tier,
-                stats: base * material.power,
+                stats: material.scale(base),
                 elements: elements,
                 palette: material.palette,
                 price: Int((slotPrice[slot]! * pow(material.power, 1.3)).rounded()),
@@ -301,9 +313,10 @@ public enum PartCatalog {
                 Stats(attack: 75, attackSpeed: -0.1, range: 14, critMultiplier: 0.3), [.blood, .storm], [0xFF8070, 0xA02020, 0x380808], "carnage"),
         special("boss.goblinKing", "Corona del Rey Goblin", .hilt, GuardShape.crown.rawValue, 6,
                 Stats(attack: 18, attackSpeed: 0.2, critChance: 0.1, goldBonus: 0.3), [.arcane, .holy, .storm], [0xFFF0A0, 0xFFC830, 0xA06A00], "royal_decree"),
-        // Pieza legendaria: la entrega la princesa al ser rescatada.
-        special("legend.dawn", "Hoja del Alba", .head, WeaponShape.greatsword.rawValue, 6,
-                Stats(attack: 95, attackSpeed: 0.1, range: 16, critChance: 0.1, critMultiplier: 0.4), [.holy, .storm, .fire],
+        // Pieza legendaria: la entrega la princesa al ser rescatada (solo en la historia). Hoja del Alba (I): a la altura
+        // del tier 2 (`progresion.md` §6), ≈1,3× un mandoble de hierro (ATQ 27). Balance B1; antes, tier 6 con ATQ 95.
+        special("legend.dawn", "Hoja del Alba", .head, WeaponShape.greatsword.rawValue, 2,
+                Stats(attack: 36, attackSpeed: 0.06, range: 10, critChance: 0.06, critMultiplier: 0.25), [.holy, .storm, .fire],
                 [0xFFFCE8, 0xFFD870, 0xC07A20], "dawn"),
     ]
 
@@ -313,7 +326,46 @@ public enum PartCatalog {
                    elements: elements, palette: palette, price: 0, isSpecial: true, abilityID: ability)
     }
 
-    public static let all: [WeaponPart] = normalParts + specialParts
+    public static let all: [WeaponPart] = normalParts + specialParts + storyBossParts
+
+    // MARK: Piezas de jefe de la historia (balance, B1)
+    //
+    // Los jefes de la arena sueltan las piezas de `specialParts` (tier 3-6, pensadas para la escalera de la arena). En
+    // la historia de Valdemar (tier 1) eso rompía el ritmo: el Martillo del Herrero daba ATQ 40 a nivel 4. Allí sueltan
+    // una copia propia del continente (`boss.<jefe>.valdemar`): misma forma, dibujo y habilidad, tier 1 y estadísticas
+    // ≈1,5× una pieza de tier 1 del mismo hueco (1,6× los jefes de nivel 7-8, 1,75× los de 9-10; `piezas.md` §2).
+
+    /// Sufijo de las piezas de jefe de Valdemar.
+    public static let valdemarSuffix = ".valdemar"
+
+    /// Cuánto vale la pieza del jefe respecto a una de tier 1 (según el nivel del jefe en el bestiario).
+    static func storyPower(bossLevel: Int) -> Double {
+        bossLevel >= 9 ? 1.75 : (bossLevel >= 7 ? 1.6 : 1.5)
+    }
+
+    /// Copias de Valdemar de las piezas de jefe (`boss.*`).
+    public static let storyBossParts: [WeaponPart] = specialParts.filter { $0.id.hasPrefix("boss.") }.map { part in
+        let bossID = String(part.id.dropFirst("boss.".count))
+        let target = storyPower(bossLevel: Bestiary.enemy(bossID)?.level ?? 5)
+        let power = [1.0, 1.6, 2.4, 3.3, 4.4, 5.6][max(1, min(6, part.tier)) - 1]
+        let soft = 1 + (power - 1) * 0.2, targetSoft = 1 + (target - 1) * 0.2
+        var stats = part.stats
+        for kind in StatKind.allCases {
+            let flat: Set<StatKind> = [.maxHP, .attack, .defense, .regen]
+            let factor = flat.contains(kind) ? target / power : targetSoft / soft
+            stats[kind] = (part.stats[kind] * factor * 100).rounded() / 100
+        }
+        return WeaponPart(id: part.id + valdemarSuffix, name: part.name, slot: part.slot, shape: part.shape,
+                          materialName: part.materialName, tier: 1, stats: stats, elements: part.elements,
+                          palette: part.palette, price: 0, isSpecial: true, abilityID: part.abilityID)
+    }
+
+    /// Pieza que suelta un jefe: la de la arena o, en un área de un continente, la copia de ese continente.
+    public static func bossPartID(for enemy: EnemyDefinition, continent: Continent?) -> String? {
+        guard let id = enemy.specialPartID else { return nil }
+        guard continent?.id == World.valdemarID, part(id + valdemarSuffix) != nil else { return id }
+        return id + valdemarSuffix
+    }
 
     private static let byID: [String: WeaponPart] = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
 

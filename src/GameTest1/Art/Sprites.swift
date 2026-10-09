@@ -309,17 +309,72 @@ enum Sprites {
         "KRK...KRK",
         "KK.....KK",
     ], palette: ["K": Pal.outline, "R": 0x2A7A3A, "Y": Pal.yellow])
+
+    // MARK: - Marcas de misión sobre los NPC
+
+    /// Oro de las marcas: brillo blanco, claro, medio, oscuro y sombra (luz arriba a la izquierda).
+    private static let markerPalette: [Character: UInt32] = [
+        "W": 0xFFFFFF, "h": 0xFFF6B8, "l": 0xFFE45C, "m": 0xFFCD45, "d": 0xE09A1E, "p": 0xA0600E,
+    ]
+
+    /// "!" (tiene una misión) y "?" (hay algo que entregarle). Ya contorneadas.
+    static func questMarker(_ marker: QuestMarker) -> PixelGrid {
+        let rows: [String]
+        switch marker {
+        case .offer:
+            rows = [
+                ".hllm.",
+                "hWllmd",
+                "hllmmd",
+                "hllmmd",
+                ".llmd.",
+                ".llmd.",
+                ".lmmd.",
+                "..mdp.",
+                "..dp..",
+                "......",
+                "..hl..",
+                ".hlmd.",
+                ".lmdp.",
+                "..dp..",
+            ]
+        case .turnIn:
+            rows = [
+                "..hllm..",
+                ".hWllmmd",
+                "hll..lmd",
+                "hld..lmd",
+                ".p...lmd",
+                "....lmmd",
+                "...llmd.",
+                "..llmd..",
+                "..lmd...",
+                "..mdp...",
+                "........",
+                "..hlm...",
+                "..lmd...",
+                "..mdp...",
+            ]
+        }
+        return PixelGrid(PixelSprite(rows: rows, palette: markerPalette)).outlined()
+    }
 }
 
 // MARK: - Accesos con caché
 
 enum Art {
-    static func heroTexture(_ pose: HeroArt.Pose, armorIcon: String, race: Race) -> SKTexture {
-        ArtCache.texture("hero.\(pose.rawValue).\(armorIcon).\(race.rawValue)", grid: { HeroArt.grid(race: race, armorIcon: armorIcon, pose: pose) })
+    static func heroTexture(_ pose: HeroArt.Pose, look: HeroLook) -> SKTexture {
+        ArtCache.texture("hero.\(pose.rawValue).\(look.cacheKey)", grid: { HeroArt.grid(look, pose: pose) })
     }
 
-    static func heroImage(armorIcon: String, race: Race) -> CGImage {
-        ArtCache.image("hero.idle0.\(armorIcon).\(race.rawValue)", grid: { HeroArt.grid(race: race, armorIcon: armorIcon, pose: .idle0) })
+    static func heroImage(_ look: HeroLook, pose: HeroArt.Pose = .idle0) -> CGImage {
+        ArtCache.image("hero.\(pose.rawValue).\(look.cacheKey)", grid: { HeroArt.grid(look, pose: pose) })
+    }
+
+    static func gearIcon(_ item: Item) -> CGImage? {
+        guard item.slot != .weapon, let look = GearLook.from(item) else { return nil }
+        return ArtCache.image("gear.\(item.slot.rawValue).\(look.styleID).\(look.material.map { String($0) }.joined()).\(look.dye)",
+                              grid: { HeroArt.gearIcon(look, slot: item.slot) })
     }
 
     static func mineralTexture(_ mineral: Mineral) -> SKTexture {
@@ -335,6 +390,7 @@ enum Art {
         if item.slot == .weapon, item.partIDs != nil {
             return weaponImage(item)
         }
+        if item.styleID != nil, let icon = gearIcon(item) { return icon }
         return itemImage(icon: item.icon)
     }
 

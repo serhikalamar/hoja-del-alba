@@ -1,6 +1,6 @@
 <!-- Generado con `make fichas` a partir del código. No editar a mano: cambia los datos y regenera. -->
 
-# Bestiario (50 enemigos)
+# Bestiario (51 enemigos)
 
 Valores base en su nivel de aparición; suben con el nivel de la zona u oleada (`EnemyDefinition.stats(level:)`).
 
@@ -56,3 +56,4 @@ Valores base en su nivel de aparición; suben con el nivel de la zona u oleada (
 | `armoredBoar` | Jabalí acorazado | 10 | boar | embestida | 120 | 20 | 75 | 6 | — |
 | `goblinStandard` | Abanderado goblin | 10 | goblin | cuerpo a cuerpo | 160 | 14 | 40 | 6 | — |
 | `goblinKing` | Rey Goblin | 10 | goblin | cuerpo a cuerpo | 2600 | 34 | 50 | 14 | Corona del Rey Goblin |
+| `eclipseAcolyte` | Acólito del Eclipse | 7 | human | a distancia | 45 | 13 | 50 | 180 | — |

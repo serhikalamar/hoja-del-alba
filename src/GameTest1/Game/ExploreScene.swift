@@ -1,17 +1,37 @@
 import GameCore
 import SpriteKit
 
-/// Escena de exploración: el pueblo o el interior de un edificio, con cámara que sigue al héroe,
-/// colisiones con el mapa, puertas, aldeanos y enemigos que esperan hasta verte.
+/// Lo que la historia decide de un área en este momento (lo calcula `ExploreSession` con GameCore).
+struct AreaStoryState {
+    /// Casillas que no se pisan ahora (puertas cerradas, escalinata, salidas y bajadas bloqueadas) y su aviso.
+    var lockedTiles: [TilePoint: String] = [:]
+    /// NPC que se ven y dónde.
+    var npcs: [(npc: NPC, at: TilePoint)] = []
+    /// "!"/"?" por id de NPC.
+    var markers: [String: QuestMarker] = [:]
+    var castleOpen = false
+}
+
+/// Escena de exploración: el pueblo, el interior de un edificio o un área de campo, con cámara que sigue al héroe,
+/// colisiones con el mapa, puertas, salidas `>`, bajadas `e`, aldeanos y enemigos que esperan hasta verte.
+/// En el campo los monstruos que no son jefe reaparecen (`FieldRespawn`).
 final class ExploreScene: CombatScene {
     weak var session: ExploreSession?
 
     private(set) var map: AreaMap = Valdehierro.town
     private var progress = TownProgress()
+    private var story = AreaStoryState()
+    /// Monstruos de campo muertos (vuelven a los 90 s o al volver a entrar).
+    private(set) var fieldRespawn = FieldRespawn()
+    private var respawnCheck: TimeInterval = 0
+    /// Jefes que ya se han presentado en esta visita.
+    private var introducedBosses: Set<String> = []
+    /// NPC con el que se está hablando (no se repite hasta alejarse).
+    private var nearNPC: String?
     private let cam = SKCameraNode()
     private var ground: SKSpriteNode?
     private let props = SKNode()
-    private var npcNodes: [(npc: NPC, node: SKSpriteNode, bubble: SKNode)] = []
+    private var npcNodes: [(npc: NPC, node: SKSpriteNode, bubble: SKNode, marker: SKNode?)] = []
     private var onPortal = true
     private var lockedCooldown: TimeInterval = 0
 
@@ -57,15 +77,13 @@ final class ExploreScene: CombatScene {
         CGPoint(x: node.position.x, y: node.position.y - offset)
     }
 
-    private func isLockedDoor(_ p: TilePoint) -> Bool {
-        guard !map.isInterior, let b = map.building(at: p), b.doorTiles.contains(p) else { return false }
-        return b.interiorID == nil || (b.style == .castle && !progress.castleOpen)
-    }
+    /// Casilla cerrada por la historia (puerta, escalinata, salida o bajada).
+    private func isLocked(_ p: TilePoint) -> Bool { story.lockedTiles[p] != nil }
 
     private func walkable(_ p: CGPoint) -> Bool {
         let t = tile(at: p)
         guard t.x >= 0, t.y >= 0, t.x < map.width, t.y < map.height else { return false }
-        return map.isWalkable(t) && !isLockedDoor(t)
+        return map.isWalkable(t) && !isLocked(t)
     }
 
     /// Caja de los pies libre de obstáculos.
@@ -76,9 +94,15 @@ final class ExploreScene: CombatScene {
 
     // MARK: - Carga de un área
 
-    func load(_ map: AreaMap, heroAt start: TilePoint, progress: TownProgress) {
+    /// Carga un área. Sin `story`, se la pide a la sesión (lo que decide la historia de esa área ahora mismo).
+    func load(_ map: AreaMap, heroAt start: TilePoint, progress: TownProgress, story: AreaStoryState? = nil) {
         self.map = map
         self.progress = progress
+        self.story = story ?? session?.storyState(for: map, progress: progress) ?? AreaStoryState()
+        lootContinent = World.continent(map.continentID)
+        fieldRespawn.reset()
+        introducedBosses.removeAll()
+        nearNPC = nil
         clearCombat()
         props.removeAllChildren()
         ground?.removeFromParent()
@@ -92,6 +116,7 @@ final class ExploreScene: CombatScene {
         ground = groundNode
 
         buildProps()
+        buildAmbience()
         buildNPCs()
         spawnEnemies()
 
@@ -102,13 +127,17 @@ final class ExploreScene: CombatScene {
         cam.position = clampedCamera(hero.position)
     }
 
-    /// Actualiza el progreso guardado (por ejemplo, al abrirse el castillo).
-    func refresh(progress: TownProgress) {
-        let castleChanged = progress.castleOpen != self.progress.castleOpen
+    /// Actualiza el progreso guardado y la historia (por ejemplo, al abrirse el castillo o aceptar una misión).
+    func refresh(progress: TownProgress, story: AreaStoryState) {
+        let castleChanged = story.castleOpen != self.story.castleOpen
         self.progress = progress
-        if castleChanged { props.removeAllChildren(); buildProps() }
+        self.story = story
+        if castleChanged { props.removeAllChildren(); buildProps(); buildAmbience() }
         buildNPCs()
     }
+
+    /// Monstruos de campo muertos ahora mismo.
+    var fieldDeadIDs: Set<String> { fieldRespawn.deadIDs }
 
     private func addProp(_ grid: @autoclosure () -> PixelGrid, key: String, bottomLeft: CGPoint, depthY: CGFloat) {
         let image = ArtCache.image(key, grid: { grid() })
@@ -122,7 +151,7 @@ final class ExploreScene: CombatScene {
 
     private func buildProps() {
         for b in map.buildings {
-            let open = b.style != .castle || progress.castleOpen
+            let open = b.style != .castle || story.castleOpen
             let bottom = CGFloat(map.height - b.y - b.height) * T
             addProp(TownArt.building(b, open: open), key: "building.\(b.id).\(open)",
                     bottomLeft: CGPoint(x: CGFloat(b.x) * T - PX, y: bottom - PX), depthY: bottom + 2)
@@ -134,7 +163,7 @@ final class ExploreScene: CombatScene {
                 let c = center(of: TilePoint(x, y))
                 let bottom = c.y - T / 2
                 if tile == .tree {
-                    let variant = (x * 7 + y) % 3
+                    let variant = TownArt.treeVariant(map, x, y)   // en el campo, según el área (muertos, pinos nevados…)
                     let grid = TownArt.tree(variant: variant)
                     addProp(TownArt.tree(variant: variant), key: "tree.\(variant)",
                             bottomLeft: CGPoint(x: c.x - CGFloat(grid.width) * PX / 2, y: bottom), depthY: bottom + 4)
@@ -146,49 +175,162 @@ final class ExploreScene: CombatScene {
         }
     }
 
-    // MARK: - Aldeanos
+    // MARK: - Ambiente: luces, humo y agua
 
-    /// Aldeanos ya rescatados que vuelven a la plaza.
-    private static let plazaSpots: [String: TilePoint] = [
-        "marta": TilePoint(17, 15), "elena": TilePoint(26, 15), "tomas": TilePoint(17, 18),
-        "anselmo": TilePoint(26, 18), "bruno": TilePoint(19, 21), "iris": TilePoint(24, 21),
-        "princess": TilePoint(22, 10),
-    ]
+    /// Pixeles de arte del mapa (origen arriba-izquierda) a coordenadas de la escena.
+    private func scenePoint(artX x: Int, artY y: Int) -> CGPoint {
+        CGPoint(x: CGFloat(x) * PX, y: CGFloat(map.height * TownArt.tile - y) * PX)
+    }
+
+    private func buildAmbience() {
+        // Halos de luz que parpadean (el fuego, rápido; los faroles, casi fijos).
+        for light in TownArt.lightSources(map) {
+            let glow = makeGlow(radius: CGFloat(light.radius) * PX * 1.3, color: light.color, alpha: 1)
+            glow.position = scenePoint(artX: light.x, artY: light.y)
+            glow.zPosition = 130
+            let speed = light.flame ? 0.12 : 0.6
+            // Interiores y noche más luz; de día en la calle, apenas un brillo.
+            let base: CGFloat = (map.isInterior ? 0.3 : 0.16) * (light.flame ? 1 : 0.8)
+            glow.alpha = base
+            let low = base * (light.flame ? 0.75 : 0.92)
+            glow.run(.sequence([
+                .wait(forDuration: Double.random(in: 0..<0.5)),
+                .repeatForever(.sequence([
+                    .group([.scale(to: 1.05, duration: speed), .fadeAlpha(to: low, duration: speed)]),
+                    .group([.scale(to: 0.97, duration: speed * 1.3), .fadeAlpha(to: base, duration: speed * 1.3)]),
+                ])),
+            ]))
+            props.addChild(glow)
+        }
+        // Humo de las chimeneas.
+        let smoke = (0..<8).map { f in ArtCache.texture("town.smoke.\(f)", grid: { TownArt.smoke(frame: f) }) }
+        for mouth in TownArt.chimneyMouths(map) {
+            let node = SKSpriteNode(texture: smoke[0])
+            node.anchorPoint = CGPoint(x: 0.5, y: 0)
+            node.size = CGSize(width: smoke[0].size().width * PX, height: smoke[0].size().height * PX)
+            node.position = scenePoint(artX: mouth.x, artY: mouth.y)
+            node.zPosition = 120
+            node.run(.sequence([.wait(forDuration: Double.random(in: 0..<0.8)), .repeatForever(.animate(with: smoke, timePerFrame: 0.14))]))
+            props.addChild(node)
+        }
+        // Agua de las fuentes.
+        let water = (0..<4).map { f in ArtCache.texture("town.fountain.\(f)", grid: { TownArt.fountainSparkle(frame: f) }) }
+        for c in TownArt.fountainCenters(map) {
+            let node = SKSpriteNode(texture: water[0])
+            node.size = CGSize(width: water[0].size().width * PX, height: water[0].size().height * PX)
+            let p = scenePoint(artX: c.0, artY: c.1)
+            node.position = p
+            node.zPosition = depth(for: p.y - 20) + 0.5
+            node.run(.repeatForever(.animate(with: water, timePerFrame: 0.12)))
+            props.addChild(node)
+        }
+        // Llamas de las hogueras y braseros del campo (violetas en el campamento del Eclipse).
+        let flames = [false, true].map { violet in
+            (0..<6).map { f in ArtCache.texture("field.flame.\(violet).\(f)", grid: { TownArt.campfireFlame(frame: f, violet: violet) }) }
+        }
+        for spot in TownArt.campfireSpots(map) {
+            let frames = flames[spot.violet ? 1 : 0]
+            let node = SKSpriteNode(texture: frames[0])
+            node.anchorPoint = CGPoint(x: 0.5, y: 0)
+            node.size = CGSize(width: frames[0].size().width * PX, height: frames[0].size().height * PX)
+            let p = scenePoint(artX: spot.x, artY: spot.y)
+            node.position = p
+            node.zPosition = depth(for: p.y) + 0.5
+            node.run(.sequence([.wait(forDuration: Double.random(in: 0..<0.5)), .repeatForever(.animate(with: frames, timePerFrame: 0.1))]))
+            props.addChild(node)
+        }
+        buildParticles()
+    }
+
+    /// Ambiente del campo: niebla baja en la abadía, ceniza y brasas en los trigales quemados, hojas en Robleda,
+    /// nieve en el Paso (`TownArt.ambientEffects`). Cada partícula cruza su rectángulo, se desvanece y vuelve a empezar.
+    private func buildParticles() {
+        for effect in TownArt.ambientEffects(map) {
+            let textures = (0..<3).map { v in
+                ArtCache.texture("ambient.\(effect.kind.rawValue).\(v)", grid: { TownArt.ambientTexture(effect.kind, variant: v) })
+            }
+            for i in 0..<effect.count {
+                let texture = textures[i % textures.count]
+                let node = SKSpriteNode(texture: texture)
+                node.size = CGSize(width: texture.size().width * PX, height: texture.size().height * PX)
+                node.zPosition = effect.groundLevel ? -50 : 125
+                node.alpha = 0
+                let place = SKAction.run { [weak self, weak node] in
+                    guard let self, let node else { return }
+                    let x = effect.x + Int.random(in: 0..<max(1, effect.width))
+                    let y = effect.y + Int.random(in: 0..<max(1, effect.height))
+                    node.position = self.scenePoint(artX: x, artY: y)
+                }
+                let d = effect.duration * Double.random(in: 0.8...1.2)
+                let move = SKAction.moveBy(x: CGFloat(effect.dx) * PX, y: -CGFloat(effect.dy) * PX, duration: d)
+                let fade = SKAction.sequence([.fadeAlpha(to: effect.alpha, duration: d * 0.3), .wait(forDuration: d * 0.4), .fadeOut(withDuration: d * 0.3)])
+                node.run(.sequence([.wait(forDuration: Double.random(in: 0..<effect.duration)),
+                                    .repeatForever(.sequence([place, .group([move, fade])]))]))
+                props.addChild(node)
+            }
+        }
+    }
+
+    // MARK: - Aldeanos
 
     private func buildNPCs() {
         npcNodes.forEach { $0.node.removeFromParent() }
         npcNodes.removeAll()
-        var list: [(NPC, TilePoint)] = []
-        if map.isInterior {
-            for npc in map.npcs where !isRescued(npc) { list.append((npc, npc.position)) }
-        } else {
-            for npc in Valdehierro.interiors.flatMap(\.npcs) where isRescued(npc) {
-                if let spot = Self.plazaSpots[npc.id] { list.append((npc, spot)) }
-            }
-        }
-        for (npc, spot) in list {
-            let textures = Art.npcTextures(npc.look)
+        for (npc, spot) in story.npcs {
+            // Misma escala y tamaño de pixel que el héroe (chibi dibujado con HeroArt).
+            let chibi = NPCLooks.look(npc.look)
+            let textures = chibi.map(NPCLooks.idleTextures) ?? Art.npcTextures(npc.look)
             let size = textures[0].size()
-            let node = SKSpriteNode(texture: textures[0], size: CGSize(width: size.width * PX * 1.3, height: size.height * PX * 1.3))
+            let node = SKSpriteNode(texture: textures[0], size: CGSize(width: size.width * PX, height: size.height * PX))
             let c = center(of: spot)
-            node.position = CGPoint(x: c.x, y: c.y + node.size.height / 2 - 8)
+            let footOffset: CGFloat = chibi == nil ? 6 : 8
+            node.position = CGPoint(x: c.x, y: c.y + node.size.height / 2 - footOffset)
             node.zPosition = depth(for: c.y)
-            node.addChild(makeShadow(width: 26, yOffset: -node.size.height / 2 + 4))
-            node.run(.repeatForever(.animate(with: textures, timePerFrame: 0.5)))
+            node.addChild(makeShadow(width: chibi == nil ? 26 : 40, yOffset: -node.size.height / 2 + footOffset - 2))
+            node.run(.repeatForever(.animate(with: textures, timePerFrame: 0.45)))
             if npc.role == .princess { node.xScale = -1 }
-            let bubble = speechBubble(isRescued(npc) ? "¡Gracias!" : npc.plea)
+            let bubble = speechBubble(bubbleText(npc))
             bubble.position = CGPoint(x: 0, y: node.size.height / 2 + 18)
             bubble.zPosition = 300
             bubble.alpha = 0
             node.addChild(bubble)
             if npc.role == .princess { bubble.xScale = -1 }
+            var markerNode: SKNode?
+            if let marker = story.markers[npc.id] {
+                let m = questMarker(marker)
+                m.position = CGPoint(x: 0, y: node.size.height / 2 + 6)
+                m.zPosition = 301
+                if npc.role == .princess { m.xScale = -1 }
+                node.addChild(m)
+                markerNode = m
+            }
             addChild(node)
-            npcNodes.append((npc, node, bubble))
+            npcNodes.append((npc, node, bubble, markerNode))
         }
     }
 
     private func isRescued(_ npc: NPC) -> Bool {
         npc.role == .princess ? progress.princessRescued : progress.rescued.contains(npc.id)
+    }
+
+    private func bubbleText(_ npc: NPC) -> String {
+        switch npc.role {
+        case .villager, .princess: isRescued(npc) ? "¡Gracias!" : npc.plea
+        case .questGiver, .clue: npc.plea
+        }
+    }
+
+    /// "!" o "?" dorado con contorno sobre la cabeza (`Sprites.questMarker`), flotando suavemente.
+    private func questMarker(_ marker: QuestMarker) -> SKNode {
+        let key = marker == .offer ? "questMarker.offer" : "questMarker.turnIn"
+        let texture = Art.gridTexture(key, Sprites.questMarker(marker))
+        let node = SKSpriteNode(texture: texture, size: CGSize(width: texture.size().width * PX, height: texture.size().height * PX))
+        node.anchorPoint = CGPoint(x: 0.5, y: 0)
+        let up = SKAction.moveBy(x: 0, y: 4, duration: 0.6), down = SKAction.moveBy(x: 0, y: -4, duration: 0.6)
+        up.timingMode = .easeInEaseOut
+        down.timingMode = .easeInEaseOut
+        node.run(.repeatForever(.sequence([up, down])))
+        return node
     }
 
     private func speechBubble(_ text: String) -> SKNode {
@@ -213,16 +355,36 @@ final class ExploreScene: CombatScene {
 
     private func spawnEnemies() {
         for spawn in map.spawns where !progress.killedSpawns.contains(spawn.id) {
-            guard let definition = Bestiary.enemy(spawn.enemyID) else { continue }
-            let enemy = EnemyNode(definition: definition, level: map.level(at: spawn.position))
-            enemy.spawnID = spawn.id
-            enemy.isAggro = false
-            enemy.hasEntered = true
-            let c = center(of: spawn.position)
-            enemy.position = CGPoint(x: c.x, y: c.y + enemy.size.height / 2 - 6)
-            enemy.zPosition = depth(for: c.y)
-            addChild(enemy)
-            enemies.append(enemy)
+            spawnEnemy(spawn)
+        }
+    }
+
+    @discardableResult
+    private func spawnEnemy(_ spawn: Spawn) -> EnemyNode? {
+        guard let definition = Bestiary.enemy(spawn.enemyID) else { return nil }
+        // Historia: los jefes con su ajuste propio (`EnemyDefinition.forStory`, balance B1).
+        let enemy = EnemyNode(definition: definition.forStory, level: map.level(at: spawn.position))
+        enemy.spawnID = spawn.id
+        enemy.isAggro = false
+        enemy.hasEntered = true
+        let c = center(of: spawn.position)
+        enemy.position = CGPoint(x: c.x, y: c.y + enemy.size.height / 2 - 6)
+        enemy.zPosition = depth(for: c.y)
+        addChild(enemy)
+        enemies.append(enemy)
+        return enemy
+    }
+
+    /// Monstruos de campo que vuelven (90 s después de morir, lejos del héroe).
+    private func updateRespawns(_ dt: TimeInterval) {
+        guard map.isField else { return }
+        respawnCheck -= dt
+        guard respawnCheck <= 0 else { return }
+        respawnCheck = 1
+        for spawn in fieldRespawn.due(in: map, now: elapsed, hero: heroFeetTile()) {
+            guard let enemy = spawnEnemy(spawn) else { continue }
+            enemy.alpha = 0
+            enemy.run(.fadeIn(withDuration: 0.6))
         }
     }
 
@@ -249,13 +411,30 @@ final class ExploreScene: CombatScene {
         guard !enemy.isAggro else { return }
         enemy.isAggro = true
         floatingText("!", at: enemy.position + CGVector(dx: 0, dy: enemy.size.height / 2 + 6), color: SKColor(rgb: 0xFF5050), size: 18)
-        if enemy.definition.isBoss { shake(intensity: 5) }
+        if enemy.definition.isBoss {
+            shake(intensity: 5)
+            if let id = enemy.spawnID, introducedBosses.insert(id).inserted { session?.bossSpotted(enemy.definition) }
+        }
     }
 
     override func enemyDied(_ enemy: EnemyNode) {
-        guard let id = enemy.spawnID else { return }
-        progress.killedSpawns.insert(id)
-        session?.spawnKilled(id, enemy: enemy.definition, at: tile(at: enemy.position))
+        guard let id = enemy.spawnID, let spawn = map.spawns.first(where: { $0.id == id }) else { return }
+        if map.isPermanent(spawn) {
+            progress.killedSpawns.insert(id)
+        } else {
+            fieldRespawn.died(id, at: elapsed)
+        }
+        session?.spawnKilled(id, enemy: enemy.definition, at: spawn.position)
+    }
+
+    override func blocksShot(at point: CGPoint) -> Bool {
+        let t = tile(at: point)
+        guard t.x >= 0, t.y >= 0, t.x < map.width, t.y < map.height else { return true }
+        if let building = map.building(at: t) { return !building.doorTiles.contains(t) }
+        switch map.tile(t.x, t.y) {
+        case .wall, .interiorWall, .cliff, .rock, .pillar: return true
+        default: return false
+        }
     }
 
     override func constrain(_ enemy: EnemyNode, previous: CGPoint) {
@@ -279,12 +458,13 @@ final class ExploreScene: CombatScene {
         let offset = heroFootOffset
         func ok(_ p: CGPoint) -> Bool { free(feet: CGPoint(x: p.x, y: p.y - offset), halfWidth: 11) }
         if ok(new) { return new }
-        // Puerta cerrada (castillo, casas sin interior): avisa.
+        // Casilla cerrada por la historia (castillo, casas sin interior, salidas y bajadas bloqueadas): avisa.
         let foot = CGPoint(x: new.x, y: new.y - offset)
-        let corners = [CGPoint(x: foot.x - 11, y: foot.y + 6), CGPoint(x: foot.x + 11, y: foot.y + 6), CGPoint(x: foot.x, y: foot.y + 6)]
-        if lockedCooldown <= 0, let door = corners.map(tile(at:)).first(where: isLockedDoor) {
+        let corners = [foot, CGPoint(x: foot.x - 11, y: foot.y - 4), CGPoint(x: foot.x + 11, y: foot.y - 4),
+                       CGPoint(x: foot.x - 11, y: foot.y + 6), CGPoint(x: foot.x + 11, y: foot.y + 6), CGPoint(x: foot.x, y: foot.y + 6)]
+        if lockedCooldown <= 0, let locked = corners.map(tile(at:)).first(where: isLocked), let message = story.lockedTiles[locked] {
             lockedCooldown = 2.5
-            session?.lockedDoorTouched(map.building(at: door))
+            session?.lockedTileTouched(message)
         }
         let slideX = CGPoint(x: new.x, y: old.y), slideY = CGPoint(x: old.x, y: new.y)
         if ok(slideX) { return slideX }
@@ -307,6 +487,7 @@ final class ExploreScene: CombatScene {
             reportHP()
         }
         updateCamera(dt)
+        updateRespawns(dt)
         updateNPCs()
         checkPortals()
     }
@@ -332,15 +513,35 @@ final class ExploreScene: CombatScene {
         cam.position = clampedCamera(hero.position)
     }
 
+    /// En los interiores solo se habla con la sala despejada (salvo con quien ya está rescatado); fuera, siempre.
+    private func canTalk(to npc: NPC, cleared: Bool) -> Bool {
+        guard map.isInterior else { return true }
+        if npc.role == .clue { return cleared }
+        return cleared || isRescued(npc)
+    }
+
     private func updateNPCs() {
-        let cleared = progress.isCleared(map) || map.spawns.allSatisfy { progress.killedSpawns.contains($0.id) }
+        let cleared = progress.isCleared(map)
+        var closest: (npc: NPC, distance: CGFloat)?
         for entry in npcNodes {
             let distance = entry.node.position.distance(to: hero.position)
             let near = distance < 220
-            entry.bubble.alpha = near ? 1 : 0
-            if distance < 80, cleared || isRescued(entry.npc) {
-                session?.npcReached(entry.npc)
+            entry.bubble.alpha = near && entry.marker == nil ? 1 : 0
+            if distance < 80, canTalk(to: entry.npc, cleared: cleared), distance < (closest?.distance ?? .infinity) {
+                closest = (entry.npc, distance)
             }
+        }
+        // Se habla al llegar; para volver a hablar hay que alejarse y volver.
+        if let npc = closest?.npc {
+            if nearNPC != npc.id {
+                nearNPC = npc.id
+                session?.npcReached(npc)
+            }
+        } else if let id = nearNPC, let entry = npcNodes.first(where: { $0.npc.id == id }),
+                  entry.node.position.distance(to: hero.position) > 110 {
+            nearNPC = nil
+        } else if nearNPC != nil, !npcNodes.contains(where: { $0.npc.id == nearNPC }) {
+            nearNPC = nil
         }
     }
 
@@ -355,18 +556,28 @@ final class ExploreScene: CombatScene {
         } else if let b = map.building(at: t), b.doorTiles.contains(t) {
             touching = true
             if !onPortal { session?.doorTouched(b) }
+        } else if let exit = map.exit(at: t) {
+            touching = true
+            if !onPortal { session?.areaExitTouched(exit) }
+        } else if let entrance = map.dungeonEntrance(at: t) {
+            touching = true
+            if !onPortal { session?.dungeonEntranceTouched(entrance) }
         }
         onPortal = touching
     }
 
     /// Fundido a negro para cambiar de área.
-    func fade(_ midway: @escaping () -> Void) {
-        guard let fade = cam.childNode(withName: "fade") else { midway(); return }
+    /// Fundido a negro: `midway` con la pantalla en negro y `then` al terminar (lo que pausa la escena,
+    /// como un diálogo, va en `then`: con la escena en pausa el fundido se quedaría en negro).
+    func fade(_ midway: @escaping () -> Void, then: (() -> Void)? = nil) {
+        // Sin vista (banco de pruebas) las acciones no corren: se cambia de área al momento.
+        guard view != nil, let fade = cam.childNode(withName: "fade") else { midway(); then?(); return }
         fade.removeAllActions()
         fade.run(.sequence([
             .fadeIn(withDuration: 0.18),
             .run(midway),
             .fadeOut(withDuration: 0.25),
+            .run { then?() },
         ]))
     }
 

@@ -2,9 +2,9 @@
 
 # Catálogo de piezas y habilidades
 
-- **Hoja / cabeza**: 54 normales + 5 únicas
-- **Guarda**: 36 normales + 4 únicas
-- **Empuñadura**: 30 normales + 2 únicas
+- **Hoja / cabeza**: 54 normales + 9 únicas
+- **Guarda**: 36 normales + 8 únicas
+- **Empuñadura**: 30 normales + 4 únicas
 
 ## Piezas únicas
 
@@ -20,7 +20,7 @@
 | Rosario del Abad | Guarda | Sagrado, Sombra | +10 ATQ, +6% CRÍTICO, +1.5/s REGEN. | Comunión oscura |
 | Hoja del Señor de la Guerra | Hoja / cabeza | Sangre, Tormenta | +75 ATQ, -0.10 VEL.ATQ, +14 ALCANCE, +30% DAÑO CRÍT. | Carnicería |
 | Corona del Rey Goblin | Guarda | Arcano, Sagrado, Tormenta | +18 ATQ, +0.20 VEL.ATQ, +10% CRÍTICO, +30% ORO | Decreto real |
-| Hoja del Alba | Hoja / cabeza | Sagrado, Tormenta, Fuego | +95 ATQ, +0.10 VEL.ATQ, +16 ALCANCE, +10% CRÍTICO, +40% DAÑO CRÍT. | Amanecer |
+| Hoja del Alba | Hoja / cabeza | Sagrado, Tormenta, Fuego | +36 ATQ, +0.06 VEL.ATQ, +10 ALCANCE, +6% CRÍTICO, +25% DAÑO CRÍT. | Amanecer |
 
 ## Habilidades (39)
 

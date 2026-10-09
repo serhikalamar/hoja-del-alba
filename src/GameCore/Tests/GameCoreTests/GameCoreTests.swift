@@ -25,9 +25,11 @@ struct MineralTests {
 @Suite("Bestiario y niveles")
 struct LevelTests {
     @Test func fiftyEnemiesTenBosses() {
-        #expect(Bestiary.all.count == 50)
-        #expect(Set(Bestiary.all.map(\.id)).count == 50)
-        #expect(Bestiary.bosses.count == 10)
+        // Los 50 originales (los de la arena) siguen en el bestiario; los de continente se suman aparte.
+        #expect(Arena.originalEnemyIDs.count == 50)
+        #expect(Arena.enemies.count == 50)
+        #expect(Arena.enemies.filter(\.isBoss).count == 10)
+        #expect(Set(Bestiary.all.map(\.id)).count == Bestiary.all.count)
         for boss in Bestiary.bosses {
             #expect(PartCatalog.part(boss.specialPartID ?? "")?.isSpecial == true, "\(boss.id)")
         }
@@ -58,7 +60,7 @@ struct LevelTests {
 
     @Test func everyEnemyAppearsSomewhere() {
         let used = Set(Worlds.village.levels.flatMap(\.enemyIDs))
-        for enemy in Bestiary.all { #expect(used.contains(enemy.id), "\(enemy.id) nunca aparece") }
+        for enemy in Arena.enemies { #expect(used.contains(enemy.id), "\(enemy.id) nunca aparece") }
     }
 }
 
@@ -121,9 +123,11 @@ struct ShopTests {
         for _ in 0..<200 {
             let offers = ShopGenerator.offers(level: 1, using: &rng)
             #expect(offers.filter { $0.part != nil }.count == ShopGenerator.partOfferCount)
+            // Siempre se puede montar un arma con lo que hay a la venta.
+            #expect(Set(offers.compactMap { $0.part?.slot }) == Set(PartSlot.allCases))
             for offer in offers {
                 if let part = offer.part { #expect(part.tier <= 2 && !part.isSpecial) }
-                if let item = offer.item { #expect(item.tier == 1) }
+                if let item = offer.item { #expect(item.tier <= 2 && item.styleID != nil) }
             }
         }
     }
@@ -260,7 +264,8 @@ struct TownTests {
     @Test func princessGivesLegendaryPart() {
         let princess = Valdehierro.area("castle")!.npcs.first { $0.role == .princess }!
         let part = PartCatalog.part(princess.reward.partID!)!
-        #expect(part.isSpecial && part.tier == 6)
+        // Hoja del Alba (I): a la altura del tier 2 (balance B1, `progresion.md` §6).
+        #expect(part.isSpecial && part.tier == 2)
         #expect(AbilityBook.ability(part.abilityID)?.id == "dawn")
     }
 
@@ -278,8 +283,14 @@ struct TownTests {
 @Suite("Arena de oleadas")
 struct ArenaTests {
     @Test func wavesGetHarder() {
-        let sizes = (1...30).map { Arena.wave($0).totalMonsters }
+        // Sin contar las de jefe (que traen la mitad de monstruos normales), cada oleada es más grande.
+        let sizes = (1...30).filter { !Arena.isBossWave($0) }.map { Arena.wave($0).totalMonsters }
         #expect(sizes == sizes.sorted())
+        #expect(Arena.wave(10).totalMonsters < Arena.wave(9).totalMonsters)
+        let levels = (1...40).map { Arena.enemyLevel(wave: $0) }
+        #expect(levels == levels.sorted())
+        // Tras el muro, los enemigos suben de nivel más deprisa.
+        #expect(Arena.enemyLevel(wave: Arena.wallWave + 5) - Arena.enemyLevel(wave: Arena.wallWave) > 5 / 2)
         #expect(Arena.enemyLevel(wave: 1) == 1)
         #expect(Arena.enemyLevel(wave: 40) > 10)
         #expect(Arena.wave(1).spawns.keys.allSatisfy { Bestiary.enemy($0)!.level == 1 })
@@ -290,9 +301,10 @@ struct ArenaTests {
             let hasBoss = Arena.wave(n).spawns.keys.contains { Bestiary.enemy($0)!.isBoss }
             #expect(hasBoss == (n % 5 == 0), "oleada \(n)")
         }
-        #expect(Arena.stage(wave: 1).id == Arena.stage(wave: 5).id)
-        #expect(Arena.stage(wave: 6).id != Arena.stage(wave: 5).id)
-        #expect(Arena.stage(wave: 51).id == Arena.stage(wave: 1).id)
+        #expect(Arena.floor(wave: 1).id == Arena.floor(wave: 5).id)
+        #expect(Arena.floor(wave: 6).id != Arena.floor(wave: 5).id)
+        #expect(Arena.floor(wave: 5 * Dungeon.floors.count + 1).id == Arena.floor(wave: 1).id)
+        #expect(Arena.depth(wave: 6) == 2)
     }
 
     @Test func shopEveryTwoWaves() {
@@ -300,5 +312,150 @@ struct ArenaTests {
         #expect(Arena.isShopWave(2))
         #expect(Arena.isShopWave(4))
         #expect(!Arena.isShopWave(5))
+    }
+}
+
+@Suite("Mazmorra de la arena")
+struct DungeonTests {
+    @Test func floorsAreWellFormed() {
+        #expect(Set(Dungeon.floors.map(\.id)).count == Dungeon.floors.count)
+        for floor in Dungeon.floors {
+            let width = floor.rows[0].count
+            #expect(floor.rows.allSatisfy { $0.count == width }, "\(floor.id): filas de distinta longitud")
+            for row in floor.rows {
+                for c in row { #expect(DungeonTile(rawValue: c) != nil, "\(floor.id): carácter desconocido '\(c)'") }
+            }
+            // Borde cerrado: nadie se sale del mapa.
+            for x in 0..<width {
+                #expect(floor.tile(x, 0).isSolid && floor.tile(x, floor.height - 1).isSolid, "\(floor.id): borde abierto en x=\(x)")
+            }
+            for y in 0..<floor.height {
+                #expect(floor.tile(0, y).isSolid && floor.tile(width - 1, y).isSolid, "\(floor.id): borde abierto en y=\(y)")
+            }
+        }
+    }
+
+    @Test func everythingIsReachable() {
+        for floor in Dungeon.floors {
+            #expect(floor.isWalkable(floor.start), "\(floor.id): el héroe empieza en una casilla sólida")
+            let reachable = floor.reachable()
+            #expect(Set(floor.walkableTiles) == reachable, "\(floor.id): hay suelo aislado")
+            #expect(floor.spawnPoints.count >= 6, "\(floor.id): pocas entradas de monstruos")
+            #expect(floor.spawnPoints.allSatisfy(reachable.contains), "\(floor.id): entrada de monstruos aislada")
+            #expect(reachable.contains(floor.bossSpawn), "\(floor.id): el jefe no puede entrar")
+            // Sitio para pelear: la mazmorra es bastante más grande que la pantalla.
+            #expect(reachable.count >= 300, "\(floor.id): poco espacio")
+        }
+    }
+}
+
+@Suite("Niveles y arena roguelike")
+struct LevelingTests {
+    @Test func levelsGrowWithExperience() {
+        var hero = PlayerProfile.newGame()
+        #expect(hero.characterLevel == 1)
+        let before = hero.totalStats
+        let gained = hero.gainXP(Leveling.xpToNext(1) + Leveling.xpToNext(2) + 5)
+        #expect(gained == 2)
+        #expect(hero.characterLevel == 3)
+        #expect(hero.levelXP == 5)
+        #expect(hero.totalStats.maxHP > before.maxHP && hero.totalStats.attack > before.attack)
+        hero.gainXP(10_000_000)
+        #expect(hero.characterLevel == Leveling.maxLevel)
+    }
+
+    @Test func experienceDependsOnLevelDifference() {
+        let even = Leveling.xpForKill(enemyLevel: 5, heroLevel: 5, isBoss: false)
+        #expect(Leveling.xpForKill(enemyLevel: 1, heroLevel: 10, isBoss: false) < even / 4)
+        #expect(Leveling.xpForKill(enemyLevel: 8, heroLevel: 5, isBoss: false) > even)
+        #expect(Leveling.xpForKill(enemyLevel: 5, heroLevel: 5, isBoss: true) > even * 5)
+        #expect(Leveling.damageFactor(attackerLevel: 1, defenderLevel: 10) < 0.5)
+        #expect(Leveling.damageFactor(attackerLevel: 5, defenderLevel: 5) == 1)
+    }
+
+    @Test func arenaRunStartsFromScratch() {
+        var hero = PlayerProfile.newCharacter(name: "Aria", race: .elf, appearance: Appearance())
+        hero.gainXP(5_000)
+        hero.gold = 999
+        hero.addMineral(.diamond, count: 5)
+        let run = PlayerProfile.arenaRun(for: hero)
+        #expect(run.characterLevel == 1)
+        #expect(run.gold < 100 && run.minerals.isEmpty && run.parts.isEmpty)
+        #expect(run.name == "Aria" && run.race == .elf && run.characterID == hero.characterID)
+        #expect(run.equippedWeapon != nil)
+    }
+
+    @Test func mineralsAreScarce() {
+        var rng = SeededGenerator(seed: 3)
+        let goblin = Bestiary.enemy("goblin")!.stats(level: 1)
+        let drops = (0..<1_000).reduce(0) { total, _ in total + goblin.rollDrops(using: &rng).count }
+        #expect(drops < 250, "un goblin suelta mineral muy pocas veces")
+    }
+}
+
+@Suite("Personajes y armadura")
+struct CharacterTests {
+    @Test func legacyArmorSlotBecomesChest() throws {
+        let json = #"["armor","weapon","boots"]"#.data(using: .utf8)!
+        let slots = try JSONDecoder().decode([EquipmentSlot].self, from: json)
+        #expect(slots == [.chest, .weapon, .boots])
+        // El peto inicial (guardado como armadura antigua) sigue equipado.
+        let profile = PlayerProfile.newGame()
+        #expect(profile.equipped(.chest)?.blueprintID == "padded_tunic")
+    }
+
+    @Test func fourGearSlotsAddStats() throws {
+        var profile = PlayerProfile.newGame()
+        let before = profile.totalStats.defense
+        for style in ["helm.knight", "chest.plate", "gloves.gauntlets", "boots.greaves"] {
+            let item = ArmorRecipe(styleID: style, materialID: "iron", dye: 0x3B5DC9).makeItem(quality: Roulette.segments[2])
+            profile.inventory.append(item)
+            profile.equip(item.id)
+        }
+        #expect(EquipmentSlot.gear.allSatisfy { profile.equipped($0) != nil })
+        #expect(profile.totalStats.defense > before + 10)
+        profile.unequip(.helmet)
+        #expect(profile.equipped(.helmet) == nil)
+    }
+
+    @Test func armorCraftingWithDyeAndRoulette() throws {
+        var profile = PlayerProfile.newGame()
+        profile.gold = 100
+        profile.addMineral(.iron, count: 2)
+        let recipe = ArmorRecipe(styleID: "boots.leather", materialID: "wolfhide", dye: 0xB13E53, minerals: [.iron: 2])
+        var rng = SeededGenerator(seed: 4)
+        let result = try profile.craft(recipe, using: &rng)
+        #expect(result.item.slot == .boots)
+        #expect(result.item.dye == 0xB13E53 && result.item.styleID == "boots.leather" && result.item.materialID == "wolfhide")
+        #expect(result.item.name == "Botas de cuero de Piel de lobo")
+        #expect(profile.gold == 100 - recipe.goldCost && profile.count(of: .iron) == 0)
+        #expect(ArmorCatalog.styles.allSatisfy { ArmorCatalog.styles(for: $0.slot).count >= 4 })
+    }
+
+    @Test func rosterMigratesOldSaveAndStoresCharacters() throws {
+        let dir = FileManager.default.temporaryDirectory.appendingPathComponent(UUID().uuidString)
+        let legacy = SaveStore(url: dir.appendingPathComponent("save-v2.json"))
+        var old = PlayerProfile.newGame(race: .dwarf)
+        old.gold = 777
+        try legacy.save(old)
+        let store = RosterStore(url: dir.appendingPathComponent("roster.json"), legacy: legacy)
+        var roster = store.load()
+        #expect(roster.characters.count == 1 && roster.selected?.gold == 777 && roster.selected?.name == "Héroe")
+
+        let elf = PlayerProfile.newCharacter(name: "Lúthien", race: .elf, appearance: Appearance(hairStyle: 2, hairColor: 3))
+        roster.upsert(elf)
+        roster.selectedID = elf.characterID
+        try store.save(roster)
+        let loaded = store.load()
+        #expect(loaded.characters.count == 2 && loaded.selected?.name == "Lúthien" && loaded.selected?.appearance?.hairStyle == 2)
+        #expect(loaded.isNameTaken("lúthien"))
+    }
+
+    @Test func nameValidation() {
+        #expect(PlayerProfile.isValidName("Arthas"))
+        #expect(PlayerProfile.isValidName("Gimli Hijo-de-Glóin") == false)   // más de 14
+        #expect(PlayerProfile.isValidName("O'Neil"))
+        #expect(!PlayerProfile.isValidName("A"))
+        #expect(!PlayerProfile.isValidName("12abc"))
     }
 }

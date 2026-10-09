@@ -1,4 +1,4 @@
-.PHONY: project open test build mac clean harness-link balance check-town sprites maps shots fichas verify
+.PHONY: project open test build mac clean harness-link balance historia check-town check-valdemar sprites hero maps dungeon shop shots fichas verify
 
 # Genera GameTest1.xcodeproj a partir de project.yml
 project:
@@ -27,23 +27,39 @@ mac: project
 HARNESS = cd tools/Harness && swift run -c release Harness
 
 # Enlaza las fuentes de la app (salvo el punto de entrada) dentro del banco de pruebas.
+# (No borra la carpeta: así varios agentes pueden usar el banco a la vez.)
 harness-link:
-	@rm -rf tools/Harness/Sources/Harness/App && mkdir -p tools/Harness/Sources/Harness/App
+	@mkdir -p tools/Harness/Sources/Harness/App
+	@find tools/Harness/Sources/Harness/App -type l ! -exec test -e {} \; -delete
 	@find $(CURDIR)/src/GameTest1 -name '*.swift' ! -name 'GameTest1App.swift' -exec ln -sf {} tools/Harness/Sources/Harness/App/ \;
 
 # Balance de la arena: oleada en la que cae un bot con distintos equipos.
 balance: harness-link
 	$(HARNESS) balance
 
+# Modo historia de Valdemar: un bot con equipo T1 juega el continente con combate real (nivel, muertes, oro, minerales).
+historia: harness-link
+	$(HARNESS) historia
+
 # Comprueba el flujo del pueblo (diálogos, rescates, castillo, muerte).
 check-town: harness-link
 	$(HARNESS) town
 
+# Comprueba el flujo del continente 1 (salidas, misiones, castillo, reaparición, mazmorras de historia).
+check-valdemar: harness-link
+	$(HARNESS) valdemar
+
 # Hojas de sprites, mapas y capturas en tools/Harness/output/
 sprites: harness-link
 	$(HARNESS) sprites
+hero: harness-link
+	$(HARNESS) hero
 maps: harness-link
 	$(HARNESS) maps
+dungeon: harness-link
+	$(HARNESS) dungeon
+shop: harness-link
+	$(HARNESS) shop
 shots: harness-link
 	$(HARNESS) shots
 
@@ -52,7 +68,7 @@ fichas: harness-link
 	$(HARNESS) fichas
 
 # Todo lo que hay que pasar antes de dar un cambio por bueno.
-verify: test check-town
+verify: test check-town check-valdemar
 	xcodebuild -project GameTest1.xcodeproj -scheme GameTest1Mac -destination 'platform=macOS' -derivedDataPath build/mac build -quiet
 	xcodebuild -project GameTest1.xcodeproj -scheme GameTest1 -destination 'generic/platform=iOS Simulator' -derivedDataPath build/ios build -quiet
 

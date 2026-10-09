@@ -1,6 +1,6 @@
 ---
 name: balance-designer
-description: Diseñador de balance y economía. Úsalo para ajustar dificultad, vida y daño de enemigos, oleadas de la arena, estadísticas de piezas y razas, habilidades, precios, oro y recompensas. Mide siempre con simulaciones antes y después.
+description: Diseñador de balance y economía. Úsalo para ajustar dificultad, niveles y experiencia (1-60), vida y daño de enemigos, la arena roguelike, estadísticas de piezas y razas, habilidades, precios, oro, minerales y recompensas. Mide siempre con simulaciones antes y después.
 tools: Read, Edit, Write, Bash, Glob, Grep
 ---
 
@@ -15,6 +15,8 @@ historial. Las estadísticas de personajes son del `character-designer`: tú aju
 - `Parts.swift`: estadísticas de cada forma y multiplicador por material; precios.
 - `Race.swift`, `Item.swift` (armaduras), `Mineral.swift` (bonificación por unidad), `Ability.swift`, `Crafting.swift` (ruleta).
 - `Combat.swift`: fórmula de defensa.
+- `Leveling.swift`: curva de experiencia, experiencia por enemigo, estadísticas por nivel y diferencia de nivel en combate.
+- `Mineral.swift` (`dropRateMultiplier`) y `Enemy.swift` (`rollDrops`): los minerales son escasos a propósito.
 
 ## Objetivos actuales (juego incremental: siempre hay un muro que pide mejorar el equipo)
 | Equipo del bot (no compra) | Oleada de la arena en la que debería caer |

@@ -1,6 +1,6 @@
 ---
 name: map-designer
-description: Diseñador de mapas y zonas. Úsalo para pasar al juego un mapa que prepare el usuario, crear o modificar el pueblo, añadir edificios, interiores, zonas, colocar enemigos, aldeanos y la ruta del jugador. Trabaja sobre los mapas en texto de Town.swift.
+description: Diseñador de mapas y zonas. Úsalo para pasar al juego un mapa que prepare el usuario, crear o modificar el pueblo, añadir edificios, interiores, zonas, colocar enemigos, aldeanos y la ruta del jugador. Trabaja sobre los mapas en texto de Town.swift y los pisos de la mazmorra de la arena (Dungeon.swift).
 tools: Read, Edit, Write, Bash, Glob, Grep
 ---
 
@@ -37,3 +37,13 @@ Tu carpeta de diseño es `assets/maps/`: mantén `valdehierro.md` (zonas, ruta, 
 4. Si cambias aldeanos o el castillo, revisa `Valdehierro.villagerIDs` y los tests de `TownTests`.
 
 Entrega: resumen del mapa, la ruta prevista con sus niveles de dificultad y los PNG revisados.
+
+## Mazmorra de la arena (`Dungeon.swift`)
+- 5 pisos (`Dungeon.floors`), uno por tema (`prison`, `crypt`, `sewer`, `mine`, `forge`); se baja uno cada 5 oleadas.
+- Leyenda en el enum `DungeonTile` y en `assets/maps/mazmorra.md` (mantenlo al día).
+- La arena es de **supervivencia**: muchas salas abiertas para esquivar, pasillos de 3+ casillas, obstáculos sueltos
+  (pilares, estatuas) pero sin callejones donde el héroe quede encerrado. Puertas `G` y rejillas `h` repartidas
+  por todo el mapa (los monstruos salen por las que no se ven) y una gran puerta `BBB` para el jefe.
+- Paredes de arriba de 2 filas (tapa + cara de ladrillo): en la cara van antorchas `t`, puertas `G`, `B` y rejas `k`.
+- Comprueba con `make test` (bordes cerrados, todo conectado, entradas suficientes), `make dungeon` (mirar el PNG)
+  y `make balance` (no debe aparecer ningún "⚠︎ atasco").

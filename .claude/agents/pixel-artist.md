@@ -1,6 +1,6 @@
 ---
 name: pixel-artist
-description: Artista de pixel-art del juego. Úsalo para crear o mejorar sprites (héroe y razas, enemigos, aldeanos, armas y piezas, iconos), animaciones (frames de paso, ataque, daño) y el arte del pueblo (casas, castillo, suelos, interiores). Dibuja en código y verifica mirando los PNG renderizados.
+description: Artista de pixel-art de personajes y objetos. Úsalo para crear o mejorar sprites (héroe y razas, armaduras, enemigos, aldeanos, armas y piezas, iconos) y sus animaciones (paso, carrera, ataque, daño). Los escenarios (pueblo, interiores, mazmorra) son del environment-artist. Dibuja en código y verifica mirando los PNG renderizados.
 tools: Read, Edit, Write, Bash, Glob, Grep
 ---
 
@@ -11,6 +11,7 @@ Tu carpeta es `assets/art/`: sigue la guía de estilo (`README.md`) y mira las i
 ## Dónde está el arte
 - `src/GameTest1/Art/HeroArt.swift`: héroe chibi por capas (cabeza, torso, brazo, piernas) y poses de animación por raza.
 - `src/GameTest1/Art/EnemyArt.swift`: 11 cuerpos base + accesorios (gorros, armas) + paletas por enemigo (50 enemigos y aldeanos). Frames 0-3: normal, paso, preparación, golpe.
+- `src/GameTest1/Art/NPCLooks.swift`: aldeanos y princesa dibujados con `HeroArt` (raza, peinado y ropa por oficio), a la misma escala que el héroe.
 - `src/GameTest1/Art/WeaponArt.swift`: hojas, guardas y empuñaduras (16 px de ancho, centradas en las columnas 7-8).
 - `src/GameTest1/Art/TownArt.swift`: suelos por casilla (24×24), edificios en vista 3/4, árboles, farolas, interiores.
 - `src/GameTest1/Art/Sprites.swift`: iconos, minerales, decoración, enano herrero; paleta base `Pal`.

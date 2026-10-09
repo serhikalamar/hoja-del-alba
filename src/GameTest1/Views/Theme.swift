@@ -68,6 +68,8 @@ struct PixelButtonStyle: ButtonStyle {
     var color: Color = Theme.panelLight
     var textColor: Color = Theme.text
     var fontSize: CGFloat = 14
+    /// Alto mínimo (44+ para que sea cómodo de tocar en el móvil).
+    var minHeight: CGFloat = 0
     @Environment(\.isEnabled) private var isEnabled
 
     func makeBody(configuration: Configuration) -> some View {
@@ -76,6 +78,7 @@ struct PixelButtonStyle: ButtonStyle {
             .foregroundStyle(textColor)
             .padding(.horizontal, 12)
             .padding(.vertical, 7)
+            .frame(minHeight: minHeight)
             .background(color.brightness(configuration.isPressed ? -0.12 : 0))
             .overlay(alignment: .bottom) {
                 Rectangle().fill(Color.black.opacity(0.3)).frame(height: 4)
@@ -88,33 +91,8 @@ struct PixelButtonStyle: ButtonStyle {
 
 extension ButtonStyle where Self == PixelButtonStyle {
     static var pixel: PixelButtonStyle { PixelButtonStyle() }
-    static func pixel(_ color: Color, text: Color = Theme.text, size: CGFloat = 14) -> PixelButtonStyle {
-        PixelButtonStyle(color: color, textColor: text, fontSize: size)
-    }
-}
-
-/// Marco común para pantallas con botón de volver.
-struct ScreenFrame<Content: View>: View {
-    @Environment(GameStore.self) private var store
-    let title: String
-    @ViewBuilder var content: Content
-
-    var body: some View {
-        VStack(spacing: 10) {
-            HStack {
-                Button("◀ MENÚ") { store.go(to: .menu) }
-                    .buttonStyle(.pixel(Theme.panelLight, size: 12))
-                Text(title)
-                    .font(Theme.font(22, weight: .black))
-                    .foregroundStyle(Theme.gold)
-                    .padding(.leading, 8)
-                Spacer()
-                GoldLabel(amount: store.profile.gold)
-            }
-            content
-        }
-        .padding(.horizontal, 16)
-        .padding(.vertical, 10)
+    static func pixel(_ color: Color, text: Color = Theme.text, size: CGFloat = 14, minHeight: CGFloat = 0) -> PixelButtonStyle {
+        PixelButtonStyle(color: color, textColor: text, fontSize: size, minHeight: minHeight)
     }
 }
 
@@ -183,6 +161,31 @@ struct StatLines: View {
     }
 }
 
+/// Nivel del personaje con su barra de experiencia.
+struct LevelBadge: View {
+    let level: Int
+    /// 0…1 hacia el siguiente nivel.
+    let progress: Double
+    var width: CGFloat = 170
+
+    var body: some View {
+        HStack(spacing: 6) {
+            Text("NV \(level)")
+                .font(Theme.font(12, weight: .black))
+                .foregroundStyle(Theme.gold)
+                .frame(minWidth: 40, alignment: .leading)
+            ZStack(alignment: .leading) {
+                Rectangle().fill(Color.black.opacity(0.6))
+                Rectangle().fill(Color(hex: 0xB55088))
+                    .frame(width: max(0, (width - 46) * min(1, progress)))
+            }
+            .frame(width: width - 46, height: 6)
+            .overlay(Rectangle().strokeBorder(Color.black, lineWidth: 1))
+        }
+        .shadow(color: .black, radius: 0, x: 1, y: 1)
+    }
+}
+
 struct HPBar: View {
     let hp: Double
     let maxHP: Double
@@ -199,7 +202,7 @@ struct HPBar: View {
                     .frame(width: (width - 6) * fraction)
                     .padding(3)
                     .animation(.easeOut(duration: 0.15), value: fraction)
-                Text("\(Int(hp.rounded(.up)))/\(Int(maxHP))")
+                Text("\(Int(min(hp, maxHP).rounded(.up)))/\(Int(maxHP.rounded(.up)))")
                     .font(Theme.font(10))
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)

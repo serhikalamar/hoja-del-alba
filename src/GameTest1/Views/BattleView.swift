@@ -46,6 +46,9 @@ struct BattleView: View {
                 guard let session else { return }
                 if session.phase == .fighting { session.pause() } else if session.phase == .paused { session.resume() }
             }
+            keyboard.onAction = { [weak session] in
+                if session?.phase == .storyDialog { session?.advanceStoryDialog() }
+            }
             keyboard.start()
         }
         .onDisappear { keyboard.stop() }
@@ -66,7 +69,7 @@ struct BattleView: View {
         case .waveBreak:
             VStack {
                 Spacer()
-                Text("¡OLEADA \(session.wave) SUPERADA!  +\(session.lastWaveReward) oro")
+                Text(session.isStory ? "¡OLEADA \(session.wave) SUPERADA!" : "¡OLEADA \(session.wave) SUPERADA!  +\(session.lastWaveReward) oro")
                     .font(Theme.font(16, weight: .black))
                     .foregroundStyle(Theme.gold)
                     .padding(10)
@@ -79,7 +82,18 @@ struct BattleView: View {
                 Spacer()
             }
         case .defeat:
-            Dimmed { DefeatPanel(session: session) }
+            if session.isStory {
+                Dimmed { StoryEndPanel(session: session) }
+            } else {
+                Dimmed { DefeatPanel(session: session) }
+            }
+        case .storyVictory:
+            Dimmed { StoryEndPanel(session: session) }
+        case .storyDialog:
+            if let dialog = session.storyDialog {
+                StoryDialogBox(speaker: dialog.speaker, line: dialog.lines[dialog.index],
+                               isLast: dialog.index >= dialog.lines.count - 1) { session.advanceStoryDialog() }
+            }
         }
     }
 }
@@ -105,22 +119,25 @@ private struct BattleHUD: View {
         HStack(alignment: .top) {
             VStack(alignment: .leading, spacing: 4) {
                 HPBar(hp: session.hp, maxHP: session.maxHP, width: 170)
-                Text("OLEADA \(max(1, session.wave))")
+                LevelBadge(level: session.level, progress: session.xpProgress)
+                Text(session.totalWaves.map { "OLEADA \(max(1, session.wave))/\($0)" } ?? "OLEADA \(max(1, session.wave))")
                     .font(Theme.font(15, weight: .black))
                     .foregroundStyle(Theme.gold)
                     .shadow(color: .black, radius: 0, x: 2, y: 2)
             }
             Spacer()
             VStack(spacing: 2) {
-                Text(session.stage.name.uppercased())
+                Text(session.story.map { $0.name.uppercased() } ?? "PISO \(session.depth) · \(session.floor.name.uppercased())")
                     .font(Theme.font(11))
                     .foregroundStyle(Theme.textDim)
                 Text("ENEMIGOS: \(session.enemiesLeft)")
                     .font(Theme.font(14))
                     .foregroundStyle(Theme.text)
-                Text("Récord: \(session.bestWave)")
-                    .font(Theme.font(10, weight: .bold))
-                    .foregroundStyle(Theme.textDim)
+                if !session.isStory {
+                    Text("Récord: \(session.bestWave)")
+                        .font(Theme.font(10, weight: .bold))
+                        .foregroundStyle(Theme.textDim)
+                }
             }
             .shadow(color: .black, radius: 0, x: 2, y: 2)
             Spacer()
@@ -229,7 +246,7 @@ private struct LevelIntroPanel: View {
             VStack(alignment: .leading, spacing: 3) {
                 Text("• Oleadas infinitas, cada vez más difíciles.")
                 Text("• Cada 2 oleadas: forja del enano y ritual.")
-                Text("• Cada 5 oleadas: un jefe y un escenario nuevo.")
+                Text("• Cada 5 oleadas: un jefe y bajas un piso de la mazmorra.")
                 Text("• \(Self.controlsHint) Tu héroe ataca solo.")
             }
             .font(Theme.font(12, weight: .bold))
@@ -240,7 +257,7 @@ private struct LevelIntroPanel: View {
                     .foregroundStyle(Theme.orange)
             }
             Button("¡A LUCHAR!") { session.startNextWave() }
-                .buttonStyle(.pixel(Theme.red, size: 18))
+                .buttonStyle(.pixel(Theme.red, size: 20, minHeight: 52))
                 .padding(.top, 4)
         }
         .padding(20)
@@ -251,20 +268,44 @@ private struct LevelIntroPanel: View {
 private struct PausePanel: View {
     @Environment(GameStore.self) private var store
     let session: BattleSession
+    @State private var showingInventory = false
 
     var body: some View {
-        VStack(spacing: 12) {
-            Text("PAUSA").font(Theme.font(28, weight: .black)).foregroundStyle(Theme.gold)
-            Button("▶ CONTINUAR") { session.resume() }
-                .buttonStyle(.pixel(Theme.green, text: .black, size: 16))
-            Button("Abandonar la arena") { store.go(to: .menu) }
-                .buttonStyle(.pixel(Theme.panelLight, size: 12))
-            Text("Los minerales y el oro conseguidos se conservan.")
-                .font(Theme.font(10, weight: .bold))
-                .foregroundStyle(Theme.textDim)
+        if showingInventory {
+            VStack(spacing: 8) {
+                HStack {
+                    Button("◀ VOLVER") { showingInventory = false }
+                        .buttonStyle(.pixel(Theme.panelLight, size: 14, minHeight: 44))
+                    Text("INVENTARIO").font(Theme.font(20, weight: .black)).foregroundStyle(Theme.gold)
+                    Spacer()
+                    GoldLabel(amount: store.profile.gold)
+                }
+                InventoryView(allowsTrading: false)
+            }
+            .padding(16)
+            .background(Theme.background.opacity(0.96).ignoresSafeArea())
+        } else {
+            VStack(spacing: 12) {
+                Text("PAUSA").font(Theme.font(28, weight: .black)).foregroundStyle(Theme.gold)
+                Button("▶ CONTINUAR") { session.resume() }
+                    .buttonStyle(.pixel(Theme.green, text: .black, size: 18, minHeight: 50))
+                Button("▤ INVENTARIO") { showingInventory = true }
+                    .buttonStyle(.pixel(Theme.blue, text: .black, size: 16, minHeight: 46))
+                if session.isStory {
+                    Button("◀ Salir de la mazmorra") { session.leaveStory() }
+                        .buttonStyle(.pixel(Theme.panelLight, size: 12, minHeight: 40))
+                } else {
+                    Button("◀ Abandonar la arena") { store.go(to: .characterSelect) }
+                        .buttonStyle(.pixel(Theme.panelLight, size: 12, minHeight: 40))
+                }
+                Text(session.isStory ? "Los minerales y el oro conseguidos se conservan."
+                                     : "Si abandonas, la partida termina: solo se guarda tu récord.")
+                    .font(Theme.font(10, weight: .bold))
+                    .foregroundStyle(Theme.textDim)
+            }
+            .padding(24)
+            .pixelPanel()
         }
-        .padding(24)
-        .pixelPanel()
     }
 }
 
@@ -320,15 +361,79 @@ private struct DefeatPanel: View {
                 .foregroundStyle(Theme.textDim)
             LootSummary(session: session)
             HStack(spacing: 12) {
-                Button("MENÚ") { store.go(to: .menu) }
-                    .buttonStyle(.pixel(Theme.panelLight, size: 14))
-                Button("RITUAL") { store.go(to: .forge) }
-                    .buttonStyle(.pixel(Theme.purple, text: .white, size: 14))
-                Button("OTRA VEZ") { store.startArena() }
-                    .buttonStyle(.pixel(Theme.green, text: .black, size: 14))
+                Button("◀ PERSONAJES") { store.go(to: .characterSelect) }
+                    .buttonStyle(.pixel(Theme.panelLight, size: 14, minHeight: 46))
+                Button("▶ HISTORIA") { store.startTown() }
+                    .buttonStyle(.pixel(Theme.blue, text: .black, size: 14, minHeight: 46))
+                Button("⚔ OTRA VEZ") { store.startArena() }
+                    .buttonStyle(.pixel(Theme.green, text: .black, size: 14, minHeight: 46))
             }
         }
         .padding(22)
         .pixelPanel()
+    }
+}
+
+// MARK: - Mazmorra de historia
+
+/// Final de una mazmorra de historia: ganada (vuelve a la bajada) o perdida (al punto seguro del área).
+private struct StoryEndPanel: View {
+    let session: BattleSession
+
+    var body: some View {
+        let won = session.phase == .storyVictory
+        VStack(spacing: 10) {
+            if !won { PixelImage(image: Art.skull, scale: 5) }
+            Text(won ? "¡VICTORIA!" : "HAS CAÍDO")
+                .font(Theme.font(26, weight: .black))
+                .foregroundStyle(won ? Theme.gold : Theme.red)
+            Text(won ? session.storyMessage : (session.story.flatMap { ValdemarDialogue.dungeonTexts[$0.id]?.lose }
+                                                ?? "Despiertas en el punto seguro. Conservas todo el botín."))
+                .font(Theme.font(12, weight: .bold))
+                .foregroundStyle(Theme.text)
+                .multilineTextAlignment(.center)
+                .frame(maxWidth: 460)
+            LootSummary(session: session)
+            Button(won ? "▶ VOLVER" : "LEVANTARSE") { session.leaveStory() }
+                .buttonStyle(.pixel(Theme.green, text: .black, size: 16, minHeight: 46))
+        }
+        .padding(22)
+        .pixelPanel()
+    }
+}
+
+/// Diálogo dentro de la mazmorra (la confesión del jefe). Se avanza tocando.
+private struct StoryDialogBox: View {
+    let speaker: String
+    let line: String
+    let isLast: Bool
+    let onNext: () -> Void
+
+    var body: some View {
+        VStack {
+            Spacer(minLength: 0)
+            VStack(alignment: .leading, spacing: 4) {
+                Text(speaker.uppercased())
+                    .font(Theme.font(12, weight: .black))
+                    .foregroundStyle(Theme.red)
+                Text(line)
+                    .font(Theme.font(14, weight: .bold))
+                    .foregroundStyle(Theme.text)
+                    .fixedSize(horizontal: false, vertical: true)
+                Text(isLast ? "▶ ¡A luchar!" : "▶ Siguiente")
+                    .font(Theme.font(10, weight: .black))
+                    .foregroundStyle(Theme.textDim)
+                    .frame(maxWidth: .infinity, alignment: .trailing)
+            }
+            .frame(maxWidth: 480, alignment: .leading)
+            .padding(.horizontal, 12)
+            .padding(.vertical, 10)
+            .pixelPanel(fill: Theme.panel.opacity(0.95))
+            .padding(.horizontal, 30)
+            .padding(.bottom, 12)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+        .contentShape(Rectangle())
+        .onTapGesture(perform: onNext)
     }
 }

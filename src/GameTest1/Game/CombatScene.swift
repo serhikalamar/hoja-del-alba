@@ -78,7 +78,8 @@ class CombatScene: SKScene {
         } else {
             hero.setWalking(false)
         }
-        hero.zPosition = depth(for: hero.position.y)
+        // Se ordena por los pies (como edificios, árboles y aldeanos), no por el centro del dibujo.
+        hero.zPosition = depth(for: hero.position.y - hero.size.height / 2 + 8)
         if stats.regen > 0, hp < stats.maxHP {
             hp = min(stats.maxHP, hp + stats.regen * dt)
             reportHP()
@@ -116,7 +117,8 @@ class CombatScene: SKScene {
             pulse(radius: CGFloat(ability.pulseRadius), damage: stats.attack * ability.pulseDamage, color: abilityColor)
         }
         if ability.strikeEvery > 0, attackCount % ability.strikeEvery == 0,
-           let strongest = enemies.filter({ !$0.isDying }).max(by: { $0.hp < $1.hp }) {
+           // Solo los que ya pelean: en la exploración, el rayo despertaba a jefes del otro extremo del mapa.
+           let strongest = enemies.filter({ !$0.isDying && isActive($0) }).max(by: { $0.hp < $1.hp }) {
             strike(strongest, damage: stats.attack * ability.strikeDamage)
         }
     }
@@ -150,6 +152,8 @@ class CombatScene: SKScene {
     @discardableResult
     func deal(_ enemy: EnemyNode, amount: Double, isCrit: Bool, source: CGPoint?, color: SKColor? = nil) -> Bool {
         guard !enemy.isDying else { return false }
+        // Pegar a enemigos de más nivel cuesta; a los de menos, se nota.
+        let amount = amount * Leveling.damageFactor(attackerLevel: heroLevel, defenderLevel: enemy.level)
         let died = enemy.takeDamage(amount, from: source)
         floatingText(
             isCrit ? "\(Int(amount))!" : "\(Int(amount))",
@@ -192,10 +196,10 @@ class CombatScene: SKScene {
         for enemy in enemies where !enemy.isDying {
             guard isActive(enemy) else { continue }
             let previous = enemy.position
-            if let action = enemy.step(dt: dt, now: elapsed, target: hero.position, heroRadius: HeroNode.bodyRadius) {
+            if let action = enemy.step(dt: dt, now: elapsed, target: chaseTarget(for: enemy), heroRadius: HeroNode.bodyRadius) {
                 switch action {
                 case .hit(let damage):
-                    heroHit(by: damage)
+                    heroHit(by: damage * Leveling.damageFactor(attackerLevel: enemy.level, defenderLevel: heroLevel))
                     if !running { return }
                 case .shoot(let damage):
                     shoot(from: enemy, damage: damage)
@@ -208,13 +212,20 @@ class CombatScene: SKScene {
             }
             if !enemy.isDying { constrain(enemy, previous: previous) }
         }
+        // Separar puede empujar los pies a una casilla sólida (agua, muro): se vuelve a ajustar
+        // desde la posición válida de antes del empujón.
+        let beforePush = enemies.map(\.position)
         separateEnemies()
-        for enemy in enemies { enemy.zPosition = depth(for: enemy.position.y) }
+        for (enemy, previous) in zip(enemies, beforePush) where enemy.position != previous {
+            constrain(enemy, previous: previous)
+        }
+        for enemy in enemies { enemy.zPosition = depth(for: enemy.position.y - enemy.size.height / 2 + 6) }
     }
 
     func shoot(from enemy: EnemyNode, damage: Double) {
         let dir = (hero.position - enemy.position).normalized
-        let projectile = ProjectileNode(enemyID: enemy.definition.id, damage: damage, velocity: dir * 210)
+        let scaled = damage * Leveling.damageFactor(attackerLevel: enemy.level, defenderLevel: heroLevel)
+        let projectile = ProjectileNode(enemyID: enemy.definition.id, damage: scaled, velocity: dir * 210)
         projectile.position = enemy.position + CGVector(dx: dir.dx * enemy.radius, dy: 6)
         projectile.zPosition = 120
         addChild(projectile)
@@ -229,7 +240,7 @@ class CombatScene: SKScene {
                 heroHit(by: projectile.damage)
                 remove(projectile)
                 if !running { return }
-            } else if projectile.life <= 0 {
+            } else if projectile.life <= 0 || blocksShot(at: projectile.position) {
                 remove(projectile)
             }
         }
@@ -282,14 +293,15 @@ class CombatScene: SKScene {
         ]))
         burst(at: enemy.position, color: SKColor(rgb: 0xC8C8D0), count: enemy.definition.isBoss ? 40 : 8)
 
-        for mineral in enemy.stats.rollDrops(using: &rng) {
+        for mineral in enemy.stats.rollDrops(in: lootContinent, using: &rng) {
             let pickup = MineralPickupNode(mineral: mineral)
             pickup.position = enemy.position + CGVector(dx: CGFloat.random(in: -18...18, using: &rng), dy: CGFloat.random(in: -12...12, using: &rng))
             pickup.zPosition = -2
             addChild(pickup)
             pickups.append(pickup)
         }
-        if enemy.definition.isBoss, let partID = enemy.definition.specialPartID, let part = PartCatalog.part(partID) {
+        if enemy.definition.isBoss, dropsSpecialPart(enemy), let partID = PartCatalog.bossPartID(for: enemy.definition, continent: lootContinent),
+           let part = PartCatalog.part(partID) {
             let drop = PartPickupNode(part: part)
             drop.position = enemy.position
             drop.zPosition = 5
@@ -474,6 +486,7 @@ class CombatScene: SKScene {
 
     func floatingText(_ text: String, at point: CGPoint, color: SKColor, size: CGFloat, duration: TimeInterval = 0.7) {
         let node = SKNode()
+        node.name = Self.floatingTextName
         node.position = point
         node.zPosition = 200
         let shadow = SKLabelNode(fontNamed: "Menlo-Bold")
@@ -495,25 +508,68 @@ class CombatScene: SKScene {
         ]))
     }
 
+    /// Halo de luz suave (degradado radial) del color indicado, para mezclar en modo aditivo.
+    func makeGlow(radius: CGFloat, color: UInt32, alpha: CGFloat) -> SKSpriteNode {
+        let glow = SKSpriteNode(texture: Self.glowTexture)
+        glow.size = CGSize(width: radius * 2, height: radius * 2)
+        glow.color = SKColor(rgb: color)
+        glow.colorBlendFactor = 1
+        glow.alpha = alpha
+        glow.blendMode = .add
+        return glow
+    }
+
+    private static let glowTexture: SKTexture = {
+        let n = 64
+        let space = CGColorSpace(name: CGColorSpace.sRGB)!
+        let ctx = CGContext(data: nil, width: n, height: n, bitsPerComponent: 8, bytesPerRow: 0,
+                            space: space, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+        let colors = [CGColor(gray: 1, alpha: 1), CGColor(gray: 1, alpha: 0.45), CGColor(gray: 1, alpha: 0)] as CFArray
+        let gradient = CGGradient(colorsSpace: space, colors: colors, locations: [0, 0.4, 1])!
+        let c = CGPoint(x: CGFloat(n) / 2, y: CGFloat(n) / 2)
+        ctx.drawRadialGradient(gradient, startCenter: c, startRadius: 0, endCenter: c, endRadius: CGFloat(n) / 2, options: [])
+        return SKTexture(cgImage: ctx.makeImage()!)
+    }()
+
+    /// Efecto de subir de nivel sobre el héroe.
+    func levelUpEffect(_ level: Int) {
+        floatingText("¡NIVEL \(level)!", at: hero.position + CGVector(dx: 0, dy: 60), color: SKColor(rgb: 0xFFCD45), size: 22, duration: 1.8)
+        let ring = SKShapeNode(circleOfRadius: 20)
+        ring.strokeColor = SKColor(rgb: 0xFFCD45)
+        ring.lineWidth = 4
+        ring.position = CGPoint(x: hero.position.x, y: hero.position.y - hero.size.height / 2 + 10)
+        ring.zPosition = 140
+        addChild(ring)
+        ring.run(.sequence([.group([.scale(to: 4, duration: 0.5), .fadeOut(withDuration: 0.5)]), .removeFromParent()]))
+        burst(at: hero.position, color: SKColor(rgb: 0xFFE9A0), count: 24)
+    }
+
     func depth(for y: CGFloat) -> CGFloat {
         10 + (1 - y / max(1, worldHeight)) * 50
     }
 
+    /// Nivel del héroe (para la diferencia de nivel en combate).
+    var heroLevel = 1
+
     /// Equipa al héroe y fija sus estadísticas y vida.
-    func prepareHero(stats: Stats, hp: Double, armorIcon: String, weapon: Item?, race: Race) {
+    func prepareHero(stats: Stats, hp: Double, look: HeroLook, weapon: Item?, level: Int = 1) {
         self.stats = stats
+        self.heroLevel = level
         self.ability = weapon?.ability
         self.hp = min(hp, stats.maxHP)
         reportedHP = -1
-        hero.setEquipment(armorIcon: armorIcon, weapon: weapon, race: race)
+        hero.setEquipment(look: look, weapon: weapon)
         reportHP()
     }
 
     /// Quita enemigos, proyectiles y botín (al cambiar de zona).
+    static let floatingTextName = "floatingText"
+
     func clearCombat() {
         for node in enemies as [SKNode] + projectiles as [SKNode] + pickups as [SKNode] + partPickups as [SKNode] {
             node.removeFromParent()
         }
+        children.filter { $0.name == Self.floatingTextName }.forEach { $0.removeFromParent() }
         enemies.removeAll()
         projectiles.removeAll()
         pickups.removeAll()
@@ -522,14 +578,27 @@ class CombatScene: SKScene {
 
     // MARK: - Ganchos para las subclases
 
+    /// Continente cuya familia de minerales sueltan los monstruos (nil = la tabla de la arena).
+    var lootContinent: Continent?
+
+    /// ¿Suelta este jefe su pieza única? (en las mazmorras de historia repetidas, no siempre).
+    func dropsSpecialPart(_ enemy: EnemyNode) -> Bool { true }
+
     /// Nueva posición del héroe tras moverse (límites, colisiones…).
     func moveHero(from old: CGPoint, to new: CGPoint) -> CGPoint { new }
 
     /// Corrige la posición de un enemigo después de moverse.
     func constrain(_ enemy: EnemyNode, previous: CGPoint) {}
 
+    /// ¿Para un muro (o edificio, acantilado…) este disparo enemigo?
+    func blocksShot(at point: CGPoint) -> Bool { false }
+
     /// ¿Este enemigo actúa en este frame? (En el pueblo solo los que te han visto.)
     func isActive(_ enemy: EnemyNode) -> Bool { true }
+
+    /// Hacia dónde camina un enemigo. Por defecto, directo al héroe; un mapa con obstáculos
+    /// puede devolver un punto en la dirección del camino (a la misma distancia que el héroe o más).
+    func chaseTarget(for enemy: EnemyNode) -> CGPoint { hero.position }
 
     /// Aviso de que un enemigo acaba de morir (antes de soltar el botín).
     func enemyDied(_ enemy: EnemyNode) {}

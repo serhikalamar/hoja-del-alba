@@ -27,7 +27,7 @@ struct RitualForgeView: View {
         VStack(spacing: 8) {
             if showsBackButton {
                 HStack {
-                    Button("◀ MENÚ") { store.go(to: .menu) }
+                    Button("◀ VOLVER") { store.go(to: .characterSelect) }
                         .buttonStyle(.pixel(Theme.panelLight, size: 12))
                     Text("RITUAL DE FORJA")
                         .font(Theme.font(22, weight: .black))

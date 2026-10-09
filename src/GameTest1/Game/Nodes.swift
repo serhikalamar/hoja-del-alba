@@ -40,8 +40,7 @@ final class HeroNode: SKSpriteNode {
     static let artScale: CGFloat = PX
     private static let restAngle: CGFloat = -0.3
 
-    private var armorIcon = ""
-    private var race = Race.human
+    private var look = HeroLook(race: .human)
     private let weaponPivot = SKNode()
     private let weapon = SKSpriteNode()
     private(set) var isWalking = false
@@ -63,19 +62,18 @@ final class HeroNode: SKSpriteNode {
     required init?(coder aDecoder: NSCoder) { fatalError("init(coder:) no soportado") }
 
     private func texture(_ pose: HeroArt.Pose) -> SKTexture {
-        Art.heroTexture(pose, armorIcon: armorIcon, race: race)
+        Art.heroTexture(pose, look: look)
     }
 
     /// Posición de la mano para un frame, en coordenadas del nodo.
     private func handPosition(_ pose: HeroArt.Pose) -> CGPoint {
-        let p = HeroArt.hand(race: race, pose: pose)
+        let p = HeroArt.hand(look, pose: pose)
         let w = CGFloat(HeroArt.canvasWidth + 2), h = CGFloat(HeroArt.canvasHeight + 2)
         return CGPoint(x: (p.x - w / 2) * Self.artScale, y: (h / 2 - p.y) * Self.artScale)
     }
 
-    func setEquipment(armorIcon: String, weapon item: Item?, race: Race) {
-        self.armorIcon = armorIcon
-        self.race = race
+    func setEquipment(look: HeroLook, weapon item: Item?) {
+        self.look = look
         isWalking = false
         isAttacking = false
         weaponPivot.removeAllActions()
@@ -100,16 +98,16 @@ final class HeroNode: SKSpriteNode {
     /// Animación de base: respirar (con parpadeo) o caminar.
     private func startLoop() {
         removeAction(forKey: "loop")
-        texture = texture(isWalking ? .walk0 : .idle0)
+        texture = texture(isWalking ? .run0 : .idle0)
         let action: SKAction
         if isWalking {
-            let frames = [HeroArt.Pose.walk0, .walk1, .walk2, .walk3].map(texture)
-            action = .repeatForever(.animate(with: frames, timePerFrame: 0.11))
+            let frames = HeroArt.runPoses.map(texture)
+            action = .repeatForever(.animate(with: frames, timePerFrame: 0.08))
+            // El arma sigue a la mano frame a frame.
             weaponPivot.removeAction(forKey: "bob")
-            weaponPivot.run(.repeatForever(.sequence([
-                .move(to: handPosition(.walk1), duration: 0.11),
-                .move(to: handPosition(.walk0), duration: 0.11),
-            ])), withKey: "bob")
+            weaponPivot.run(.repeatForever(.sequence(HeroArt.runPoses.map {
+                SKAction.move(to: handPosition($0), duration: 0.08)
+            })), withKey: "bob")
         } else {
             let breathe = SKAction.sequence([
                 .setTexture(texture(.idle0)), .wait(forDuration: 0.5),
@@ -158,7 +156,8 @@ final class HeroNode: SKSpriteNode {
             },
         ]), withKey: "attack")
         weaponPivot.run(.sequence([
-            .group([.move(to: handPosition(.windup), duration: 0.06 * k), .rotate(toAngle: 1.1, duration: 0.06 * k)]),
+            // Preparación: el arma se levanta casi vertical junto a la cabeza (sin taparle la cara).
+            .group([.move(to: handPosition(.windup), duration: 0.06 * k), .rotate(toAngle: 0.1, duration: 0.06 * k)]),
             .group([.move(to: handPosition(.strike), duration: 0.06 * k), .rotate(toAngle: -2.2, duration: 0.06 * k)]),
             .wait(forDuration: 0.05 * k),
             .group([.move(to: handPosition(.recover), duration: 0.1 * k), .rotate(toAngle: Self.restAngle, duration: 0.12 * k)]),
@@ -203,6 +202,8 @@ enum EnemyAction {
 final class EnemyNode: SKSpriteNode {
     let definition: EnemyDefinition
     let stats: MonsterStats
+    /// Nivel del enemigo (zona del pueblo u oleada de la arena).
+    let level: Int
     /// Id del punto de aparición (pueblo) para recordar que ha muerto.
     var spawnID: String?
     /// En el pueblo los enemigos esperan hasta que te ven.
@@ -237,6 +238,7 @@ final class EnemyNode: SKSpriteNode {
 
     init(definition: EnemyDefinition, level: Int) {
         self.definition = definition
+        self.level = level
         self.stats = definition.stats(level: level)
         self.hp = stats.hp
         self.radius = CGFloat(definition.bodyRadius)
@@ -275,7 +277,7 @@ final class EnemyNode: SKSpriteNode {
 
     private func startWalking() {
         let frameTime = definition.speed > 90 ? 0.1 : 0.2
-        run(.repeatForever(.animate(with: Array(textures[0...1]), timePerFrame: frameTime)), withKey: "walk")
+        run(.repeatForever(.animate(with: EnemyArt.walkFrames.map { textures[$0] }, timePerFrame: frameTime)), withKey: "walk")
     }
 
     private var windupDuration: TimeInterval {
@@ -288,7 +290,7 @@ final class EnemyNode: SKSpriteNode {
     private func playWindup() {
         removeAction(forKey: "walk")
         removeAction(forKey: "pose")
-        texture = textures[2]
+        texture = textures[EnemyArt.windupFrame]
         run(.group([
             .rotate(toAngle: 0.2 * facingSign, duration: windupDuration * 0.8),
             .scaleY(to: 0.9, duration: windupDuration * 0.8),
@@ -298,7 +300,7 @@ final class EnemyNode: SKSpriteNode {
     /// Golpe hacia delante y vuelta a la normalidad.
     private func playStrike(_ dir: CGVector) {
         removeAction(forKey: "pose")
-        texture = textures[3]
+        texture = textures[EnemyArt.strikeFrame]
         let lunge = dir * (definition.behavior == .ranged ? -4 : 10)
         run(.sequence([
             .group([
@@ -389,7 +391,7 @@ final class EnemyNode: SKSpriteNode {
                 if t - dt <= 0 {
                     charge = .dash(0.5, dir)
                     removeAction(forKey: "walk")
-                    texture = textures[3]
+                    texture = textures[EnemyArt.strikeFrame]
                     run(.group([.scaleY(to: 0.85, duration: 0.08), .rotate(toAngle: -0.15 * facingSign, duration: 0.08)]), withKey: "pose")
                 } else {
                     charge = .windup(t - dt)
@@ -433,6 +435,12 @@ final class EnemyNode: SKSpriteNode {
             ]), withKey: "hit")
             if windup == nil {
                 run(.sequence([.scaleY(to: 0.84, duration: 0.04), .scaleY(to: 1, duration: 0.1)]), withKey: "squash")
+            }
+            // Frame de daño (EnemyArt.hurtFrame), salvo si está preparando o rematando un ataque.
+            if windup == nil, case .approach = charge, action(forKey: "pose") == nil {
+                removeAction(forKey: "walk")
+                texture = textures[EnemyArt.hurtFrame]
+                run(.sequence([.wait(forDuration: 0.16), .run { [weak self] in self?.startWalking() }]), withKey: "pose")
             }
         }
         if let source {
@@ -526,6 +534,18 @@ final class ProjectileNode: SKSpriteNode {
         case "goblinBomber":
             return ArtCache.texture("proj.bomb") { PixelSprite(rows: [".Y..", ".BB.", "BBBB", "BBBB", ".BB."], palette: ["B": 0x2A2A3A, "Y": 0xFFB030]) }
         default:
+            if enemyID == "eclipseAcolyte" {
+                // Esfera de sombra de la Orden del Eclipse: núcleo claro, halo violeta y estela oscura detrás.
+                return Art.gridTexture("proj.eclipseOrb", PixelGrid(PixelSprite(rows: [
+                    "......GGG.",
+                    "..n.OGFmmG",
+                    ".nOOGFm**F",
+                    "n.OOGFm**F",
+                    "..n.OGFmmG",
+                    "......GGG.",
+                ], palette: ["G": 0x8E5CC2, "F": 0xB894E0, "m": 0xD9C2FF, "*": 0xFFFFFF, "O": 0x5E3A8A, "n": 0x4A2A70]))
+                    .outlined(0x24123A))
+            }
             let color: UInt32 = switch enemyID {
             case "witch": 0x8BD450
             case "necromancer", "abbot": 0xB070FF

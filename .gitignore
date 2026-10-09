@@ -17,3 +17,7 @@ Package.resolved
 # Banco de pruebas: fuentes enlazadas y salidas generadas
 tools/Harness/Sources/Harness/App/
 tools/Harness/output/
+
+# Configuración de las cuentas (Supabase): URL y clave del proyecto, no se versiona.
+# Plantilla en backend/SupabaseConfig.example.plist
+src/GameTest1/Resources/SupabaseConfig.plist
