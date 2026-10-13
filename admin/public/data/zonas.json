@@ -1,0 +1,2426 @@
+{
+  "areas" : [
+    {
+      "base" : {
+        "level" : 1
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+
+      ],
+      "id" : "town",
+      "mazmorras" : [
+        "valdemar.calabozos"
+      ],
+      "nombre" : "Valdehierro",
+      "nombreTipo" : "pueblo",
+      "rescates" : [
+
+      ],
+      "tipo" : "town",
+      "zonas" : [
+        {
+          "base" : {
+            "level" : 1
+          },
+          "id" : "south",
+          "nombre" : "Puerta sur",
+          "spawns" : [
+            {
+              "enemyID" : "rat",
+              "id" : "south.1",
+              "jefe" : false,
+              "nombre" : "Rata de alcantarilla"
+            },
+            {
+              "enemyID" : "rat",
+              "id" : "south.2",
+              "jefe" : false,
+              "nombre" : "Rata de alcantarilla"
+            },
+            {
+              "enemyID" : "goblin",
+              "id" : "south.3",
+              "jefe" : false,
+              "nombre" : "Goblin"
+            },
+            {
+              "enemyID" : "goblin",
+              "id" : "south.4",
+              "jefe" : false,
+              "nombre" : "Goblin"
+            },
+            {
+              "enemyID" : "goblinSlinger",
+              "id" : "south.5",
+              "jefe" : false,
+              "nombre" : "Goblin hondero"
+            },
+            {
+              "enemyID" : "mangyDog",
+              "id" : "south.6",
+              "jefe" : false,
+              "nombre" : "Perro sarnoso"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 2
+          },
+          "id" : "market",
+          "nombre" : "Mercado",
+          "spawns" : [
+            {
+              "enemyID" : "bandit",
+              "id" : "market.1",
+              "jefe" : false,
+              "nombre" : "Bandido"
+            },
+            {
+              "enemyID" : "goblinThief",
+              "id" : "market.2",
+              "jefe" : false,
+              "nombre" : "Goblin ladrón"
+            },
+            {
+              "enemyID" : "goblinThief",
+              "id" : "market.3",
+              "jefe" : false,
+              "nombre" : "Goblin ladrón"
+            },
+            {
+              "enemyID" : "crow",
+              "id" : "market.4",
+              "jefe" : false,
+              "nombre" : "Cuervo carroñero"
+            },
+            {
+              "enemyID" : "crow",
+              "id" : "market.5",
+              "jefe" : false,
+              "nombre" : "Cuervo carroñero"
+            },
+            {
+              "enemyID" : "mangyDog",
+              "id" : "market.6",
+              "jefe" : false,
+              "nombre" : "Perro sarnoso"
+            },
+            {
+              "enemyID" : "bandit",
+              "id" : "market.7",
+              "jefe" : false,
+              "nombre" : "Bandido"
+            },
+            {
+              "enemyID" : "goblinSpearman",
+              "id" : "market.8",
+              "jefe" : false,
+              "nombre" : "Goblin lancero"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 3
+          },
+          "id" : "west",
+          "nombre" : "Barrio oeste",
+          "spawns" : [
+            {
+              "enemyID" : "skeleton",
+              "id" : "west.1",
+              "jefe" : false,
+              "nombre" : "Esqueleto"
+            },
+            {
+              "enemyID" : "zombieFarmer",
+              "id" : "west.2",
+              "jefe" : false,
+              "nombre" : "Granjero zombi"
+            },
+            {
+              "enemyID" : "goblinShaman",
+              "id" : "west.3",
+              "jefe" : false,
+              "nombre" : "Chamán goblin"
+            },
+            {
+              "enemyID" : "boar",
+              "id" : "west.4",
+              "jefe" : false,
+              "nombre" : "Jabalí"
+            },
+            {
+              "enemyID" : "skeleton",
+              "id" : "west.5",
+              "jefe" : false,
+              "nombre" : "Esqueleto"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 4
+          },
+          "id" : "east",
+          "nombre" : "Barrio este",
+          "spawns" : [
+            {
+              "enemyID" : "cultist",
+              "id" : "east.1",
+              "jefe" : false,
+              "nombre" : "Cultista"
+            },
+            {
+              "enemyID" : "slime",
+              "id" : "east.2",
+              "jefe" : false,
+              "nombre" : "Limo verde"
+            },
+            {
+              "enemyID" : "bat",
+              "id" : "east.3",
+              "jefe" : false,
+              "nombre" : "Murciélago"
+            },
+            {
+              "enemyID" : "goblinBrute",
+              "id" : "east.4",
+              "jefe" : false,
+              "nombre" : "Goblin bruto"
+            },
+            {
+              "enemyID" : "cultist",
+              "id" : "east.5",
+              "jefe" : false,
+              "nombre" : "Cultista"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 5
+          },
+          "id" : "plaza",
+          "nombre" : "Plaza mayor",
+          "spawns" : [
+            {
+              "enemyID" : "hobgoblin",
+              "id" : "plaza.1",
+              "jefe" : false,
+              "nombre" : "Hobgoblin"
+            },
+            {
+              "enemyID" : "skeletonArcher",
+              "id" : "plaza.2",
+              "jefe" : false,
+              "nombre" : "Esqueleto arquero"
+            },
+            {
+              "enemyID" : "wolf",
+              "id" : "plaza.3",
+              "jefe" : false,
+              "nombre" : "Lobo gris"
+            },
+            {
+              "enemyID" : "mercenary",
+              "id" : "plaza.4",
+              "jefe" : false,
+              "nombre" : "Mercenario"
+            },
+            {
+              "enemyID" : "banditChief",
+              "id" : "plaza.5",
+              "jefe" : true,
+              "nombre" : "Capitán bandido"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 9
+          },
+          "id" : "courtyard",
+          "nombre" : "Patio del castillo",
+          "spawns" : [
+            {
+              "enemyID" : "goblinGuard",
+              "id" : "courtyard.1",
+              "jefe" : false,
+              "nombre" : "Guardia real goblin"
+            },
+            {
+              "enemyID" : "goblinGuard",
+              "id" : "courtyard.2",
+              "jefe" : false,
+              "nombre" : "Guardia real goblin"
+            },
+            {
+              "enemyID" : "goblinMage",
+              "id" : "courtyard.3",
+              "jefe" : false,
+              "nombre" : "Mago goblin"
+            },
+            {
+              "enemyID" : "goblinMage",
+              "id" : "courtyard.4",
+              "jefe" : false,
+              "nombre" : "Mago goblin"
+            },
+            {
+              "enemyID" : "goblinElite",
+              "id" : "courtyard.5",
+              "jefe" : false,
+              "nombre" : "Goblin de élite"
+            },
+            {
+              "enemyID" : "orc",
+              "id" : "courtyard.6",
+              "jefe" : false,
+              "nombre" : "Orco"
+            },
+            {
+              "enemyID" : "wolfRider",
+              "id" : "courtyard.7",
+              "jefe" : false,
+              "nombre" : "Jinete de lobo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "base" : {
+        "level" : 2
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+        {
+          "enemyID" : "rat",
+          "id" : "bakery.1",
+          "jefe" : false,
+          "nombre" : "Rata de alcantarilla"
+        },
+        {
+          "enemyID" : "rat",
+          "id" : "bakery.2",
+          "jefe" : false,
+          "nombre" : "Rata de alcantarilla"
+        },
+        {
+          "enemyID" : "rat",
+          "id" : "bakery.3",
+          "jefe" : false,
+          "nombre" : "Rata de alcantarilla"
+        },
+        {
+          "enemyID" : "ratKing",
+          "id" : "bakery.4",
+          "jefe" : true,
+          "nombre" : "Rey de las ratas"
+        }
+      ],
+      "id" : "bakery",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Panadería",
+      "nombreTipo" : "interior",
+      "rescates" : [
+        {
+          "id" : "marta",
+          "nombre" : "Marta, la panadera"
+        }
+      ],
+      "tipo" : "interior",
+      "zonas" : [
+
+      ]
+    },
+    {
+      "base" : {
+        "level" : 3
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+        {
+          "enemyID" : "bandit",
+          "id" : "weaver.1",
+          "jefe" : false,
+          "nombre" : "Bandido"
+        },
+        {
+          "enemyID" : "goblinThief",
+          "id" : "weaver.2",
+          "jefe" : false,
+          "nombre" : "Goblin ladrón"
+        },
+        {
+          "enemyID" : "bandit",
+          "id" : "weaver.3",
+          "jefe" : false,
+          "nombre" : "Bandido"
+        }
+      ],
+      "id" : "weaver",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Casa de la tejedora",
+      "nombreTipo" : "interior",
+      "rescates" : [
+        {
+          "id" : "elena",
+          "nombre" : "Elena, la tejedora"
+        }
+      ],
+      "tipo" : "interior",
+      "zonas" : [
+
+      ]
+    },
+    {
+      "base" : {
+        "level" : 3
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+        {
+          "enemyID" : "zombieFarmer",
+          "id" : "mill.1",
+          "jefe" : false,
+          "nombre" : "Granjero zombi"
+        },
+        {
+          "enemyID" : "boar",
+          "id" : "mill.2",
+          "jefe" : false,
+          "nombre" : "Jabalí"
+        },
+        {
+          "enemyID" : "scarecrow",
+          "id" : "mill.3",
+          "jefe" : true,
+          "nombre" : "Espantapájaros maldito"
+        }
+      ],
+      "id" : "mill",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Casa del molinero",
+      "nombreTipo" : "interior",
+      "rescates" : [
+        {
+          "id" : "tomas",
+          "nombre" : "Tomás, el molinero"
+        }
+      ],
+      "tipo" : "interior",
+      "zonas" : [
+
+      ]
+    },
+    {
+      "base" : {
+        "level" : 5
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+        {
+          "enemyID" : "skeleton",
+          "id" : "chapel.1",
+          "jefe" : false,
+          "nombre" : "Esqueleto"
+        },
+        {
+          "enemyID" : "skeleton",
+          "id" : "chapel.2",
+          "jefe" : false,
+          "nombre" : "Esqueleto"
+        },
+        {
+          "enemyID" : "ghoul",
+          "id" : "chapel.3",
+          "jefe" : false,
+          "nombre" : "Necrófago"
+        },
+        {
+          "enemyID" : "ghoul",
+          "id" : "chapel.4",
+          "jefe" : false,
+          "nombre" : "Necrófago"
+        },
+        {
+          "enemyID" : "skeletonArcher",
+          "id" : "chapel.5",
+          "jefe" : false,
+          "nombre" : "Esqueleto arquero"
+        }
+      ],
+      "id" : "chapel",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Capilla",
+      "nombreTipo" : "interior",
+      "rescates" : [
+        {
+          "id" : "anselmo",
+          "nombre" : "Fray Anselmo"
+        }
+      ],
+      "tipo" : "interior",
+      "zonas" : [
+
+      ]
+    },
+    {
+      "base" : {
+        "level" : 4
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+        {
+          "enemyID" : "goblin",
+          "id" : "inn.1",
+          "jefe" : false,
+          "nombre" : "Goblin"
+        },
+        {
+          "enemyID" : "goblin",
+          "id" : "inn.2",
+          "jefe" : false,
+          "nombre" : "Goblin"
+        },
+        {
+          "enemyID" : "goblinSlinger",
+          "id" : "inn.3",
+          "jefe" : false,
+          "nombre" : "Goblin hondero"
+        },
+        {
+          "enemyID" : "goblinBrute",
+          "id" : "inn.4",
+          "jefe" : false,
+          "nombre" : "Goblin bruto"
+        },
+        {
+          "enemyID" : "possessedSmith",
+          "id" : "inn.5",
+          "jefe" : true,
+          "nombre" : "Herrero poseído"
+        }
+      ],
+      "id" : "inn",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Posada del Jabalí",
+      "nombreTipo" : "interior",
+      "rescates" : [
+        {
+          "id" : "bruno",
+          "nombre" : "Bruno, el posadero"
+        }
+      ],
+      "tipo" : "interior",
+      "zonas" : [
+
+      ]
+    },
+    {
+      "base" : {
+        "level" : 6
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+        {
+          "enemyID" : "slime",
+          "id" : "alchemist.1",
+          "jefe" : false,
+          "nombre" : "Limo verde"
+        },
+        {
+          "enemyID" : "fireSlime",
+          "id" : "alchemist.2",
+          "jefe" : false,
+          "nombre" : "Limo de fuego"
+        },
+        {
+          "enemyID" : "bat",
+          "id" : "alchemist.3",
+          "jefe" : false,
+          "nombre" : "Murciélago"
+        },
+        {
+          "enemyID" : "witch",
+          "id" : "alchemist.4",
+          "jefe" : true,
+          "nombre" : "Bruja del pozo"
+        }
+      ],
+      "id" : "alchemist",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Casa de la alquimista",
+      "nombreTipo" : "interior",
+      "rescates" : [
+        {
+          "id" : "iris",
+          "nombre" : "Iris, la alquimista"
+        }
+      ],
+      "tipo" : "interior",
+      "zonas" : [
+
+      ]
+    },
+    {
+      "base" : {
+        "level" : 7
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+        {
+          "enemyID" : "cultist",
+          "id" : "mayor.1",
+          "jefe" : false,
+          "nombre" : "Cultista"
+        },
+        {
+          "enemyID" : "eclipseAcolyte",
+          "id" : "mayor.2",
+          "jefe" : false,
+          "nombre" : "Acólito del Eclipse"
+        },
+        {
+          "enemyID" : "cultist",
+          "id" : "mayor.3",
+          "jefe" : false,
+          "nombre" : "Cultista"
+        },
+        {
+          "enemyID" : "eclipseAcolyte",
+          "id" : "mayor.4",
+          "jefe" : false,
+          "nombre" : "Acólito del Eclipse"
+        }
+      ],
+      "id" : "mayor",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Casa del alcalde",
+      "nombreTipo" : "interior",
+      "rescates" : [
+
+      ],
+      "tipo" : "interior",
+      "zonas" : [
+
+      ]
+    },
+    {
+      "base" : {
+        "level" : 10
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+        {
+          "enemyID" : "goblinGuard",
+          "id" : "castle.1",
+          "jefe" : false,
+          "nombre" : "Guardia real goblin"
+        },
+        {
+          "enemyID" : "goblinGuard",
+          "id" : "castle.2",
+          "jefe" : false,
+          "nombre" : "Guardia real goblin"
+        },
+        {
+          "enemyID" : "goblinMage",
+          "id" : "castle.3",
+          "jefe" : false,
+          "nombre" : "Mago goblin"
+        },
+        {
+          "enemyID" : "goblinMage",
+          "id" : "castle.4",
+          "jefe" : false,
+          "nombre" : "Mago goblin"
+        },
+        {
+          "enemyID" : "goblinStandard",
+          "id" : "castle.5",
+          "jefe" : false,
+          "nombre" : "Abanderado goblin"
+        },
+        {
+          "enemyID" : "goblinKing",
+          "id" : "castle.6",
+          "jefe" : true,
+          "nombre" : "Rey Goblin"
+        }
+      ],
+      "id" : "castle",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Salón del trono",
+      "nombreTipo" : "interior",
+      "rescates" : [
+        {
+          "id" : "princess",
+          "nombre" : "Princesa Aurora"
+        }
+      ],
+      "tipo" : "interior",
+      "zonas" : [
+
+      ]
+    },
+    {
+      "base" : {
+        "level" : 5
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+
+      ],
+      "id" : "valdemar.huertos",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Huertos del Molino",
+      "nombreTipo" : "campo",
+      "rescates" : [
+
+      ],
+      "tipo" : "field",
+      "zonas" : [
+        {
+          "base" : {
+            "level" : 6
+          },
+          "id" : "valdemar.huertos.molino",
+          "nombre" : "Molino en ruinas",
+          "spawns" : [
+            {
+              "enemyID" : "ogre",
+              "id" : "valdemar.huertos.1",
+              "jefe" : true,
+              "nombre" : "Ogro del molino"
+            },
+            {
+              "enemyID" : "mudGolem",
+              "id" : "valdemar.huertos.2",
+              "jefe" : false,
+              "nombre" : "Gólem de barro"
+            },
+            {
+              "enemyID" : "skeleton",
+              "id" : "valdemar.huertos.3",
+              "jefe" : false,
+              "nombre" : "Esqueleto"
+            },
+            {
+              "enemyID" : "skeleton",
+              "id" : "valdemar.huertos.4",
+              "jefe" : false,
+              "nombre" : "Esqueleto"
+            },
+            {
+              "enemyID" : "plagueRat",
+              "id" : "valdemar.huertos.5",
+              "jefe" : false,
+              "nombre" : "Rata de la peste"
+            },
+            {
+              "enemyID" : "plagueRat",
+              "id" : "valdemar.huertos.6",
+              "jefe" : false,
+              "nombre" : "Rata de la peste"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 5
+          },
+          "id" : "valdemar.huertos.ribera",
+          "nombre" : "Ribera del Plata",
+          "spawns" : [
+            {
+              "enemyID" : "slime",
+              "id" : "valdemar.huertos.7",
+              "jefe" : false,
+              "nombre" : "Limo verde"
+            },
+            {
+              "enemyID" : "slime",
+              "id" : "valdemar.huertos.8",
+              "jefe" : false,
+              "nombre" : "Limo verde"
+            },
+            {
+              "enemyID" : "skeleton",
+              "id" : "valdemar.huertos.9",
+              "jefe" : false,
+              "nombre" : "Esqueleto"
+            },
+            {
+              "enemyID" : "skeleton",
+              "id" : "valdemar.huertos.10",
+              "jefe" : false,
+              "nombre" : "Esqueleto"
+            },
+            {
+              "enemyID" : "crow",
+              "id" : "valdemar.huertos.11",
+              "jefe" : false,
+              "nombre" : "Cuervo carroñero"
+            },
+            {
+              "enemyID" : "plagueRat",
+              "id" : "valdemar.huertos.12",
+              "jefe" : false,
+              "nombre" : "Rata de la peste"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 5
+          },
+          "id" : "valdemar.huertos.trigales",
+          "nombre" : "Trigales quemados",
+          "spawns" : [
+            {
+              "enemyID" : "zombieFarmer",
+              "id" : "valdemar.huertos.13",
+              "jefe" : false,
+              "nombre" : "Granjero zombi"
+            },
+            {
+              "enemyID" : "zombieFarmer",
+              "id" : "valdemar.huertos.14",
+              "jefe" : false,
+              "nombre" : "Granjero zombi"
+            },
+            {
+              "enemyID" : "boar",
+              "id" : "valdemar.huertos.15",
+              "jefe" : false,
+              "nombre" : "Jabalí"
+            },
+            {
+              "enemyID" : "goblinBomber",
+              "id" : "valdemar.huertos.16",
+              "jefe" : false,
+              "nombre" : "Goblin bombardero"
+            },
+            {
+              "enemyID" : "crow",
+              "id" : "valdemar.huertos.17",
+              "jefe" : false,
+              "nombre" : "Cuervo carroñero"
+            },
+            {
+              "enemyID" : "zombieFarmer",
+              "id" : "valdemar.huertos.18",
+              "jefe" : false,
+              "nombre" : "Granjero zombi"
+            },
+            {
+              "enemyID" : "zombieFarmer",
+              "id" : "valdemar.huertos.19",
+              "jefe" : false,
+              "nombre" : "Granjero zombi"
+            },
+            {
+              "enemyID" : "mudGolem",
+              "id" : "valdemar.huertos.20",
+              "jefe" : false,
+              "nombre" : "Gólem de barro"
+            },
+            {
+              "enemyID" : "boar",
+              "id" : "valdemar.huertos.21",
+              "jefe" : false,
+              "nombre" : "Jabalí"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "base" : {
+        "level" : 6
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+
+      ],
+      "id" : "valdemar.robleda",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Bosque de Robleda",
+      "nombreTipo" : "campo",
+      "rescates" : [
+
+      ],
+      "tipo" : "field",
+      "zonas" : [
+        {
+          "base" : {
+            "level" : 6
+          },
+          "id" : "valdemar.robleda.robledal",
+          "nombre" : "Robledal",
+          "spawns" : [
+            {
+              "enemyID" : "wolf",
+              "id" : "valdemar.robleda.1",
+              "jefe" : false,
+              "nombre" : "Lobo gris"
+            },
+            {
+              "enemyID" : "wolf",
+              "id" : "valdemar.robleda.2",
+              "jefe" : false,
+              "nombre" : "Lobo gris"
+            },
+            {
+              "enemyID" : "boar",
+              "id" : "valdemar.robleda.3",
+              "jefe" : false,
+              "nombre" : "Jabalí"
+            },
+            {
+              "enemyID" : "hobgoblin",
+              "id" : "valdemar.robleda.4",
+              "jefe" : false,
+              "nombre" : "Hobgoblin"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 6
+          },
+          "id" : "valdemar.robleda.campamento",
+          "nombre" : "Campamento bandido",
+          "spawns" : [
+            {
+              "enemyID" : "bandit",
+              "id" : "valdemar.robleda.5",
+              "jefe" : false,
+              "nombre" : "Bandido"
+            },
+            {
+              "enemyID" : "bandit",
+              "id" : "valdemar.robleda.6",
+              "jefe" : false,
+              "nombre" : "Bandido"
+            },
+            {
+              "enemyID" : "mercenary",
+              "id" : "valdemar.robleda.7",
+              "jefe" : false,
+              "nombre" : "Mercenario"
+            },
+            {
+              "enemyID" : "bandit",
+              "id" : "valdemar.robleda.8",
+              "jefe" : false,
+              "nombre" : "Bandido"
+            },
+            {
+              "enemyID" : "mercenary",
+              "id" : "valdemar.robleda.9",
+              "jefe" : false,
+              "nombre" : "Mercenario"
+            },
+            {
+              "enemyID" : "bandit",
+              "id" : "valdemar.robleda.10",
+              "jefe" : false,
+              "nombre" : "Bandido"
+            },
+            {
+              "enemyID" : "mercenary",
+              "id" : "valdemar.robleda.11",
+              "jefe" : false,
+              "nombre" : "Mercenario"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 6
+          },
+          "id" : "valdemar.robleda.camino",
+          "nombre" : "Camino real",
+          "spawns" : [
+            {
+              "enemyID" : "goblinSpearman",
+              "id" : "valdemar.robleda.12",
+              "jefe" : false,
+              "nombre" : "Goblin lancero"
+            },
+            {
+              "enemyID" : "goblinSpearman",
+              "id" : "valdemar.robleda.13",
+              "jefe" : false,
+              "nombre" : "Goblin lancero"
+            },
+            {
+              "enemyID" : "goblinShaman",
+              "id" : "valdemar.robleda.14",
+              "jefe" : false,
+              "nombre" : "Chamán goblin"
+            },
+            {
+              "enemyID" : "boar",
+              "id" : "valdemar.robleda.15",
+              "jefe" : false,
+              "nombre" : "Jabalí"
+            },
+            {
+              "enemyID" : "hobgoblin",
+              "id" : "valdemar.robleda.16",
+              "jefe" : false,
+              "nombre" : "Hobgoblin"
+            },
+            {
+              "enemyID" : "goblinShaman",
+              "id" : "valdemar.robleda.17",
+              "jefe" : false,
+              "nombre" : "Chamán goblin"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 7
+          },
+          "id" : "valdemar.robleda.guarida",
+          "nombre" : "Guarida del lobo",
+          "spawns" : [
+            {
+              "enemyID" : "alphaWolf",
+              "id" : "valdemar.robleda.18",
+              "jefe" : true,
+              "nombre" : "Lobo alfa"
+            },
+            {
+              "enemyID" : "wolf",
+              "id" : "valdemar.robleda.19",
+              "jefe" : false,
+              "nombre" : "Lobo gris"
+            },
+            {
+              "enemyID" : "wolf",
+              "id" : "valdemar.robleda.20",
+              "jefe" : false,
+              "nombre" : "Lobo gris"
+            },
+            {
+              "enemyID" : "wolf",
+              "id" : "valdemar.robleda.21",
+              "jefe" : false,
+              "nombre" : "Lobo gris"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "base" : {
+        "level" : 7
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+
+      ],
+      "id" : "valdemar.abadia",
+      "mazmorras" : [
+        "valdemar.cripta"
+      ],
+      "nombre" : "Abadía de Valsombra",
+      "nombreTipo" : "campo",
+      "rescates" : [
+
+      ],
+      "tipo" : "field",
+      "zonas" : [
+        {
+          "base" : {
+            "level" : 7
+          },
+          "id" : "valdemar.abadia.cementerio",
+          "nombre" : "Cementerio de Valsombra",
+          "spawns" : [
+            {
+              "enemyID" : "skeleton",
+              "id" : "valdemar.abadia.1",
+              "jefe" : false,
+              "nombre" : "Esqueleto"
+            },
+            {
+              "enemyID" : "skeleton",
+              "id" : "valdemar.abadia.2",
+              "jefe" : false,
+              "nombre" : "Esqueleto"
+            },
+            {
+              "enemyID" : "skeletonArcher",
+              "id" : "valdemar.abadia.3",
+              "jefe" : false,
+              "nombre" : "Esqueleto arquero"
+            },
+            {
+              "enemyID" : "ghoul",
+              "id" : "valdemar.abadia.4",
+              "jefe" : false,
+              "nombre" : "Necrófago"
+            },
+            {
+              "enemyID" : "ghoul",
+              "id" : "valdemar.abadia.5",
+              "jefe" : false,
+              "nombre" : "Necrófago"
+            },
+            {
+              "enemyID" : "skeleton",
+              "id" : "valdemar.abadia.6",
+              "jefe" : false,
+              "nombre" : "Esqueleto"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 8
+          },
+          "id" : "valdemar.abadia.claustro",
+          "nombre" : "Claustro en ruinas",
+          "spawns" : [
+            {
+              "enemyID" : "gargoyle",
+              "id" : "valdemar.abadia.7",
+              "jefe" : false,
+              "nombre" : "Gárgola"
+            },
+            {
+              "enemyID" : "blackKnight",
+              "id" : "valdemar.abadia.8",
+              "jefe" : false,
+              "nombre" : "Caballero negro"
+            },
+            {
+              "enemyID" : "necromancer",
+              "id" : "valdemar.abadia.9",
+              "jefe" : false,
+              "nombre" : "Nigromante"
+            },
+            {
+              "enemyID" : "wraith",
+              "id" : "valdemar.abadia.10",
+              "jefe" : false,
+              "nombre" : "Espectro"
+            },
+            {
+              "enemyID" : "blackKnight",
+              "id" : "valdemar.abadia.11",
+              "jefe" : false,
+              "nombre" : "Caballero negro"
+            },
+            {
+              "enemyID" : "gargoyle",
+              "id" : "valdemar.abadia.12",
+              "jefe" : false,
+              "nombre" : "Gárgola"
+            },
+            {
+              "enemyID" : "eclipseAcolyte",
+              "id" : "valdemar.abadia.13",
+              "jefe" : false,
+              "nombre" : "Acólito del Eclipse"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 7
+          },
+          "id" : "valdemar.abadia.huerto",
+          "nombre" : "Huerto de los monjes",
+          "spawns" : [
+            {
+              "enemyID" : "cultist",
+              "id" : "valdemar.abadia.14",
+              "jefe" : false,
+              "nombre" : "Cultista"
+            },
+            {
+              "enemyID" : "eclipseAcolyte",
+              "id" : "valdemar.abadia.15",
+              "jefe" : false,
+              "nombre" : "Acólito del Eclipse"
+            },
+            {
+              "enemyID" : "cultist",
+              "id" : "valdemar.abadia.16",
+              "jefe" : false,
+              "nombre" : "Cultista"
+            },
+            {
+              "enemyID" : "wraith",
+              "id" : "valdemar.abadia.17",
+              "jefe" : false,
+              "nombre" : "Espectro"
+            },
+            {
+              "enemyID" : "wraith",
+              "id" : "valdemar.abadia.18",
+              "jefe" : false,
+              "nombre" : "Espectro"
+            },
+            {
+              "enemyID" : "fireSlime",
+              "id" : "valdemar.abadia.19",
+              "jefe" : false,
+              "nombre" : "Limo de fuego"
+            },
+            {
+              "enemyID" : "fireSlime",
+              "id" : "valdemar.abadia.20",
+              "jefe" : false,
+              "nombre" : "Limo de fuego"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "base" : {
+        "level" : 8
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+
+      ],
+      "id" : "valdemar.pedregal",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Colinas del Pedregal",
+      "nombreTipo" : "campo",
+      "rescates" : [
+
+      ],
+      "tipo" : "field",
+      "zonas" : [
+        {
+          "base" : {
+            "level" : 8
+          },
+          "id" : "valdemar.pedregal.laderas",
+          "nombre" : "Laderas del Pedregal",
+          "spawns" : [
+            {
+              "enemyID" : "goblinBomber",
+              "id" : "valdemar.pedregal.1",
+              "jefe" : false,
+              "nombre" : "Goblin bombardero"
+            },
+            {
+              "enemyID" : "goblinBomber",
+              "id" : "valdemar.pedregal.2",
+              "jefe" : false,
+              "nombre" : "Goblin bombardero"
+            },
+            {
+              "enemyID" : "troll",
+              "id" : "valdemar.pedregal.3",
+              "jefe" : false,
+              "nombre" : "Troll"
+            },
+            {
+              "enemyID" : "wolfRider",
+              "id" : "valdemar.pedregal.4",
+              "jefe" : false,
+              "nombre" : "Jinete de lobo"
+            },
+            {
+              "enemyID" : "wolfRider",
+              "id" : "valdemar.pedregal.5",
+              "jefe" : false,
+              "nombre" : "Jinete de lobo"
+            },
+            {
+              "enemyID" : "assassin",
+              "id" : "valdemar.pedregal.6",
+              "jefe" : false,
+              "nombre" : "Asesino sombrío"
+            },
+            {
+              "enemyID" : "troll",
+              "id" : "valdemar.pedregal.7",
+              "jefe" : false,
+              "nombre" : "Troll"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 8
+          },
+          "id" : "valdemar.pedregal.pozas",
+          "nombre" : "Pozas heladas",
+          "spawns" : [
+            {
+              "enemyID" : "iceSlime",
+              "id" : "valdemar.pedregal.8",
+              "jefe" : false,
+              "nombre" : "Limo helado"
+            },
+            {
+              "enemyID" : "iceSlime",
+              "id" : "valdemar.pedregal.9",
+              "jefe" : false,
+              "nombre" : "Limo helado"
+            },
+            {
+              "enemyID" : "iceSlime",
+              "id" : "valdemar.pedregal.10",
+              "jefe" : false,
+              "nombre" : "Limo helado"
+            },
+            {
+              "enemyID" : "assassin",
+              "id" : "valdemar.pedregal.11",
+              "jefe" : false,
+              "nombre" : "Asesino sombrío"
+            },
+            {
+              "enemyID" : "troll",
+              "id" : "valdemar.pedregal.12",
+              "jefe" : false,
+              "nombre" : "Troll"
+            }
+          ]
+        },
+        {
+          "base" : {
+            "level" : 9
+          },
+          "id" : "valdemar.pedregal.campamento",
+          "nombre" : "Campamento orco",
+          "spawns" : [
+            {
+              "enemyID" : "orc",
+              "id" : "valdemar.pedregal.13",
+              "jefe" : false,
+              "nombre" : "Orco"
+            },
+            {
+              "enemyID" : "orc",
+              "id" : "valdemar.pedregal.14",
+              "jefe" : false,
+              "nombre" : "Orco"
+            },
+            {
+              "enemyID" : "berserker",
+              "id" : "valdemar.pedregal.15",
+              "jefe" : false,
+              "nombre" : "Orco berserker"
+            },
+            {
+              "enemyID" : "orc",
+              "id" : "valdemar.pedregal.16",
+              "jefe" : false,
+              "nombre" : "Orco"
+            },
+            {
+              "enemyID" : "armoredBoar",
+              "id" : "valdemar.pedregal.17",
+              "jefe" : false,
+              "nombre" : "Jabalí acorazado"
+            },
+            {
+              "enemyID" : "berserker",
+              "id" : "valdemar.pedregal.18",
+              "jefe" : false,
+              "nombre" : "Orco berserker"
+            },
+            {
+              "enemyID" : "warlord",
+              "id" : "valdemar.pedregal.19",
+              "jefe" : true,
+              "nombre" : "Señor de la guerra orco"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "base" : {
+        "level" : 10
+      },
+      "continente" : "valdemar",
+      "fueraDeZona" : [
+
+      ],
+      "id" : "valdemar.paso",
+      "mazmorras" : [
+
+      ],
+      "nombre" : "Paso del Norte",
+      "nombreTipo" : "campo",
+      "rescates" : [
+
+      ],
+      "tipo" : "field",
+      "zonas" : [
+        {
+          "base" : {
+            "level" : 10
+          },
+          "id" : "valdemar.paso.sendero",
+          "nombre" : "Paso del Norte",
+          "spawns" : [
+            {
+              "enemyID" : "wolfRider",
+              "id" : "valdemar.paso.1",
+              "jefe" : false,
+              "nombre" : "Jinete de lobo"
+            },
+            {
+              "enemyID" : "wolfRider",
+              "id" : "valdemar.paso.2",
+              "jefe" : false,
+              "nombre" : "Jinete de lobo"
+            },
+            {
+              "enemyID" : "goblinElite",
+              "id" : "valdemar.paso.3",
+              "jefe" : false,
+              "nombre" : "Goblin de élite"
+            },
+            {
+              "enemyID" : "goblinMage",
+              "id" : "valdemar.paso.4",
+              "jefe" : false,
+              "nombre" : "Mago goblin"
+            },
+            {
+              "enemyID" : "goblinElite",
+              "id" : "valdemar.paso.5",
+              "jefe" : false,
+              "nombre" : "Goblin de élite"
+            },
+            {
+              "enemyID" : "armoredBoar",
+              "id" : "valdemar.paso.6",
+              "jefe" : false,
+              "nombre" : "Jabalí acorazado"
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "arena" : [
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 1,
+      "nivelForja" : null,
+      "oleada" : 1,
+      "oro" : 23,
+      "piso" : "prison",
+      "spawns" : {
+        "goblin" : 4,
+        "mangyDog" : 2
+      },
+      "tier" : 1
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 1,
+      "nivelForja" : 1,
+      "oleada" : 2,
+      "oro" : 30,
+      "piso" : "prison",
+      "spawns" : {
+        "goblin" : 2,
+        "rat" : 6
+      },
+      "tier" : 1
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 1,
+      "nivelForja" : null,
+      "oleada" : 3,
+      "oro" : 37,
+      "piso" : "prison",
+      "spawns" : {
+        "goblin" : 2,
+        "goblinSlinger" : 2,
+        "goblinSpearman" : 1,
+        "goblinThief" : 1,
+        "mangyDog" : 2,
+        "rat" : 2
+      },
+      "tier" : 2
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 1,
+      "nivelForja" : 2,
+      "oleada" : 4,
+      "oro" : 44,
+      "piso" : "prison",
+      "spawns" : {
+        "bandit" : 1,
+        "crow" : 2,
+        "goblinSlinger" : 2,
+        "goblinSpearman" : 1,
+        "goblinThief" : 5,
+        "rat" : 1
+      },
+      "tier" : 2
+    },
+    {
+      "forja" : false,
+      "jefe" : true,
+      "nivelEnemigos" : 1,
+      "nivelForja" : null,
+      "oleada" : 5,
+      "oro" : 51,
+      "piso" : "prison",
+      "spawns" : {
+        "boar" : 1,
+        "crow" : 3,
+        "goblinSpearman" : 2,
+        "rat" : 1,
+        "ratKing" : 1
+      },
+      "tier" : 3
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 2,
+      "nivelForja" : 3,
+      "oleada" : 6,
+      "oro" : 58,
+      "piso" : "crypt",
+      "spawns" : {
+        "bandit" : 2,
+        "boar" : 1,
+        "crow" : 1,
+        "goblinShaman" : 1,
+        "goblinSlinger" : 1,
+        "goblinSpearman" : 2,
+        "mangyDog" : 2,
+        "skeleton" : 5,
+        "zombieFarmer" : 1
+      },
+      "tier" : 3
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 2,
+      "nivelForja" : null,
+      "oleada" : 7,
+      "oro" : 65,
+      "piso" : "crypt",
+      "spawns" : {
+        "bandit" : 1,
+        "bat" : 4,
+        "cultist" : 3,
+        "goblin" : 1,
+        "goblinShaman" : 4,
+        "goblinSlinger" : 1,
+        "goblinSpearman" : 2,
+        "slime" : 2
+      },
+      "tier" : 4
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 3,
+      "nivelForja" : 4,
+      "oleada" : 8,
+      "oro" : 72,
+      "piso" : "crypt",
+      "spawns" : {
+        "bat" : 4,
+        "boar" : 1,
+        "crow" : 1,
+        "cultist" : 3,
+        "goblin" : 1,
+        "goblinBrute" : 4,
+        "goblinShaman" : 4,
+        "skeleton" : 1,
+        "zombieFarmer" : 1
+      },
+      "tier" : 4
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 4,
+      "nivelForja" : null,
+      "oleada" : 9,
+      "oro" : 79,
+      "piso" : "crypt",
+      "spawns" : {
+        "bat" : 3,
+        "boar" : 1,
+        "cultist" : 2,
+        "goblin" : 1,
+        "goblinShaman" : 1,
+        "goblinSlinger" : 2,
+        "hobgoblin" : 2,
+        "mudGolem" : 1,
+        "rat" : 2,
+        "skeletonArcher" : 1,
+        "slime" : 1,
+        "wolf" : 5
+      },
+      "tier" : 5
+    },
+    {
+      "forja" : true,
+      "jefe" : true,
+      "nivelEnemigos" : 4,
+      "nivelForja" : 5,
+      "oleada" : 10,
+      "oro" : 86,
+      "piso" : "crypt",
+      "spawns" : {
+        "banditChief" : 1,
+        "cultist" : 1,
+        "goblin" : 1,
+        "goblinBrute" : 2,
+        "goblinShaman" : 1,
+        "goblinThief" : 1,
+        "hobgoblin" : 2,
+        "mudGolem" : 2,
+        "skeleton" : 1,
+        "zombieFarmer" : 1
+      },
+      "tier" : 5
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 5,
+      "nivelForja" : null,
+      "oleada" : 11,
+      "oro" : 93,
+      "piso" : "sewer",
+      "spawns" : {
+        "boar" : 1,
+        "crow" : 1,
+        "cultist" : 2,
+        "ghoul" : 4,
+        "goblinBomber" : 3,
+        "goblinSlinger" : 1,
+        "goblinSpearman" : 1,
+        "goblinThief" : 3,
+        "hobgoblin" : 4,
+        "mangyDog" : 2,
+        "mercenary" : 2,
+        "mudGolem" : 1,
+        "wolf" : 1
+      },
+      "tier" : 6
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 5,
+      "nivelForja" : 6,
+      "oleada" : 12,
+      "oro" : 100,
+      "piso" : "sewer",
+      "spawns" : {
+        "boar" : 4,
+        "crow" : 1,
+        "cultist" : 2,
+        "fireSlime" : 2,
+        "ghoul" : 2,
+        "goblin" : 1,
+        "goblinShaman" : 1,
+        "goblinThief" : 1,
+        "hobgoblin" : 2,
+        "mangyDog" : 1,
+        "mercenary" : 3,
+        "mudGolem" : 2,
+        "slime" : 1,
+        "wolf" : 4,
+        "zombieFarmer" : 1
+      },
+      "tier" : 6
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 6,
+      "nivelForja" : null,
+      "oleada" : 13,
+      "oro" : 107,
+      "piso" : "sewer",
+      "spawns" : {
+        "bandit" : 1,
+        "bat" : 1,
+        "boar" : 1,
+        "crow" : 1,
+        "fireSlime" : 2,
+        "ghoul" : 1,
+        "goblinBomber" : 3,
+        "goblinBrute" : 1,
+        "goblinShaman" : 1,
+        "goblinSlinger" : 2,
+        "goblinSpearman" : 1,
+        "mercenary" : 2,
+        "mudGolem" : 1,
+        "orc" : 1,
+        "plagueRat" : 2,
+        "rat" : 1,
+        "skeleton" : 1,
+        "slime" : 2,
+        "wolf" : 1,
+        "wolfRider" : 3,
+        "wraith" : 1
+      },
+      "tier" : 7
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 7,
+      "nivelForja" : 7,
+      "oleada" : 14,
+      "oro" : 114,
+      "piso" : "sewer",
+      "spawns" : {
+        "boar" : 3,
+        "crow" : 1,
+        "ghoul" : 1,
+        "goblinBomber" : 4,
+        "goblinShaman" : 2,
+        "goblinThief" : 1,
+        "hobgoblin" : 1,
+        "mangyDog" : 1,
+        "mercenary" : 1,
+        "mudGolem" : 1,
+        "plagueRat" : 3,
+        "rat" : 2,
+        "skeleton" : 1,
+        "skeletonArcher" : 2,
+        "wolf" : 1,
+        "wolfRider" : 3,
+        "wraith" : 4
+      },
+      "tier" : 7
+    },
+    {
+      "forja" : false,
+      "jefe" : true,
+      "nivelEnemigos" : 7,
+      "nivelForja" : null,
+      "oleada" : 15,
+      "oro" : 121,
+      "piso" : "sewer",
+      "spawns" : {
+        "blackKnight" : 1,
+        "gargoyle" : 1,
+        "ghoul" : 1,
+        "goblinBrute" : 1,
+        "goblinShaman" : 1,
+        "mudGolem" : 1,
+        "necromancer" : 4,
+        "plagueRat" : 1,
+        "rat" : 1,
+        "scarecrow" : 1,
+        "wolf" : 2,
+        "wolfRider" : 1,
+        "wraith" : 2
+      },
+      "tier" : 8
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 8,
+      "nivelForja" : 8,
+      "oleada" : 16,
+      "oro" : 128,
+      "piso" : "mine",
+      "spawns" : {
+        "bat" : 2,
+        "blackKnight" : 5,
+        "crow" : 2,
+        "cultist" : 2,
+        "fireSlime" : 2,
+        "gargoyle" : 2,
+        "goblinShaman" : 1,
+        "mangyDog" : 1,
+        "mercenary" : 1,
+        "mudGolem" : 1,
+        "necromancer" : 4,
+        "orc" : 3,
+        "plagueRat" : 2,
+        "rat" : 1,
+        "slime" : 2,
+        "troll" : 1,
+        "wolfRider" : 2,
+        "wraith" : 2
+      },
+      "tier" : 8
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 8,
+      "nivelForja" : null,
+      "oleada" : 17,
+      "oro" : 135,
+      "piso" : "mine",
+      "spawns" : {
+        "assassin" : 3,
+        "bandit" : 1,
+        "bat" : 1,
+        "berserker" : 3,
+        "blackKnight" : 1,
+        "crow" : 2,
+        "cultist" : 1,
+        "ghoul" : 2,
+        "goblin" : 2,
+        "goblinBrute" : 1,
+        "goblinElite" : 3,
+        "goblinThief" : 1,
+        "hobgoblin" : 1,
+        "iceSlime" : 1,
+        "mercenary" : 1,
+        "mudGolem" : 1,
+        "necromancer" : 1,
+        "orc" : 1,
+        "rat" : 1,
+        "skeletonArcher" : 1,
+        "slime" : 2,
+        "troll" : 2,
+        "wolf" : 3,
+        "wolfRider" : 1,
+        "zombieFarmer" : 1
+      },
+      "tier" : 9
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 9,
+      "nivelForja" : 9,
+      "oleada" : 18,
+      "oro" : 142,
+      "piso" : "mine",
+      "spawns" : {
+        "bandit" : 1,
+        "berserker" : 5,
+        "blackKnight" : 4,
+        "boar" : 2,
+        "fireSlime" : 1,
+        "gargoyle" : 4,
+        "ghoul" : 1,
+        "goblinElite" : 5,
+        "goblinShaman" : 1,
+        "goblinSlinger" : 1,
+        "goblinSpearman" : 1,
+        "iceSlime" : 3,
+        "mangyDog" : 1,
+        "mudGolem" : 1,
+        "necromancer" : 3,
+        "skeletonArcher" : 2,
+        "slime" : 1,
+        "troll" : 2,
+        "wraith" : 1
+      },
+      "tier" : 9
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 10,
+      "nivelForja" : null,
+      "oleada" : 19,
+      "oro" : 149,
+      "piso" : "mine",
+      "spawns" : {
+        "armoredBoar" : 6,
+        "assassin" : 2,
+        "bandit" : 1,
+        "bat" : 4,
+        "berserker" : 3,
+        "blackKnight" : 2,
+        "boar" : 1,
+        "gargoyle" : 1,
+        "goblinBomber" : 1,
+        "goblinBrute" : 1,
+        "goblinElite" : 3,
+        "goblinGuard" : 4,
+        "goblinMage" : 2,
+        "goblinStandard" : 2,
+        "goblinThief" : 1,
+        "iceSlime" : 1,
+        "mangyDog" : 2,
+        "slime" : 1,
+        "wolf" : 1,
+        "wraith" : 1,
+        "zombieFarmer" : 2
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : true,
+      "jefe" : true,
+      "nivelEnemigos" : 10,
+      "nivelForja" : 10,
+      "oleada" : 20,
+      "oro" : 156,
+      "piso" : "mine",
+      "spawns" : {
+        "ghoul" : 2,
+        "goblinBrute" : 1,
+        "goblinElite" : 1,
+        "goblinGuard" : 5,
+        "goblinMage" : 1,
+        "goblinShaman" : 1,
+        "goblinStandard" : 1,
+        "goblinThief" : 1,
+        "hobgoblin" : 2,
+        "orc" : 1,
+        "possessedSmith" : 1,
+        "skeletonArcher" : 1,
+        "slime" : 2,
+        "wolf" : 1,
+        "wraith" : 1,
+        "zombieFarmer" : 1
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 12,
+      "nivelForja" : null,
+      "oleada" : 21,
+      "oro" : 163,
+      "piso" : "forge",
+      "spawns" : {
+        "armoredBoar" : 3,
+        "assassin" : 1,
+        "bat" : 2,
+        "berserker" : 2,
+        "cultist" : 3,
+        "fireSlime" : 2,
+        "ghoul" : 1,
+        "goblin" : 1,
+        "goblinBomber" : 2,
+        "goblinBrute" : 1,
+        "goblinElite" : 3,
+        "goblinGuard" : 1,
+        "goblinMage" : 3,
+        "goblinSlinger" : 2,
+        "goblinThief" : 1,
+        "hobgoblin" : 1,
+        "iceSlime" : 3,
+        "mangyDog" : 1,
+        "mudGolem" : 1,
+        "orc" : 2,
+        "plagueRat" : 1,
+        "skeleton" : 2,
+        "slime" : 1,
+        "wolf" : 1,
+        "wolfRider" : 2,
+        "wraith" : 1,
+        "zombieFarmer" : 2
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 14,
+      "nivelForja" : 10,
+      "oleada" : 22,
+      "oro" : 170,
+      "piso" : "forge",
+      "spawns" : {
+        "assassin" : 5,
+        "bandit" : 1,
+        "berserker" : 5,
+        "cultist" : 2,
+        "gargoyle" : 1,
+        "goblinBomber" : 1,
+        "goblinBrute" : 2,
+        "goblinElite" : 2,
+        "goblinMage" : 4,
+        "goblinShaman" : 1,
+        "goblinSlinger" : 2,
+        "goblinStandard" : 3,
+        "goblinThief" : 2,
+        "iceSlime" : 4,
+        "mangyDog" : 1,
+        "mercenary" : 2,
+        "mudGolem" : 1,
+        "orc" : 1,
+        "plagueRat" : 1,
+        "rat" : 2,
+        "skeleton" : 1,
+        "slime" : 1,
+        "troll" : 1,
+        "wolf" : 1,
+        "wolfRider" : 1
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 16,
+      "nivelForja" : null,
+      "oleada" : 23,
+      "oro" : 177,
+      "piso" : "forge",
+      "spawns" : {
+        "armoredBoar" : 2,
+        "assassin" : 2,
+        "bandit" : 1,
+        "bat" : 1,
+        "berserker" : 3,
+        "boar" : 2,
+        "crow" : 1,
+        "gargoyle" : 2,
+        "ghoul" : 1,
+        "goblin" : 2,
+        "goblinBomber" : 2,
+        "goblinElite" : 3,
+        "goblinGuard" : 5,
+        "goblinMage" : 2,
+        "goblinSlinger" : 1,
+        "goblinStandard" : 4,
+        "goblinThief" : 1,
+        "hobgoblin" : 1,
+        "iceSlime" : 1,
+        "mangyDog" : 1,
+        "mercenary" : 1,
+        "mudGolem" : 1,
+        "necromancer" : 1,
+        "plagueRat" : 1,
+        "skeleton" : 1,
+        "skeletonArcher" : 1,
+        "slime" : 2,
+        "wolf" : 2,
+        "wolfRider" : 2
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 18,
+      "nivelForja" : 10,
+      "oleada" : 24,
+      "oro" : 184,
+      "piso" : "forge",
+      "spawns" : {
+        "armoredBoar" : 5,
+        "assassin" : 5,
+        "bandit" : 2,
+        "bat" : 1,
+        "berserker" : 3,
+        "blackKnight" : 1,
+        "boar" : 1,
+        "crow" : 2,
+        "gargoyle" : 2,
+        "ghoul" : 1,
+        "goblinBrute" : 2,
+        "goblinElite" : 3,
+        "goblinGuard" : 3,
+        "goblinMage" : 2,
+        "goblinSlinger" : 2,
+        "hobgoblin" : 3,
+        "iceSlime" : 2,
+        "mangyDog" : 1,
+        "orc" : 1,
+        "plagueRat" : 1,
+        "rat" : 1,
+        "skeleton" : 3,
+        "slime" : 1,
+        "wolf" : 2,
+        "wraith" : 1,
+        "zombieFarmer" : 1
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : false,
+      "jefe" : true,
+      "nivelEnemigos" : 20,
+      "nivelForja" : null,
+      "oleada" : 25,
+      "oro" : 191,
+      "piso" : "forge",
+      "spawns" : {
+        "alphaWolf" : 1,
+        "armoredBoar" : 1,
+        "assassin" : 4,
+        "bandit" : 1,
+        "bat" : 1,
+        "berserker" : 2,
+        "cultist" : 1,
+        "goblinElite" : 2,
+        "goblinGuard" : 2,
+        "goblinMage" : 3,
+        "goblinStandard" : 2,
+        "mudGolem" : 1,
+        "necromancer" : 1,
+        "orc" : 1,
+        "plagueRat" : 1,
+        "rat" : 2,
+        "slime" : 1,
+        "wolf" : 1
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 22,
+      "nivelForja" : 10,
+      "oleada" : 26,
+      "oro" : 198,
+      "piso" : "prison",
+      "spawns" : {
+        "armoredBoar" : 3,
+        "assassin" : 2,
+        "bat" : 2,
+        "berserker" : 5,
+        "blackKnight" : 1,
+        "fireSlime" : 1,
+        "gargoyle" : 2,
+        "ghoul" : 2,
+        "goblinBomber" : 2,
+        "goblinElite" : 1,
+        "goblinGuard" : 2,
+        "goblinMage" : 1,
+        "goblinShaman" : 7,
+        "goblinSlinger" : 3,
+        "goblinSpearman" : 3,
+        "goblinStandard" : 3,
+        "goblinThief" : 2,
+        "iceSlime" : 2,
+        "mangyDog" : 2,
+        "mercenary" : 1,
+        "mudGolem" : 1,
+        "necromancer" : 2,
+        "plagueRat" : 1,
+        "skeleton" : 2,
+        "skeletonArcher" : 1,
+        "troll" : 1,
+        "wraith" : 1
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 24,
+      "nivelForja" : null,
+      "oleada" : 27,
+      "oro" : 205,
+      "piso" : "prison",
+      "spawns" : {
+        "assassin" : 3,
+        "berserker" : 4,
+        "boar" : 3,
+        "crow" : 2,
+        "cultist" : 1,
+        "fireSlime" : 2,
+        "ghoul" : 2,
+        "goblin" : 2,
+        "goblinElite" : 3,
+        "goblinGuard" : 5,
+        "goblinMage" : 1,
+        "goblinSlinger" : 1,
+        "goblinSpearman" : 1,
+        "goblinStandard" : 4,
+        "hobgoblin" : 2,
+        "iceSlime" : 2,
+        "mangyDog" : 2,
+        "mercenary" : 1,
+        "necromancer" : 1,
+        "orc" : 1,
+        "plagueRat" : 2,
+        "rat" : 2,
+        "skeleton" : 3,
+        "skeletonArcher" : 3,
+        "troll" : 1,
+        "wolf" : 1,
+        "wolfRider" : 1,
+        "wraith" : 1,
+        "zombieFarmer" : 1
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : true,
+      "jefe" : false,
+      "nivelEnemigos" : 26,
+      "nivelForja" : 10,
+      "oleada" : 28,
+      "oro" : 212,
+      "piso" : "prison",
+      "spawns" : {
+        "armoredBoar" : 3,
+        "assassin" : 2,
+        "bandit" : 2,
+        "berserker" : 3,
+        "blackKnight" : 1,
+        "boar" : 1,
+        "crow" : 3,
+        "cultist" : 2,
+        "fireSlime" : 1,
+        "gargoyle" : 2,
+        "goblin" : 2,
+        "goblinBomber" : 1,
+        "goblinBrute" : 1,
+        "goblinElite" : 6,
+        "goblinGuard" : 1,
+        "goblinMage" : 4,
+        "goblinShaman" : 1,
+        "goblinSlinger" : 1,
+        "goblinSpearman" : 2,
+        "goblinStandard" : 2,
+        "goblinThief" : 1,
+        "hobgoblin" : 2,
+        "iceSlime" : 2,
+        "mangyDog" : 2,
+        "necromancer" : 4,
+        "plagueRat" : 1,
+        "skeletonArcher" : 3,
+        "troll" : 1,
+        "wolf" : 1,
+        "wraith" : 2
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : false,
+      "jefe" : false,
+      "nivelEnemigos" : 28,
+      "nivelForja" : null,
+      "oleada" : 29,
+      "oro" : 219,
+      "piso" : "prison",
+      "spawns" : {
+        "armoredBoar" : 2,
+        "assassin" : 3,
+        "bandit" : 1,
+        "berserker" : 1,
+        "boar" : 1,
+        "crow" : 1,
+        "fireSlime" : 1,
+        "gargoyle" : 2,
+        "ghoul" : 1,
+        "goblin" : 2,
+        "goblinBomber" : 1,
+        "goblinBrute" : 1,
+        "goblinElite" : 4,
+        "goblinGuard" : 6,
+        "goblinMage" : 3,
+        "goblinShaman" : 2,
+        "goblinSpearman" : 2,
+        "goblinStandard" : 1,
+        "goblinThief" : 1,
+        "hobgoblin" : 2,
+        "iceSlime" : 5,
+        "mangyDog" : 2,
+        "mudGolem" : 3,
+        "orc" : 1,
+        "rat" : 2,
+        "skeletonArcher" : 2,
+        "slime" : 2,
+        "troll" : 2,
+        "wolfRider" : 1,
+        "wraith" : 2
+      },
+      "tier" : 10
+    },
+    {
+      "forja" : true,
+      "jefe" : true,
+      "nivelEnemigos" : 30,
+      "nivelForja" : 10,
+      "oleada" : 30,
+      "oro" : 226,
+      "piso" : "prison",
+      "spawns" : {
+        "armoredBoar" : 1,
+        "bat" : 3,
+        "berserker" : 1,
+        "blackKnight" : 1,
+        "fireSlime" : 1,
+        "goblinBrute" : 2,
+        "goblinElite" : 1,
+        "goblinGuard" : 1,
+        "goblinMage" : 3,
+        "goblinSlinger" : 1,
+        "goblinStandard" : 2,
+        "hobgoblin" : 1,
+        "iceSlime" : 3,
+        "mangyDog" : 2,
+        "mercenary" : 1,
+        "mudGolem" : 1,
+        "rat" : 2,
+        "skeleton" : 1,
+        "troll" : 1,
+        "witch" : 1,
+        "wraith" : 1
+      },
+      "tier" : 10
+    }
+  ],
+  "continentes" : [
+    {
+      "areas" : [
+        "town",
+        "bakery",
+        "weaver",
+        "mill",
+        "chapel",
+        "inn",
+        "alchemist",
+        "mayor",
+        "castle",
+        "valdemar.huertos",
+        "valdemar.robleda",
+        "valdemar.abadia",
+        "valdemar.pedregal",
+        "valdemar.paso"
+      ],
+      "id" : "valdemar",
+      "minerales" : [
+        "copper",
+        "iron",
+        "silver",
+        "gold",
+        "emerald"
+      ],
+      "niveles" : [
+        1,
+        10
+      ],
+      "nombre" : "Reino de Valdemar",
+      "tier" : 1
+    }
+  ],
+  "generado" : "make datos (Harness exportar-datos): valores del código, no editar a mano",
+  "mazmorras" : [
+    {
+      "area" : "valdemar.abadia",
+      "base" : {
+        "bossEscort" : {
+          "skeleton" : 2
+        },
+        "level" : 8,
+        "waves" : [
+          {
+            "ghoul" : 3,
+            "skeleton" : 5,
+            "skeletonArcher" : 2
+          },
+          {
+            "cultist" : 2,
+            "eclipseAcolyte" : 2,
+            "fireSlime" : 1,
+            "gargoyle" : 2,
+            "wraith" : 3
+          },
+          {
+            "blackKnight" : 2,
+            "ghoul" : 3,
+            "iceSlime" : 1,
+            "necromancer" : 2,
+            "skeletonArcher" : 2
+          }
+        ]
+      },
+      "id" : "valdemar.cripta",
+      "jefe" : "abbot",
+      "nombre" : "Cripta de la abadía",
+      "nombreJefe" : "Abad no-muerto",
+      "piso" : "crypt",
+      "repetible" : true
+    },
+    {
+      "area" : "town",
+      "base" : {
+        "bossEscort" : {
+
+        },
+        "level" : 9,
+        "waves" : [
+          {
+            "goblinElite" : 4,
+            "goblinGuard" : 2,
+            "goblinMage" : 2
+          },
+          {
+            "assassin" : 2,
+            "berserker" : 2,
+            "goblinBomber" : 2,
+            "orc" : 3
+          },
+          {
+            "goblinGuard" : 3,
+            "iceSlime" : 2,
+            "troll" : 2,
+            "wolfRider" : 2
+          },
+          {
+            "goblinElite" : 4,
+            "goblinMage" : 2,
+            "goblinStandard" : 2
+          }
+        ]
+      },
+      "id" : "valdemar.calabozos",
+      "jefe" : null,
+      "nombre" : "Calabozos del castillo",
+      "nombreJefe" : null,
+      "piso" : "prison",
+      "repetible" : true
+    }
+  ],
+  "nota" : "Los spawns se ajustan uno a uno (spawns.<id> = id de monstruo); los jefes no se mueven.",
+  "schemaVersion" : 1
+}

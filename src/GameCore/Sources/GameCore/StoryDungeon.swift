@@ -12,14 +12,14 @@ public struct StoryDungeon: Identifiable, Sendable {
     public let name: String
     /// Piso de la arena donde se juega (id de `DungeonFloor`: `crypt`, `prison`…).
     public let floorID: String
-    /// Nivel fijo de los monstruos.
-    public let level: Int
-    /// Oleadas en orden: id de monstruo → cuántos.
-    public let waves: [[String: Int]]
+    /// Nivel fijo de los monstruos (ajustable: `dungeons.<id>.level`).
+    public internal(set) var level: Int
+    /// Oleadas en orden: id de monstruo → cuántos (ajustable: `dungeons.<id>.waves`).
+    public internal(set) var waves: [[String: Int]]
     /// Jefe al final (sale por la `BBB`), nil = sin jefe.
     public let bossID: String?
-    /// Escolta que sale con el jefe.
-    public let bossEscort: [String: Int]
+    /// Escolta que sale con el jefe (ajustable: `dungeons.<id>.bossEscort`).
+    public internal(set) var bossEscort: [String: Int]
     /// Se puede volver a jugar después de ganarla.
     public let repeatable: Bool
     /// Área donde está la bajada `e` (allí se vuelve al ganar y allí está el punto seguro al perder).
@@ -68,7 +68,8 @@ public struct StoryDungeon: Identifiable, Sendable {
 extension StoryDungeon {
     /// Probabilidad de que el jefe suelte su pieza única al repetir la mazmorra (la primera vez, segura).
     /// La ajusta el balance-designer.
-    public static let repeatPartChance = 0.25
+    /// 0,25 de serie (`economy.storyDungeonRepeatPartChance`).
+    public static var repeatPartChance: Double { TunedData.current.economy.storyDungeonRepeatPartChance }
 
     /// Segundos entre apariciones de monstruos.
     public static let spawnInterval = 0.9

@@ -3,8 +3,8 @@ import GameCore
 
 // Cliente mínimo de la API REST de Supabase, sin dependencias (URLSession):
 //   /auth/v1/...  → registro, inicio de sesión, refresco del token, cierre de sesión (Supabase Auth / GoTrue)
-//   /rest/v1/...  → tabla `characters` (PostgREST, protegida con RLS)
-// Esquema de la base de datos: backend/supabase/migrations/001_cuentas.sql.
+//   /rest/v1/...  → tabla `characters` (PostgREST, protegida con RLS) y `rpc/published_config` (ajustes en vivo)
+// Esquema de la base de datos: backend/supabase/migrations/001_cuentas.sql y 002_panel.sql.
 
 /// Sesión iniciada. Se guarda en el llavero (nunca la contraseña).
 struct AuthSession: Codable, Equatable, Sendable {
@@ -157,6 +157,19 @@ struct SupabaseClient: Sendable {
                            token: current.accessToken)
     }
 
+    // MARK: - Ajustes en vivo (panel de administración)
+
+    /// La configuración publicada desde el panel: la respuesta tal cual (`[]` o `[{version, schema_version, data,
+    /// published_at}]`), para guardarla en caché y leerla con `RemoteTuningResponse.parse`.
+    /// Sin sesión: solo con la clave pública (la función solo devuelve lo publicado, nunca los borradores).
+    func publishedConfig() async throws -> Data {
+        // Las claves anon antiguas son un JWT y también van en Authorization (como hace supabase-js);
+        // las `sb_publishable_` no son un JWT y van solo en `apikey`.
+        let bearer = settings.publicKey.hasPrefix("eyJ") ? settings.publicKey : nil
+        let (data, _) = try await send("GET", "rest/v1/rpc/published_config", token: bearer)
+        return data
+    }
+
     private static func cloudName(_ profile: PlayerProfile) -> String {
         let name = (profile.name ?? "Héroe").trimmingCharacters(in: .whitespaces)
         return String((name.isEmpty ? "Héroe" : name).prefix(32))
@@ -230,7 +243,7 @@ struct SupabaseClient: Sendable {
         var components = URLComponents(url: settings.projectURL.appendingPathComponent(path), resolvingAgainstBaseURL: false)
         if !query.isEmpty { components?.queryItems = query }
         guard let url = components?.url else { throw AccountError.notConfigured }
-        var request = URLRequest(url: url, timeoutInterval: 15)
+        var request = URLRequest(url: url, cachePolicy: .reloadIgnoringLocalCacheData, timeoutInterval: 15)
         request.httpMethod = method
         request.setValue(settings.publicKey, forHTTPHeaderField: "apikey")
         // La clave pública va solo en `apikey`; en Authorization va el token del jugador (si hay sesión).
@@ -296,6 +309,8 @@ struct SupabaseClient: Sendable {
             return .server("El registro de cuentas está desactivado en Supabase (Authentication → Sign In / Providers).")
         case "PGRST205", "42P01":
             return .missingTables
+        case "PGRST202":  // función que no existe (published_config)
+            return .server("Falta la función en Supabase: ejecuta backend/supabase/migrations/002_panel.sql.")
         default:
             break
         }

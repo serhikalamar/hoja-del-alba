@@ -21,8 +21,33 @@ public enum Mineral: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
 
-    /// Porcentaje de aparición cuando un monstruo suelta un mineral. Suman 100.
-    public var dropPercent: Double {
+    /// Posición en `allCases` (índice de las tablas ajustadas de `TunedData`).
+    var ordinal: Int {
+        switch self {
+        case .copper: 0
+        case .iron: 1
+        case .silver: 2
+        case .gold: 3
+        case .emerald: 4
+        case .sapphire: 5
+        case .ruby: 6
+        case .amethyst: 7
+        case .diamond: 8
+        case .mithril: 9
+        }
+    }
+
+    /// Porcentaje de aparición cuando un monstruo suelta un mineral (con los ajustes del panel: `dropWeight`).
+    public var dropPercent: Double { TunedData.current.mineralDropPercents[ordinal] }
+
+    /// Bonificación que aporta cada unidad al forjar (con los ajustes del panel: `stats`).
+    public var buffPerUnit: Stats { TunedData.current.mineralBuffs[ordinal] }
+
+    /// Valor en oro de cada unidad (con los ajustes del panel: `value`).
+    public var value: Int { TunedData.current.mineralValues[ordinal] }
+
+    /// Porcentaje de aparición del código. Suman 100.
+    var baseDropPercent: Double {
         switch self {
         case .copper: 30
         case .iron: 22
@@ -54,8 +79,8 @@ public enum Mineral: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
 
-    /// Bonificación que aporta cada unidad al forjar.
-    public var buffPerUnit: Stats {
+    /// Bonificación por unidad del código.
+    var baseBuffPerUnit: Stats {
         switch self {
         case .copper: Stats(attack: 2)
         case .iron: Stats(defense: 2)
@@ -70,8 +95,8 @@ public enum Mineral: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
 
-    /// Valor en oro de cada unidad (afecta al precio de venta de lo forjado).
-    public var value: Int {
+    /// Valor en oro de cada unidad del código (afecta al precio de venta de lo forjado).
+    var baseValue: Int {
         switch self {
         case .copper: 2
         case .iron: 3
@@ -86,11 +111,11 @@ public enum Mineral: String, CaseIterable, Codable, Identifiable, Sendable {
         }
     }
 
-    /// Los minerales son escasos: multiplica la probabilidad de soltar de cada enemigo.
-    public static let dropRateMultiplier = 0.15
+    /// Los minerales son escasos: multiplica la probabilidad de soltar de cada enemigo (0,15; `economy.mineralDropRate`).
+    public static var dropRateMultiplier: Double { TunedData.current.economy.mineralDropRate }
 
     /// Tira el dado de minerales según `dropPercent`.
     public static func roll<G: RandomNumberGenerator>(using rng: inout G) -> Mineral {
-        WeightedPicker.pick(allCases.map { ($0, $0.dropPercent) }, using: &rng)
+        WeightedPicker.pick(TunedData.current.mineralLoot, using: &rng)
     }
 }

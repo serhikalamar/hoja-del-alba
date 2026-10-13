@@ -22,11 +22,16 @@ public enum Valdemar {
     public static let pedregalID = "valdemar.pedregal"
     public static let pasoID = "valdemar.paso"
 
-    /// Exteriores de campo del continente (el pueblo y sus interiores están en `Valdehierro`).
-    public static let areas: [AreaMap] = [huertos, robleda, abadia, pedregal, paso]
+    /// Exteriores de campo del continente (el pueblo y sus interiores están en `Valdehierro`), con los ajustes del
+    /// panel aplicados (niveles, spawns).
+    public static var areas: [AreaMap] { TunedData.current.fieldAreas }
 
-    /// Mazmorras de historia del continente.
-    public static let dungeons: [StoryDungeon] = [cripta, calabozos]
+    /// Mazmorras de historia del continente, con los ajustes del panel aplicados.
+    public static var dungeons: [StoryDungeon] { TunedData.current.dungeons }
+
+    /// Áreas y mazmorras del código (las de abajo, sin ajustes).
+    static let baseAreas: [AreaMap] = [huertos, robleda, abadia, pedregal, paso]
+    static let baseDungeons: [StoryDungeon] = [cripta, calabozos]
 
     public static func area(_ id: String) -> AreaMap? {
         areas.first { $0.id == id }
@@ -36,7 +41,7 @@ public enum Valdemar {
 
     /// Trigales quemados, granjas arrasadas, el río Plata con dos puentes y el molino en ruinas del Ogro (NO).
     /// 56×36 · nivel de fuera de zonas 5 · borrador: `mapas/huertos.md`.
-    public static let huertos = AreaMap(
+    static let huertos = AreaMap(
         id: "valdemar.huertos",
         name: "Huertos del Molino",
         rows: [
@@ -130,7 +135,7 @@ public enum Valdemar {
 
     /// Robledal con claros, campamento bandido vallado (SO), puesto del guardabosques y guarida del Lobo alfa (SE).
     /// 64×36 · nivel de fuera de zonas 6 · borrador: `mapas/robleda.md`.
-    public static let robleda = AreaMap(
+    static let robleda = AreaMap(
         id: "valdemar.robleda",
         name: "Bosque de Robleda",
         rows: [
@@ -223,7 +228,7 @@ public enum Valdemar {
 
     /// Cementerio vallado, claustro en ruinas con la iglesia y la bajada `ee` a la Cripta, huerto con campamento del Eclipse.
     /// 56×38 · nivel de fuera de zonas 7 · borrador: `mapas/abadia.md`.
-    public static let abadia = AreaMap(
+    static let abadia = AreaMap(
         id: "valdemar.abadia",
         name: "Abadía de Valsombra",
         rows: [
@@ -317,7 +322,7 @@ public enum Valdemar {
 
     /// Colinas de roca con crestas y pozas heladas; al fondo, el campamento orco del Señor de la guerra.
     /// 60×38 · nivel de fuera de zonas 8 · borrador: `mapas/pedregal.md`.
-    public static let pedregal = AreaMap(
+    static let pedregal = AreaMap(
         id: "valdemar.pedregal",
         name: "Colinas del Pedregal",
         rows: [
@@ -405,7 +410,7 @@ public enum Valdemar {
 
     /// Sendero de montaña en zigzag con rezagados goblins; al fondo, el cartel de Rocaforja. Se abre con `valdemar.paso_norte`.
     /// 48×32 · nivel de fuera de zonas 10 · borrador: `mapas/paso.md`.
-    public static let paso = AreaMap(
+    static let paso = AreaMap(
         id: "valdemar.paso",
         name: "Paso del Norte",
         rows: [
@@ -483,7 +488,7 @@ public enum Valdemar {
     // MARK: Mazmorras de historia (`zonas.md` §3)
 
     /// Cripta bajo la abadía (piso `crypt`, nivel 8): 3 oleadas y el Abad no-muerto. Se baja por la `ee` del claustro.
-    public static let cripta = StoryDungeon(
+    static let cripta = StoryDungeon(
         id: "valdemar.cripta", name: "Cripta de la abadía", floorID: "crypt", level: 8,
         waves: [
             ["skeleton": 5, "ghoul": 3, "skeletonArcher": 2],
@@ -508,7 +513,7 @@ public enum Valdemar {
 
     /// Calabozos del castillo (piso `prison`, nivel 9, opcional): 4 oleadas sin jefe. Bajada `e` del patio, con el
     /// castillo abierto. Repetible para entrenar.
-    public static let calabozos = StoryDungeon(
+    static let calabozos = StoryDungeon(
         id: "valdemar.calabozos", name: "Calabozos del castillo", floorID: "prison", level: 9,
         waves: [
             ["goblinElite": 4, "goblinMage": 2, "goblinGuard": 2],

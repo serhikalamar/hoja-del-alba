@@ -22,6 +22,9 @@ import UniformTypeIdentifiers
 //   shop              Tienda del enano: poses del herrero y escena de la forja.
 //   shots             Capturas de la escena: pueblo, interiores y arena.
 //   fichas            Regenera las fichas de assets/ a partir de los datos del juego.
+//   exportar-datos [carpeta]  Valores base en JSON para el panel web (por defecto admin/public/data/; `make datos`).
+// Opción para cualquier comando: --ajustes <fichero.json> aplica un documento `GameTuning` antes (p. ej. para medir
+// un ajuste del panel con `balance` o `historia`). Las rutas relativas valen desde la raíz del repositorio.
 // Las imágenes se guardan en tools/Harness/output/.
 
 let outputDir = URL(fileURLWithPath: #filePath)
@@ -404,6 +407,8 @@ var failures = 0
 // MARK: - Comandos
 
 let command = CommandLine.arguments.dropFirst().first ?? "help"
+let repoRoot = outputDir.deletingLastPathComponent().deletingLastPathComponent().deletingLastPathComponent()
+applyTuningArgument(root: repoRoot)
 
 switch command {
 case "balance":
@@ -857,9 +862,22 @@ case "fichas":
     }
     write(catalogo, "assets/design/catalogo.md")
 
+case "exportar-datos":
+    // Valores base del juego para el panel de administración (assets/admin/contrato.md).
+    let folder = CommandLine.arguments.dropFirst(2).first { !$0.hasPrefix("-") && !$0.hasSuffix(".json") }
+    let dir = folder.map { $0.hasPrefix("/") ? URL(fileURLWithPath: $0) : repoRoot.appendingPathComponent($0) }
+        ?? repoRoot.appendingPathComponent("admin/public/data")
+    print("Exportando los valores base a \(dir.path):")
+    do {
+        try exportBaseData(to: dir)
+    } catch {
+        print("Error al exportar: \(error)")
+        failures += 1
+    }
+
 default:
     print("""
-    Comandos: balance | town | valdemar | sprites | hero | maps | dungeon | shop | shots | fichas
+    Comandos: balance | town | valdemar | sprites | hero | maps | dungeon | shop | shots | fichas | exportar-datos
     Ejemplo: make balance   (o: cd tools/Harness && swift run -c release Harness balance)
     """)
 }

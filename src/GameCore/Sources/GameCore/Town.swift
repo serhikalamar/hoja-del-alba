@@ -118,7 +118,8 @@ public struct Building: Identifiable, Sendable {
 public struct Spawn: Identifiable, Sendable {
     /// Id único y estable (se guarda al morir).
     public let id: String
-    public let enemyID: String
+    /// Ajustable: `spawns.<id>` (nunca para jefes).
+    public internal(set) var enemyID: String
     public let position: TilePoint
 }
 
@@ -126,8 +127,8 @@ public struct Zone: Identifiable, Sendable {
     public let id: String
     public let name: String
     public let x: Int, y: Int, width: Int, height: Int
-    /// Nivel de dificultad de los enemigos (1...10).
-    public let level: Int
+    /// Nivel de dificultad de los enemigos (1...10). Ajustable: `zones.<id>.level`.
+    public internal(set) var level: Int
 
     public func contains(_ p: TilePoint) -> Bool {
         p.x >= x && p.x < x + width && p.y >= y && p.y < y + height
@@ -162,7 +163,8 @@ public struct NPC: Identifiable, Sendable {
     public let plea: String
     /// Al rescatarlo.
     public let thanks: [String]
-    public let reward: Reward
+    /// Ajustable para aldeanos y princesa: `rescues.<id>`.
+    public internal(set) var reward: Reward
     /// Solo aparece cuando se cumple esta condición (nil = siempre). Ej.: el Capitán tras `valdemar.liberar`,
     /// un aldeano en la calle tras su rescate.
     public var appearsWhen: StoryCondition? = nil
@@ -193,11 +195,11 @@ public struct AreaMap: Identifiable, Sendable {
     public let name: String
     public let rows: [String]
     public let buildings: [Building]
-    public let zones: [Zone]
-    public let spawns: [Spawn]
-    public let npcs: [NPC]
-    /// Nivel de dificultad de un interior (en el pueblo manda la zona).
-    public let level: Int
+    public internal(set) var zones: [Zone]
+    public internal(set) var spawns: [Spawn]
+    public internal(set) var npcs: [NPC]
+    /// Nivel de dificultad de un interior (en el pueblo manda la zona). Ajustable: `areas.<id>.level`.
+    public internal(set) var level: Int
     /// Punto de entrada del jugador.
     public let entry: TilePoint
 
@@ -310,7 +312,11 @@ public struct TownProgress: Codable, Equatable, Sendable {
 public enum Valdehierro {
     public static let townID = "town"
 
-    public static let town = AreaMap(
+    /// El pueblo, con los ajustes del panel aplicados (niveles de zona, spawns, rescates).
+    public static var town: AreaMap { TunedData.current.town }
+
+    /// El pueblo del código.
+    static let baseTown = AreaMap(
         id: townID,
         name: "Valdehierro",
         rows: [
@@ -525,7 +531,11 @@ public enum Valdehierro {
             reward: Reward(), appearsWhen: .rescued(id), talk: talk)
     }
 
-    public static let interiors: [AreaMap] = [
+    /// Interiores, con los ajustes del panel aplicados.
+    public static var interiors: [AreaMap] { TunedData.current.interiors }
+
+    /// Interiores del código.
+    static let baseInteriors: [AreaMap] = [
         interior("bakery", "Panadería", level: 2, rows: [
             "XXXXXXXXXXXXXX",
             "XssskkX__ssssX",

@@ -10,8 +10,8 @@ public enum Arena {
     public static let stageLength = 5
 
     /// Oleada a partir de la cual los enemigos suben un nivel por oleada (el muro: con el equipo al máximo
-    /// solo aguanta quien lo ha mejorado bien y va sobrado de nivel).
-    public static let wallWave = 20
+    /// solo aguanta quien lo ha mejorado bien y va sobrado de nivel). 20 de serie (`economy.wallWave`).
+    public static var wallWave: Int { Int(TunedData.current.economy.wallWave) }
 
     /// Nivel de dificultad de los enemigos: nivel 1 en las 5 primeras oleadas (para forjar la primera arma),
     /// luego sube 3 niveles cada 5 oleadas hasta la `wallWave` (nivel 10) y, desde ahí, 2 por oleada
@@ -40,12 +40,18 @@ public enum Arena {
 
     public static func isShopWave(_ wave: Int) -> Bool { wave % shopEvery == 0 }
 
-    /// Oro por superar la oleada.
-    public static func reward(wave: Int) -> Int { 16 + 7 * wave }
+    /// Oro por superar la oleada: 16 + 7 × oleada (`economy.arenaRewardBase` / `arenaRewardPerWave`).
+    public static func reward(wave: Int) -> Int {
+        let k = TunedData.current.economy
+        return Int(k.arenaRewardBase) + Int(k.arenaRewardPerWave) * wave
+    }
 
     /// Nivel de la forja tras la oleada: un tier nuevo de material cada 4 oleadas
     /// (T2 en las paradas 2 y 4, T3 en la 6, T4 en la 10, T5 en la 14, T6 en la 18).
-    public static func shopLevel(wave: Int) -> Int { min(10, max(1, wave / 2)) }
+    /// Oleadas por nivel: 2 (`economy.arenaWavesPerShopLevel`).
+    public static func shopLevel(wave: Int) -> Int {
+        min(10, max(1, wave / Int(TunedData.current.economy.arenaWavesPerShopLevel)))
+    }
 
     /// Los 50 enemigos originales del bestiario (40 normales + 10 jefes): los únicos que salen en la arena.
     /// Los monstruos y jefes de los continentes (p. ej. `eclipseAcolyte`) se añaden a `Bestiary.all` pero no aquí,

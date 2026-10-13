@@ -30,6 +30,8 @@ final class GameStore {
     /// Cuenta (Account/AccountManager): avisos al guardar y al borrar personajes, para subirlos a la nube.
     @ObservationIgnored var onCharacterSaved: ((_ saved: PlayerProfile, _ previous: PlayerProfile?) -> Void)?
     @ObservationIgnored var onCharacterDeleted: ((UUID) -> Void)?
+    /// Ajustes en vivo (Account/RemoteConfig): se aplican justo antes de empezar una partida, nunca a mitad.
+    @ObservationIgnored var beforeNewGame: (() -> Void)?
 
     init(rosterStore: RosterStore = RosterStore(url: RosterStore.defaultURL(), legacy: SaveStore(url: SaveStore.defaultURL()))) {
         self.rosterStore = rosterStore
@@ -109,7 +111,9 @@ final class GameStore {
         self.screen = screen
     }
 
+    /// Empieza el modo historia desde los menús (selección de personaje o fin de la arena).
     func startTown() {
+        beforeNewGame?()
         startTown(at: nil)
     }
 
@@ -151,6 +155,7 @@ final class GameStore {
 
     /// Arena de oleadas infinitas.
     func startArena() {
+        beforeNewGame?()
         explore?.scene.setRunning(false)
         explore = nil
         battle?.scene.setRunning(false)

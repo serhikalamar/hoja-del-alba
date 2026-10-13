@@ -9,39 +9,46 @@ public enum EnemyBehavior: String, Codable, Sendable {
     case charger
 }
 
-/// Definición de un tipo de enemigo.
+/// Definición de un tipo de enemigo. Los números se pueden ajustar en vivo (`GameTuning`, apartado `enemies`).
 public struct EnemyDefinition: Identifiable, Hashable, Sendable {
     public let id: String
     public let name: String
     /// Nivel en el que aparece por primera vez (1...10).
-    public let level: Int
+    public internal(set) var level: Int
     /// Plantilla de dibujo (la app la interpreta).
     public let template: String
     public let behavior: EnemyBehavior
-    public let hp: Double
-    public let damage: Double
-    public let speed: Double
-    public let attackCooldown: Double
+    public internal(set) var hp: Double
+    public internal(set) var damage: Double
+    public internal(set) var speed: Double
+    public internal(set) var attackCooldown: Double
     /// Alcance del ataque: cuerpo a cuerpo (pocos puntos) o distancia de disparo.
-    public let attackRange: Double
+    public internal(set) var attackRange: Double
     public let bodyRadius: Double
     /// Escala del dibujo.
     public let scale: Double
-    public let dropChance: Double
-    public let dropRolls: Int
+    public internal(set) var dropChance: Double
+    public internal(set) var dropRolls: Int
     public let isBoss: Bool
     /// Pieza única que suelta el jefe.
     public let specialPartID: String?
+    /// Multiplicador de la experiencia que da al morir (1 de serie; lo cambia el panel).
+    public internal(set) var xpMultiplier: Double = 1
+    /// Multiplicador del oro que da al morir en la historia (1 de serie; lo cambia el panel).
+    public internal(set) var goldMultiplier: Double = 1
 
     /// Estadísticas al jugar en `level`: escalan con los niveles que han pasado desde que apareció
     /// y con un factor de dificultad global que crece con el nivel.
+    /// Factores: `EconomyValues.enemyHPPerLevel` (0,13), `enemyHPDifficulty` (0,11), `enemyDamagePerLevel` (0,10),
+    /// `enemyDamageDifficulty` (0,09) y `enemySpeedPerLevel` (0,02).
     public func stats(level playLevel: Int) -> MonsterStats {
         let l = Double(max(0, playLevel - level))
         let difficulty = Double(max(0, playLevel - 1))
+        let k = TunedData.current.economy
         return MonsterStats(
-            hp: hp * (1 + 0.13 * l) * (1 + 0.11 * difficulty),
-            damage: damage * (1 + 0.10 * l) * (1 + 0.09 * difficulty),
-            speed: speed * (1 + 0.02 * l),
+            hp: hp * (1 + k.enemyHPPerLevel * l) * (1 + k.enemyHPDifficulty * difficulty),
+            damage: damage * (1 + k.enemyDamagePerLevel * l) * (1 + k.enemyDamageDifficulty * difficulty),
+            speed: speed * (1 + k.enemySpeedPerLevel * l),
             attackCooldown: attackCooldown,
             attackRange: attackRange,
             dropChance: dropChance,
@@ -95,7 +102,11 @@ public enum Bestiary {
                         isBoss: true, specialPartID: "boss.\(id)")
     }
 
-    public static let all: [EnemyDefinition] = [
+    /// Todos los monstruos, con los ajustes del panel aplicados.
+    public static var all: [EnemyDefinition] { TunedData.current.enemies }
+
+    /// Los monstruos con los valores del código (sin ajustes).
+    static let baseAll: [EnemyDefinition] = [
         // Nivel 1 · Puerta del pueblo
         e("rat", "Rata de alcantarilla", 1, "rat", hp: 12, dmg: 3, speed: 85, cd: 0.9, radius: 11, drop: 0.4),
         e("goblin", "Goblin", 1, "goblin", hp: 22, dmg: 5, speed: 55, cd: 1.2),
@@ -161,9 +172,10 @@ public enum Bestiary {
         e("eclipseAcolyte", "Acólito del Eclipse", 7, "human", .ranged, hp: 45, dmg: 13, speed: 50, cd: 2.4, range: 180, radius: 15, scale: 1.05, drop: 0.7),
     ]
 
-    private static let byID: [String: EnemyDefinition] = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
+    public static func enemy(_ id: String) -> EnemyDefinition? { TunedData.current.enemyByID[id] }
 
-    public static func enemy(_ id: String) -> EnemyDefinition? { byID[id] }
+    /// Monstruo con los valores del código (sin ajustes).
+    static func baseEnemy(_ id: String) -> EnemyDefinition? { baseAll.first { $0.id == id } }
 
     public static var bosses: [EnemyDefinition] { all.filter(\.isBoss) }
 
@@ -178,7 +190,11 @@ extension EnemyDefinition {
     /// Vida y daño de los jefes en el modo historia (pueblo, campo y mazmorras de historia); la arena usa los números
     /// base. Objetivos de `progresion.md` §7 medidos con `make historia`: jefe de zona 40-60 s, jefe final 60-120 s, y
     /// que el bot con equipo de tier 1 bien hecho los pase (con algún susto).
-    public static let storyBossTuning: [String: (hp: Double, damage: Double)] = [
+    /// Con los ajustes del panel aplicados (`enemies.<id>.storyHPMultiplier` / `storyDamageMultiplier`).
+    public static var storyBossTuning: [String: (hp: Double, damage: Double)] { TunedData.current.storyBossTuning }
+
+    /// Valores del código.
+    static let baseStoryBossTuning: [String: (hp: Double, damage: Double)] = [
         "ogre": (1.8, 0.8),
         "alphaWolf": (1.5, 0.45),
         "abbot": (2.0, 0.6),
@@ -189,9 +205,9 @@ extension EnemyDefinition {
     /// La definición que se usa en la historia (igual que la base salvo los jefes de `storyBossTuning`).
     public var forStory: EnemyDefinition {
         guard let t = Self.storyBossTuning[id] else { return self }
-        return EnemyDefinition(id: id, name: name, level: level, template: template, behavior: behavior,
-                               hp: hp * t.hp, damage: damage * t.damage, speed: speed, attackCooldown: attackCooldown,
-                               attackRange: attackRange, bodyRadius: bodyRadius, scale: scale, dropChance: dropChance,
-                               dropRolls: dropRolls, isBoss: isBoss, specialPartID: specialPartID)
+        var story = self
+        story.hp = hp * t.hp
+        story.damage = damage * t.damage
+        return story
     }
 }

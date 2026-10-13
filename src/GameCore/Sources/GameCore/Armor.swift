@@ -19,12 +19,30 @@ public struct ArmorStyle: Identifiable, Hashable, Sendable {
     public let name: String
     public let slot: EquipmentSlot
     public let materialKind: ArmorMaterialKind
-    /// Estadísticas con material de tier 1 (se multiplican por el poder del material).
-    public let base: Stats
+    /// Estadísticas con material de tier 1 (se multiplican por el poder del material). Ajustable: `armor.<id>.stats`.
+    public internal(set) var base: Stats
+    /// Oro base de la forja puesto por el panel (`armor.<id>.price`); nil = el de su hueco.
+    var priceOverride: Double? = nil
+
+    /// Oro base de la forja a tier 1: el peto vale como una hoja (30), el casco 22, las botas 20 y los guantes 16.
+    /// Coste final: `ArmorRecipe.goldCost`.
+    public var forgePrice: Double {
+        if let priceOverride { return priceOverride }
+        return switch slot {
+        case .chest: 30
+        case .helmet: 22
+        case .boots: 20
+        default: 16
+        }
+    }
 }
 
 public enum ArmorCatalog {
-    public static let styles: [ArmorStyle] = [
+    /// Diseños con los ajustes del panel aplicados.
+    public static var styles: [ArmorStyle] { TunedData.current.armorStyles }
+
+    /// Diseños del código.
+    static let baseStyles: [ArmorStyle] = [
         // Cascos
         ArmorStyle(id: "helm.knight", name: "Yelmo de caballero", slot: .helmet, materialKind: .metal, base: Stats(maxHP: 8, defense: 3)),
         ArmorStyle(id: "helm.horned", name: "Casco astado", slot: .helmet, materialKind: .metal, base: Stats(maxHP: 6, attack: 1, defense: 2)),
@@ -49,9 +67,7 @@ public enum ArmorCatalog {
         ArmorStyle(id: "boots.winged", name: "Botas aladas", slot: .boots, materialKind: .cloth, base: Stats(moveSpeed: 14)),
     ]
 
-    private static let byID: [String: ArmorStyle] = Dictionary(uniqueKeysWithValues: styles.map { ($0.id, $0) })
-
-    public static func style(_ id: String?) -> ArmorStyle? { id.flatMap { byID[$0] } }
+    public static func style(_ id: String?) -> ArmorStyle? { id.flatMap { TunedData.current.armorByID[$0] } }
 
     public static func styles(for slot: EquipmentSlot) -> [ArmorStyle] { styles.filter { $0.slot == slot } }
 
@@ -118,12 +134,7 @@ public struct ArmorRecipe: Equatable, Sendable {
     /// Oro de la forja: como las piezas de arma (el peto vale como una hoja, los guantes como una empuñadura),
     /// para que el equipo completo cueste algo más que un arma del mismo tier.
     public var goldCost: Int {
-        let slotPrice: Double = switch style?.slot ?? .chest {
-        case .chest: 30
-        case .helmet: 22
-        case .boots: 20
-        default: 16
-        }
+        let slotPrice = style?.forgePrice ?? 30
         return Int((slotPrice * pow(material?.power ?? 1, 1.3)).rounded()) + 5
     }
     public var totalMinerals: Int { minerals.values.reduce(0, +) }

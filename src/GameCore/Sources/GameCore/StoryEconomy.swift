@@ -9,16 +9,24 @@ import Foundation
 // rehacer el arma varias veces con minerales, vestir las 4 armaduras de tier 1 y llegar con lo del tier 2 al final.
 
 public enum StoryEconomy {
-    /// Oro por matar a un monstruo de ese nivel (los jefes, además, `bossGoldPerLevel` por nivel).
+    /// Oro por matar a un monstruo de ese nivel: 1 + nivel ÷ 3 (los jefes, además, `bossGoldPerLevel` por nivel).
+    /// Ajustable: `economy.storyKillGoldBase`, `storyKillGoldLevelsPerCoin`.
     public static func killGold(level: Int, isBoss: Bool) -> Int {
-        1 + max(0, level) / 3 + (isBoss ? bossGoldPerLevel * level : 0)
+        let k = TunedData.current.economy
+        return Int(k.storyKillGoldBase) + max(0, level) / Int(k.storyKillGoldLevelsPerCoin) + (isBoss ? bossGoldPerLevel * level : 0)
     }
 
-    /// Oro extra de un jefe por nivel de zona.
-    public static let bossGoldPerLevel = 10
+    /// Oro por matar a `enemy`, con su multiplicador propio (`EnemyDefinition.goldMultiplier`).
+    public static func killGold(_ enemy: EnemyDefinition, level: Int) -> Int {
+        let gold = killGold(level: level, isBoss: enemy.isBoss)
+        return enemy.goldMultiplier == 1 ? gold : max(0, Int((Double(gold) * enemy.goldMultiplier).rounded()))
+    }
 
-    /// Oro al liberar una zona (pueblo o campo) la primera vez.
-    public static func zoneGold(level: Int) -> Int { 3 * level }
+    /// Oro extra de un jefe por nivel de zona: 10 (`economy.storyBossGoldPerLevel`).
+    public static var bossGoldPerLevel: Int { Int(TunedData.current.economy.storyBossGoldPerLevel) }
+
+    /// Oro al liberar una zona (pueblo o campo) la primera vez: 3 × nivel (`economy.storyZoneGoldPerLevel`).
+    public static func zoneGold(level: Int) -> Int { Int(TunedData.current.economy.storyZoneGoldPerLevel) * level }
 }
 
 // MARK: - Premio de las mazmorras de historia al ganar

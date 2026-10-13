@@ -1,0 +1,3044 @@
+{
+  "enemigos" : [
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 1,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Puerta sur",
+          "spawns" : [
+            "south.1",
+            "south.2"
+          ],
+          "zona" : "south"
+        },
+        {
+          "area" : "bakery",
+          "nivel" : 2,
+          "nombreArea" : "Panadería",
+          "nombreZona" : null,
+          "spawns" : [
+            "bakery.1",
+            "bakery.2",
+            "bakery.3"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 2,
+      "base" : {
+        "attackCooldown" : 0.90000000000000002,
+        "attackRange" : 6,
+        "damage" : 3,
+        "dropChance" : 0.40000000000000002,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 12,
+        "level" : 1,
+        "speed" : 85,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "rat",
+      "id" : "rat",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Rata de alcantarilla",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 11
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 1,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Puerta sur",
+          "spawns" : [
+            "south.3",
+            "south.4"
+          ],
+          "zona" : "south"
+        },
+        {
+          "area" : "inn",
+          "nivel" : 4,
+          "nombreArea" : "Posada del Jabalí",
+          "nombreZona" : null,
+          "spawns" : [
+            "inn.1",
+            "inn.2"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 1,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 6,
+        "damage" : 5,
+        "dropChance" : 0.5,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 22,
+        "level" : 1,
+        "speed" : 55,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "goblin",
+      "id" : "goblin",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Goblin",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 14
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 1,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Puerta sur",
+          "spawns" : [
+            "south.5"
+          ],
+          "zona" : "south"
+        },
+        {
+          "area" : "inn",
+          "nivel" : 4,
+          "nombreArea" : "Posada del Jabalí",
+          "nombreZona" : null,
+          "spawns" : [
+            "inn.3"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 3,
+      "base" : {
+        "attackCooldown" : 2.2000000000000002,
+        "attackRange" : 150,
+        "damage" : 5,
+        "dropChance" : 0.5,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 16,
+        "level" : 1,
+        "speed" : 50,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1,
+      "familia" : "goblin",
+      "id" : "goblinSlinger",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Goblin hondero",
+      "nombreComportamiento" : "a distancia",
+      "radio" : 13
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 2,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Mercado",
+          "spawns" : [
+            "market.6"
+          ],
+          "zona" : "market"
+        },
+        {
+          "area" : "town",
+          "nivel" : 1,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Puerta sur",
+          "spawns" : [
+            "south.6"
+          ],
+          "zona" : "south"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 1,
+      "base" : {
+        "attackCooldown" : 0.90000000000000002,
+        "attackRange" : 6,
+        "damage" : 4,
+        "dropChance" : 0.40000000000000002,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 16,
+        "level" : 1,
+        "speed" : 105,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "dog",
+      "id" : "mangyDog",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Perro sarnoso",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 13
+    },
+    {
+      "areas" : [
+        {
+          "area" : "bakery",
+          "nivel" : 2,
+          "nombreArea" : "Panadería",
+          "nombreZona" : null,
+          "spawns" : [
+            "bakery.4"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        5,
+        55
+      ],
+      "arenaPrimeraOleada" : 5,
+      "base" : {
+        "attackCooldown" : 1.3,
+        "attackRange" : 12,
+        "damage" : 7,
+        "dropChance" : 1,
+        "dropRolls" : 4,
+        "goldMultiplier" : 1,
+        "hp" : 170,
+        "level" : 1,
+        "speed" : 55,
+        "storyDamageMultiplier" : 1,
+        "storyHPMultiplier" : 1,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 2.2000000000000002,
+      "familia" : "rat",
+      "id" : "ratKing",
+      "jefe" : true,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Rey de las ratas",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "pieza" : {
+        "id" : "boss.ratKing",
+        "nombre" : "Diente del Rey Rata"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.ratKing.valdemar",
+        "nombre" : "Diente del Rey Rata"
+      },
+      "radio" : 26
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 2,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Mercado",
+          "spawns" : [
+            "market.2",
+            "market.3"
+          ],
+          "zona" : "market"
+        },
+        {
+          "area" : "weaver",
+          "nivel" : 3,
+          "nombreArea" : "Casa de la tejedora",
+          "nombreZona" : null,
+          "spawns" : [
+            "weaver.2"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 3,
+      "base" : {
+        "attackCooldown" : 0.80000000000000004,
+        "attackRange" : 6,
+        "damage" : 4,
+        "dropChance" : 0.5,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 16,
+        "level" : 2,
+        "speed" : 110,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "goblin",
+      "id" : "goblinThief",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Goblin ladrón",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 13
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 2,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Mercado",
+          "spawns" : [
+            "market.4",
+            "market.5"
+          ],
+          "zona" : "market"
+        },
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 5,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Ribera del Plata",
+          "spawns" : [
+            "valdemar.huertos.11"
+          ],
+          "zona" : "valdemar.huertos.ribera"
+        },
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 5,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Trigales quemados",
+          "spawns" : [
+            "valdemar.huertos.17"
+          ],
+          "zona" : "valdemar.huertos.trigales"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 4,
+      "base" : {
+        "attackCooldown" : 0.90000000000000002,
+        "attackRange" : 6,
+        "damage" : 3,
+        "dropChance" : 0.34999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 10,
+        "level" : 2,
+        "speed" : 120,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "bird",
+      "id" : "crow",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Cuervo carroñero",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 11
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 2,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Mercado",
+          "spawns" : [
+            "market.1",
+            "market.7"
+          ],
+          "zona" : "market"
+        },
+        {
+          "area" : "weaver",
+          "nivel" : 3,
+          "nombreArea" : "Casa de la tejedora",
+          "nombreZona" : null,
+          "spawns" : [
+            "weaver.1",
+            "weaver.3"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 6,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Campamento bandido",
+          "spawns" : [
+            "valdemar.robleda.5",
+            "valdemar.robleda.6",
+            "valdemar.robleda.8",
+            "valdemar.robleda.10"
+          ],
+          "zona" : "valdemar.robleda.campamento"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 4,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 6,
+        "damage" : 7,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 34,
+        "level" : 2,
+        "speed" : 60,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "human",
+      "id" : "bandit",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+        "valdemar.hilos"
+      ],
+      "nombre" : "Bandido",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 2,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Mercado",
+          "spawns" : [
+            "market.8"
+          ],
+          "zona" : "market"
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 6,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Camino real",
+          "spawns" : [
+            "valdemar.robleda.12",
+            "valdemar.robleda.13"
+          ],
+          "zona" : "valdemar.robleda.camino"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 3,
+      "base" : {
+        "attackCooldown" : 1.3999999999999999,
+        "attackRange" : 18,
+        "damage" : 7,
+        "dropChance" : 0.5,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 26,
+        "level" : 2,
+        "speed" : 50,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "goblin",
+      "id" : "goblinSpearman",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Goblin lancero",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 14
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 5,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Plaza mayor",
+          "spawns" : [
+            "plaza.5"
+          ],
+          "zona" : "plaza"
+        }
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        10,
+        60
+      ],
+      "arenaPrimeraOleada" : 10,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 12,
+        "damage" : 14,
+        "dropChance" : 1,
+        "dropRolls" : 5,
+        "goldMultiplier" : 1,
+        "hp" : 380,
+        "level" : 2,
+        "speed" : 65,
+        "storyDamageMultiplier" : 1,
+        "storyHPMultiplier" : 1,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.6000000000000001,
+      "familia" : "human",
+      "id" : "banditChief",
+      "jefe" : true,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Capitán bandido",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "pieza" : {
+        "id" : "boss.banditChief",
+        "nombre" : "Guarda del Capitán"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.banditChief.valdemar",
+        "nombre" : "Guarda del Capitán"
+      },
+      "radio" : 22
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 3,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Barrio oeste",
+          "spawns" : [
+            "west.1",
+            "west.5"
+          ],
+          "zona" : "west"
+        },
+        {
+          "area" : "chapel",
+          "nivel" : 5,
+          "nombreArea" : "Capilla",
+          "nombreZona" : null,
+          "spawns" : [
+            "chapel.1",
+            "chapel.2"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 6,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Molino en ruinas",
+          "spawns" : [
+            "valdemar.huertos.3",
+            "valdemar.huertos.4"
+          ],
+          "zona" : "valdemar.huertos.molino"
+        },
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 5,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Ribera del Plata",
+          "spawns" : [
+            "valdemar.huertos.9",
+            "valdemar.huertos.10"
+          ],
+          "zona" : "valdemar.huertos.ribera"
+        },
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 7,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Cementerio de Valsombra",
+          "spawns" : [
+            "valdemar.abadia.1",
+            "valdemar.abadia.2",
+            "valdemar.abadia.6"
+          ],
+          "zona" : "valdemar.abadia.cementerio"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 6,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 6,
+        "damage" : 7,
+        "dropChance" : 0.55000000000000004,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 30,
+        "level" : 3,
+        "speed" : 55,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "skeleton",
+      "id" : "skeleton",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            1
+          ]
+        }
+      ],
+      "misiones" : [
+        "valdemar.abadia"
+      ],
+      "nombre" : "Esqueleto",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 14
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 3,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Barrio oeste",
+          "spawns" : [
+            "west.2"
+          ],
+          "zona" : "west"
+        },
+        {
+          "area" : "mill",
+          "nivel" : 3,
+          "nombreArea" : "Casa del molinero",
+          "nombreZona" : null,
+          "spawns" : [
+            "mill.1"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 5,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Trigales quemados",
+          "spawns" : [
+            "valdemar.huertos.13",
+            "valdemar.huertos.14",
+            "valdemar.huertos.18",
+            "valdemar.huertos.19"
+          ],
+          "zona" : "valdemar.huertos.trigales"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 6,
+      "base" : {
+        "attackCooldown" : 1.6000000000000001,
+        "attackRange" : 6,
+        "damage" : 9,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 55,
+        "level" : 3,
+        "speed" : 35,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "human",
+      "id" : "zombieFarmer",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+        "valdemar.molino"
+      ],
+      "nombre" : "Granjero zombi",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 3,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Barrio oeste",
+          "spawns" : [
+            "west.4"
+          ],
+          "zona" : "west"
+        },
+        {
+          "area" : "mill",
+          "nivel" : 3,
+          "nombreArea" : "Casa del molinero",
+          "nombreZona" : null,
+          "spawns" : [
+            "mill.2"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 5,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Trigales quemados",
+          "spawns" : [
+            "valdemar.huertos.15",
+            "valdemar.huertos.21"
+          ],
+          "zona" : "valdemar.huertos.trigales"
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 6,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Camino real",
+          "spawns" : [
+            "valdemar.robleda.15"
+          ],
+          "zona" : "valdemar.robleda.camino"
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 6,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Robledal",
+          "spawns" : [
+            "valdemar.robleda.3"
+          ],
+          "zona" : "valdemar.robleda.robledal"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 5,
+      "base" : {
+        "attackCooldown" : 2.5,
+        "attackRange" : 6,
+        "damage" : 10,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 40,
+        "level" : 3,
+        "speed" : 70,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "charger",
+      "escala" : 1,
+      "familia" : "boar",
+      "id" : "boar",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Jabalí",
+      "nombreComportamiento" : "embestida",
+      "radio" : 16
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 3,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Barrio oeste",
+          "spawns" : [
+            "west.3"
+          ],
+          "zona" : "west"
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 6,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Camino real",
+          "spawns" : [
+            "valdemar.robleda.14",
+            "valdemar.robleda.17"
+          ],
+          "zona" : "valdemar.robleda.camino"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 6,
+      "base" : {
+        "attackCooldown" : 2.3999999999999999,
+        "attackRange" : 170,
+        "damage" : 8,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 22,
+        "level" : 3,
+        "speed" : 45,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1,
+      "familia" : "goblin",
+      "id" : "goblinShaman",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Chamán goblin",
+      "nombreComportamiento" : "a distancia",
+      "radio" : 14
+    },
+    {
+      "areas" : [
+        {
+          "area" : "mill",
+          "nivel" : 3,
+          "nombreArea" : "Casa del molinero",
+          "nombreZona" : null,
+          "spawns" : [
+            "mill.3"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        15,
+        65
+      ],
+      "arenaPrimeraOleada" : 15,
+      "base" : {
+        "attackCooldown" : 1.3,
+        "attackRange" : 12,
+        "damage" : 16,
+        "dropChance" : 1,
+        "dropRolls" : 5,
+        "goldMultiplier" : 1,
+        "hp" : 520,
+        "level" : 3,
+        "speed" : 55,
+        "storyDamageMultiplier" : 1,
+        "storyHPMultiplier" : 1,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 2,
+      "familia" : "human",
+      "id" : "scarecrow",
+      "jefe" : true,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Espantapájaros maldito",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "pieza" : {
+        "id" : "boss.scarecrow",
+        "nombre" : "Mango del Espantapájaros"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.scarecrow.valdemar",
+        "nombre" : "Mango del Espantapájaros"
+      },
+      "radio" : 26
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 4,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Barrio este",
+          "spawns" : [
+            "east.4"
+          ],
+          "zona" : "east"
+        },
+        {
+          "area" : "inn",
+          "nivel" : 4,
+          "nombreArea" : "Posada del Jabalí",
+          "nombreZona" : null,
+          "spawns" : [
+            "inn.4"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 8,
+      "base" : {
+        "attackCooldown" : 1.6000000000000001,
+        "attackRange" : 10,
+        "damage" : 12,
+        "dropChance" : 0.90000000000000002,
+        "dropRolls" : 2,
+        "goldMultiplier" : 1,
+        "hp" : 75,
+        "level" : 4,
+        "speed" : 38,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.5,
+      "familia" : "goblin",
+      "id" : "goblinBrute",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Goblin bruto",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 22
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 4,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Barrio este",
+          "spawns" : [
+            "east.1",
+            "east.5"
+          ],
+          "zona" : "east"
+        },
+        {
+          "area" : "mayor",
+          "nivel" : 7,
+          "nombreArea" : "Casa del alcalde",
+          "nombreZona" : null,
+          "spawns" : [
+            "mayor.1",
+            "mayor.3"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 7,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Huerto de los monjes",
+          "spawns" : [
+            "valdemar.abadia.14",
+            "valdemar.abadia.16"
+          ],
+          "zona" : "valdemar.abadia.huerto"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 7,
+      "base" : {
+        "attackCooldown" : 2.2000000000000002,
+        "attackRange" : 170,
+        "damage" : 9,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 30,
+        "level" : 4,
+        "speed" : 50,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1,
+      "familia" : "human",
+      "id" : "cultist",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            2
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Cultista",
+      "nombreComportamiento" : "a distancia",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 4,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Barrio este",
+          "spawns" : [
+            "east.2"
+          ],
+          "zona" : "east"
+        },
+        {
+          "area" : "alchemist",
+          "nivel" : 6,
+          "nombreArea" : "Casa de la alquimista",
+          "nombreZona" : null,
+          "spawns" : [
+            "alchemist.1"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 5,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Ribera del Plata",
+          "spawns" : [
+            "valdemar.huertos.7",
+            "valdemar.huertos.8"
+          ],
+          "zona" : "valdemar.huertos.ribera"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 7,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 6,
+        "damage" : 7,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 45,
+        "level" : 4,
+        "speed" : 40,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "slime",
+      "id" : "slime",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+        "valdemar.pociones"
+      ],
+      "nombre" : "Limo verde",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 4,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Barrio este",
+          "spawns" : [
+            "east.3"
+          ],
+          "zona" : "east"
+        },
+        {
+          "area" : "alchemist",
+          "nivel" : 6,
+          "nombreArea" : "Casa de la alquimista",
+          "nombreZona" : null,
+          "spawns" : [
+            "alchemist.3"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 7,
+      "base" : {
+        "attackCooldown" : 0.80000000000000004,
+        "attackRange" : 6,
+        "damage" : 5,
+        "dropChance" : 0.34999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 14,
+        "level" : 4,
+        "speed" : 130,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "bat",
+      "id" : "bat",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Murciélago",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 11
+    },
+    {
+      "areas" : [
+        {
+          "area" : "inn",
+          "nivel" : 4,
+          "nombreArea" : "Posada del Jabalí",
+          "nombreZona" : null,
+          "spawns" : [
+            "inn.5"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        20,
+        70
+      ],
+      "arenaPrimeraOleada" : 20,
+      "base" : {
+        "attackCooldown" : 1.3999999999999999,
+        "attackRange" : 12,
+        "damage" : 20,
+        "dropChance" : 1,
+        "dropRolls" : 6,
+        "goldMultiplier" : 1,
+        "hp" : 700,
+        "level" : 4,
+        "speed" : 50,
+        "storyDamageMultiplier" : 1,
+        "storyHPMultiplier" : 1,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.6000000000000001,
+      "familia" : "brute",
+      "id" : "possessedSmith",
+      "jefe" : true,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Herrero poseído",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "pieza" : {
+        "id" : "boss.possessedSmith",
+        "nombre" : "Martillo del Herrero"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.possessedSmith.valdemar",
+        "nombre" : "Martillo del Herrero"
+      },
+      "radio" : 26
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 5,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Plaza mayor",
+          "spawns" : [
+            "plaza.3"
+          ],
+          "zona" : "plaza"
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 7,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Guarida del lobo",
+          "spawns" : [
+            "valdemar.robleda.19",
+            "valdemar.robleda.20",
+            "valdemar.robleda.21"
+          ],
+          "zona" : "valdemar.robleda.guarida"
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 6,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Robledal",
+          "spawns" : [
+            "valdemar.robleda.1",
+            "valdemar.robleda.2"
+          ],
+          "zona" : "valdemar.robleda.robledal"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 9,
+      "base" : {
+        "attackCooldown" : 2.2000000000000002,
+        "attackRange" : 6,
+        "damage" : 10,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 45,
+        "level" : 5,
+        "speed" : 90,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "charger",
+      "escala" : 1.2,
+      "familia" : "dog",
+      "id" : "wolf",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+        "valdemar.caza_mayor"
+      ],
+      "nombre" : "Lobo gris",
+      "nombreComportamiento" : "embestida",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 5,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Plaza mayor",
+          "spawns" : [
+            "plaza.1"
+          ],
+          "zona" : "plaza"
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 6,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Camino real",
+          "spawns" : [
+            "valdemar.robleda.16"
+          ],
+          "zona" : "valdemar.robleda.camino"
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 6,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Robledal",
+          "spawns" : [
+            "valdemar.robleda.4"
+          ],
+          "zona" : "valdemar.robleda.robledal"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 9,
+      "base" : {
+        "attackCooldown" : 1.3,
+        "attackRange" : 6,
+        "damage" : 11,
+        "dropChance" : 0.69999999999999996,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 60,
+        "level" : 5,
+        "speed" : 55,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.3,
+      "familia" : "goblin",
+      "id" : "hobgoblin",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Hobgoblin",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 17
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 5,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Plaza mayor",
+          "spawns" : [
+            "plaza.2"
+          ],
+          "zona" : "plaza"
+        },
+        {
+          "area" : "chapel",
+          "nivel" : 5,
+          "nombreArea" : "Capilla",
+          "nombreZona" : null,
+          "spawns" : [
+            "chapel.5"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 7,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Cementerio de Valsombra",
+          "spawns" : [
+            "valdemar.abadia.3"
+          ],
+          "zona" : "valdemar.abadia.cementerio"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 9,
+      "base" : {
+        "attackCooldown" : 2.2000000000000002,
+        "attackRange" : 190,
+        "damage" : 10,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 30,
+        "level" : 5,
+        "speed" : 45,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1,
+      "familia" : "skeleton",
+      "id" : "skeletonArcher",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            1,
+            3
+          ]
+        }
+      ],
+      "misiones" : [
+        "valdemar.abadia"
+      ],
+      "nombre" : "Esqueleto arquero",
+      "nombreComportamiento" : "a distancia",
+      "radio" : 14
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 6,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Molino en ruinas",
+          "spawns" : [
+            "valdemar.huertos.2"
+          ],
+          "zona" : "valdemar.huertos.molino"
+        },
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 5,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Trigales quemados",
+          "spawns" : [
+            "valdemar.huertos.20"
+          ],
+          "zona" : "valdemar.huertos.trigales"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 9,
+      "base" : {
+        "attackCooldown" : 1.8,
+        "attackRange" : 10,
+        "damage" : 13,
+        "dropChance" : 0.90000000000000002,
+        "dropRolls" : 2,
+        "goldMultiplier" : 1,
+        "hp" : 110,
+        "level" : 5,
+        "speed" : 32,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.25,
+      "familia" : "brute",
+      "id" : "mudGolem",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Gólem de barro",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 22
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 7,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Guarida del lobo",
+          "spawns" : [
+            "valdemar.robleda.18"
+          ],
+          "zona" : "valdemar.robleda.guarida"
+        }
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        25,
+        75
+      ],
+      "arenaPrimeraOleada" : 25,
+      "base" : {
+        "attackCooldown" : 1.8,
+        "attackRange" : 12,
+        "damage" : 22,
+        "dropChance" : 1,
+        "dropRolls" : 6,
+        "goldMultiplier" : 1,
+        "hp" : 850,
+        "level" : 5,
+        "speed" : 95,
+        "storyDamageMultiplier" : 0.45000000000000001,
+        "storyHPMultiplier" : 1.5,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "charger",
+      "escala" : 2,
+      "familia" : "dog",
+      "id" : "alphaWolf",
+      "jefe" : true,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+        "valdemar.caza_mayor"
+      ],
+      "nombre" : "Lobo alfa",
+      "nombreComportamiento" : "embestida",
+      "pieza" : {
+        "id" : "boss.alphaWolf",
+        "nombre" : "Colmillo Alfa"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.alphaWolf.valdemar",
+        "nombre" : "Colmillo Alfa"
+      },
+      "radio" : 26
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 5,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Trigales quemados",
+          "spawns" : [
+            "valdemar.huertos.16"
+          ],
+          "zona" : "valdemar.huertos.trigales"
+        },
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 8,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Laderas del Pedregal",
+          "spawns" : [
+            "valdemar.pedregal.1",
+            "valdemar.pedregal.2"
+          ],
+          "zona" : "valdemar.pedregal.laderas"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 11,
+      "base" : {
+        "attackCooldown" : 2.7999999999999998,
+        "attackRange" : 160,
+        "damage" : 14,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 28,
+        "level" : 6,
+        "speed" : 45,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1,
+      "familia" : "goblin",
+      "id" : "goblinBomber",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            2
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Goblin bombardero",
+      "nombreComportamiento" : "a distancia",
+      "radio" : 14
+    },
+    {
+      "areas" : [
+        {
+          "area" : "chapel",
+          "nivel" : 5,
+          "nombreArea" : "Capilla",
+          "nombreZona" : null,
+          "spawns" : [
+            "chapel.3",
+            "chapel.4"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 7,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Cementerio de Valsombra",
+          "spawns" : [
+            "valdemar.abadia.4",
+            "valdemar.abadia.5"
+          ],
+          "zona" : "valdemar.abadia.cementerio"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 11,
+      "base" : {
+        "attackCooldown" : 1,
+        "attackRange" : 6,
+        "damage" : 10,
+        "dropChance" : 0.55000000000000004,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 40,
+        "level" : 6,
+        "speed" : 100,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "skeleton",
+      "id" : "ghoul",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            1,
+            3
+          ]
+        }
+      ],
+      "misiones" : [
+        "valdemar.abadia"
+      ],
+      "nombre" : "Necrófago",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 14
+    },
+    {
+      "areas" : [
+        {
+          "area" : "alchemist",
+          "nivel" : 6,
+          "nombreArea" : "Casa de la alquimista",
+          "nombreZona" : null,
+          "spawns" : [
+            "alchemist.2"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 7,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Huerto de los monjes",
+          "spawns" : [
+            "valdemar.abadia.19",
+            "valdemar.abadia.20"
+          ],
+          "zona" : "valdemar.abadia.huerto"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 12,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 6,
+        "damage" : 10,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 55,
+        "level" : 6,
+        "speed" : 45,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "slime",
+      "id" : "fireSlime",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            2
+          ]
+        }
+      ],
+      "misiones" : [
+        "valdemar.pociones"
+      ],
+      "nombre" : "Limo de fuego",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 5,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Plaza mayor",
+          "spawns" : [
+            "plaza.4"
+          ],
+          "zona" : "plaza"
+        },
+        {
+          "area" : "valdemar.robleda",
+          "nivel" : 6,
+          "nombreArea" : "Bosque de Robleda",
+          "nombreZona" : "Campamento bandido",
+          "spawns" : [
+            "valdemar.robleda.7",
+            "valdemar.robleda.9",
+            "valdemar.robleda.11"
+          ],
+          "zona" : "valdemar.robleda.campamento"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 11,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 6,
+        "damage" : 12,
+        "dropChance" : 0.69999999999999996,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 70,
+        "level" : 6,
+        "speed" : 60,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "human",
+      "id" : "mercenary",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+        "valdemar.hilos"
+      ],
+      "nombre" : "Mercenario",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "alchemist",
+          "nivel" : 6,
+          "nombreArea" : "Casa de la alquimista",
+          "nombreZona" : null,
+          "spawns" : [
+            "alchemist.4"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        30,
+        80
+      ],
+      "arenaPrimeraOleada" : 30,
+      "base" : {
+        "attackCooldown" : 1.6000000000000001,
+        "attackRange" : 200,
+        "damage" : 20,
+        "dropChance" : 1,
+        "dropRolls" : 7,
+        "goldMultiplier" : 1,
+        "hp" : 900,
+        "level" : 6,
+        "speed" : 55,
+        "storyDamageMultiplier" : 1,
+        "storyHPMultiplier" : 1,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1.6000000000000001,
+      "familia" : "human",
+      "id" : "witch",
+      "jefe" : true,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Bruja del pozo",
+      "nombreComportamiento" : "a distancia",
+      "pieza" : {
+        "id" : "boss.witch",
+        "nombre" : "Escoba de la Bruja"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.witch.valdemar",
+        "nombre" : "Escoba de la Bruja"
+      },
+      "radio" : 22
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 9,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Patio del castillo",
+          "spawns" : [
+            "courtyard.6"
+          ],
+          "zona" : "courtyard"
+        },
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 9,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Campamento orco",
+          "spawns" : [
+            "valdemar.pedregal.13",
+            "valdemar.pedregal.14",
+            "valdemar.pedregal.16"
+          ],
+          "zona" : "valdemar.pedregal.campamento"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 13,
+      "base" : {
+        "attackCooldown" : 1.3999999999999999,
+        "attackRange" : 10,
+        "damage" : 14,
+        "dropChance" : 0.80000000000000004,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 85,
+        "level" : 7,
+        "speed" : 55,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.05,
+      "familia" : "brute",
+      "id" : "orc",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            2
+          ]
+        }
+      ],
+      "misiones" : [
+        "valdemar.pedregal"
+      ],
+      "nombre" : "Orco",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 18
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 6,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Molino en ruinas",
+          "spawns" : [
+            "valdemar.huertos.5",
+            "valdemar.huertos.6"
+          ],
+          "zona" : "valdemar.huertos.molino"
+        },
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 5,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Ribera del Plata",
+          "spawns" : [
+            "valdemar.huertos.12"
+          ],
+          "zona" : "valdemar.huertos.ribera"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 13,
+      "base" : {
+        "attackCooldown" : 0.80000000000000004,
+        "attackRange" : 6,
+        "damage" : 8,
+        "dropChance" : 0.45000000000000001,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 30,
+        "level" : 7,
+        "speed" : 95,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "rat",
+      "id" : "plagueRat",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Rata de la peste",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 12
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 8,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Claustro en ruinas",
+          "spawns" : [
+            "valdemar.abadia.10"
+          ],
+          "zona" : "valdemar.abadia.claustro"
+        },
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 7,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Huerto de los monjes",
+          "spawns" : [
+            "valdemar.abadia.17",
+            "valdemar.abadia.18"
+          ],
+          "zona" : "valdemar.abadia.huerto"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 13,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 6,
+        "damage" : 12,
+        "dropChance" : 0.59999999999999998,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 50,
+        "level" : 7,
+        "speed" : 80,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "ghost",
+      "id" : "wraith",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            2
+          ]
+        }
+      ],
+      "misiones" : [
+        "valdemar.abadia"
+      ],
+      "nombre" : "Espectro",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 14
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 9,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Patio del castillo",
+          "spawns" : [
+            "courtyard.7"
+          ],
+          "zona" : "courtyard"
+        },
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 8,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Laderas del Pedregal",
+          "spawns" : [
+            "valdemar.pedregal.4",
+            "valdemar.pedregal.5"
+          ],
+          "zona" : "valdemar.pedregal.laderas"
+        },
+        {
+          "area" : "valdemar.paso",
+          "nivel" : 10,
+          "nombreArea" : "Paso del Norte",
+          "nombreZona" : "Paso del Norte",
+          "spawns" : [
+            "valdemar.paso.1",
+            "valdemar.paso.2"
+          ],
+          "zona" : "valdemar.paso.sendero"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 13,
+      "base" : {
+        "attackCooldown" : 2.2000000000000002,
+        "attackRange" : 6,
+        "damage" : 14,
+        "dropChance" : 0.80000000000000004,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 70,
+        "level" : 7,
+        "speed" : 95,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "charger",
+      "escala" : 1.3999999999999999,
+      "familia" : "dog",
+      "id" : "wolfRider",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            3
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Jinete de lobo",
+      "nombreComportamiento" : "embestida",
+      "radio" : 18
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.huertos",
+          "nivel" : 6,
+          "nombreArea" : "Huertos del Molino",
+          "nombreZona" : "Molino en ruinas",
+          "spawns" : [
+            "valdemar.huertos.1"
+          ],
+          "zona" : "valdemar.huertos.molino"
+        }
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        35,
+        85
+      ],
+      "arenaPrimeraOleada" : 35,
+      "base" : {
+        "attackCooldown" : 1.8,
+        "attackRange" : 16,
+        "damage" : 28,
+        "dropChance" : 1,
+        "dropRolls" : 7,
+        "goldMultiplier" : 1,
+        "hp" : 1300,
+        "level" : 7,
+        "speed" : 45,
+        "storyDamageMultiplier" : 0.80000000000000004,
+        "storyHPMultiplier" : 1.8,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 2.1000000000000001,
+      "familia" : "brute",
+      "id" : "ogre",
+      "jefe" : true,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+        "valdemar.molino"
+      ],
+      "nombre" : "Ogro del molino",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "pieza" : {
+        "id" : "boss.ogre",
+        "nombre" : "Piedra de molino"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.ogre.valdemar",
+        "nombre" : "Piedra de molino"
+      },
+      "radio" : 34
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 8,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Laderas del Pedregal",
+          "spawns" : [
+            "valdemar.pedregal.3",
+            "valdemar.pedregal.7"
+          ],
+          "zona" : "valdemar.pedregal.laderas"
+        },
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 8,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Pozas heladas",
+          "spawns" : [
+            "valdemar.pedregal.12"
+          ],
+          "zona" : "valdemar.pedregal.pozas"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 16,
+      "base" : {
+        "attackCooldown" : 1.6000000000000001,
+        "attackRange" : 12,
+        "damage" : 18,
+        "dropChance" : 0.90000000000000002,
+        "dropRolls" : 2,
+        "goldMultiplier" : 1,
+        "hp" : 120,
+        "level" : 8,
+        "speed" : 45,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.3500000000000001,
+      "familia" : "brute",
+      "id" : "troll",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            3
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Troll",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 22
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 8,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Claustro en ruinas",
+          "spawns" : [
+            "valdemar.abadia.8",
+            "valdemar.abadia.11"
+          ],
+          "zona" : "valdemar.abadia.claustro"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 15,
+      "base" : {
+        "attackCooldown" : 1.3,
+        "attackRange" : 6,
+        "damage" : 15,
+        "dropChance" : 0.80000000000000004,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 100,
+        "level" : 8,
+        "speed" : 55,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.1499999999999999,
+      "familia" : "human",
+      "id" : "blackKnight",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            3
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Caballero negro",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 16
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 8,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Claustro en ruinas",
+          "spawns" : [
+            "valdemar.abadia.7",
+            "valdemar.abadia.12"
+          ],
+          "zona" : "valdemar.abadia.claustro"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 15,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 6,
+        "damage" : 14,
+        "dropChance" : 0.69999999999999996,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 70,
+        "level" : 8,
+        "speed" : 85,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.3999999999999999,
+      "familia" : "bat",
+      "id" : "gargoyle",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            2
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Gárgola",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 8,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Claustro en ruinas",
+          "spawns" : [
+            "valdemar.abadia.9"
+          ],
+          "zona" : "valdemar.abadia.claustro"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 15,
+      "base" : {
+        "attackCooldown" : 2.3999999999999999,
+        "attackRange" : 200,
+        "damage" : 14,
+        "dropChance" : 0.69999999999999996,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 55,
+        "level" : 8,
+        "speed" : 45,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1,
+      "familia" : "human",
+      "id" : "necromancer",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            3
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Nigromante",
+      "nombreComportamiento" : "a distancia",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        40,
+        90
+      ],
+      "arenaPrimeraOleada" : 40,
+      "base" : {
+        "attackCooldown" : 1.3999999999999999,
+        "attackRange" : 200,
+        "damage" : 24,
+        "dropChance" : 1,
+        "dropRolls" : 8,
+        "goldMultiplier" : 1,
+        "hp" : 1150,
+        "level" : 8,
+        "speed" : 55,
+        "storyDamageMultiplier" : 0.59999999999999998,
+        "storyHPMultiplier" : 2,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1.8,
+      "familia" : "skeleton",
+      "id" : "abbot",
+      "jefe" : true,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : true,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Abad no-muerto",
+      "nombreComportamiento" : "a distancia",
+      "pieza" : {
+        "id" : "boss.abbot",
+        "nombre" : "Rosario del Abad"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.abbot.valdemar",
+        "nombre" : "Rosario del Abad"
+      },
+      "radio" : 24
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 9,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Patio del castillo",
+          "spawns" : [
+            "courtyard.5"
+          ],
+          "zona" : "courtyard"
+        },
+        {
+          "area" : "valdemar.paso",
+          "nivel" : 10,
+          "nombreArea" : "Paso del Norte",
+          "nombreZona" : "Paso del Norte",
+          "spawns" : [
+            "valdemar.paso.3",
+            "valdemar.paso.5"
+          ],
+          "zona" : "valdemar.paso.sendero"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 17,
+      "base" : {
+        "attackCooldown" : 1.1000000000000001,
+        "attackRange" : 6,
+        "damage" : 14,
+        "dropChance" : 0.69999999999999996,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 70,
+        "level" : 9,
+        "speed" : 65,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.1000000000000001,
+      "familia" : "goblin",
+      "id" : "goblinElite",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            1,
+            4
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Goblin de élite",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 9,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Campamento orco",
+          "spawns" : [
+            "valdemar.pedregal.15",
+            "valdemar.pedregal.18"
+          ],
+          "zona" : "valdemar.pedregal.campamento"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 17,
+      "base" : {
+        "attackCooldown" : 2,
+        "attackRange" : 6,
+        "damage" : 20,
+        "dropChance" : 0.90000000000000002,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 120,
+        "level" : 9,
+        "speed" : 70,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "charger",
+      "escala" : 1.1499999999999999,
+      "familia" : "brute",
+      "id" : "berserker",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            2
+          ]
+        }
+      ],
+      "misiones" : [
+        "valdemar.pedregal"
+      ],
+      "nombre" : "Orco berserker",
+      "nombreComportamiento" : "embestida",
+      "radio" : 18
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 8,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Pozas heladas",
+          "spawns" : [
+            "valdemar.pedregal.8",
+            "valdemar.pedregal.9",
+            "valdemar.pedregal.10"
+          ],
+          "zona" : "valdemar.pedregal.pozas"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 17,
+      "base" : {
+        "attackCooldown" : 1.2,
+        "attackRange" : 6,
+        "damage" : 12,
+        "dropChance" : 0.69999999999999996,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 70,
+        "level" : 9,
+        "speed" : 45,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.1499999999999999,
+      "familia" : "slime",
+      "id" : "iceSlime",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            3
+          ]
+        },
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            3
+          ]
+        }
+      ],
+      "misiones" : [
+        "valdemar.pociones"
+      ],
+      "nombre" : "Limo helado",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 16
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 8,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Laderas del Pedregal",
+          "spawns" : [
+            "valdemar.pedregal.6"
+          ],
+          "zona" : "valdemar.pedregal.laderas"
+        },
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 8,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Pozas heladas",
+          "spawns" : [
+            "valdemar.pedregal.11"
+          ],
+          "zona" : "valdemar.pedregal.pozas"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 17,
+      "base" : {
+        "attackCooldown" : 1,
+        "attackRange" : 6,
+        "damage" : 18,
+        "dropChance" : 0.69999999999999996,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 60,
+        "level" : 9,
+        "speed" : 120,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1,
+      "familia" : "human",
+      "id" : "assassin",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            2
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Asesino sombrío",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 15
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 9,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Campamento orco",
+          "spawns" : [
+            "valdemar.pedregal.19"
+          ],
+          "zona" : "valdemar.pedregal.campamento"
+        }
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        45,
+        95
+      ],
+      "arenaPrimeraOleada" : 45,
+      "base" : {
+        "attackCooldown" : 1.3999999999999999,
+        "attackRange" : 16,
+        "damage" : 32,
+        "dropChance" : 1,
+        "dropRolls" : 8,
+        "goldMultiplier" : 1,
+        "hp" : 2000,
+        "level" : 9,
+        "speed" : 55,
+        "storyDamageMultiplier" : 0.80000000000000004,
+        "storyHPMultiplier" : 1,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.8999999999999999,
+      "familia" : "brute",
+      "id" : "warlord",
+      "jefe" : true,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+        "valdemar.pedregal"
+      ],
+      "nombre" : "Señor de la guerra orco",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "pieza" : {
+        "id" : "boss.warlord",
+        "nombre" : "Hoja del Señor de la Guerra"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.warlord.valdemar",
+        "nombre" : "Hoja del Señor de la Guerra"
+      },
+      "radio" : 30
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 9,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Patio del castillo",
+          "spawns" : [
+            "courtyard.1",
+            "courtyard.2"
+          ],
+          "zona" : "courtyard"
+        },
+        {
+          "area" : "castle",
+          "nivel" : 10,
+          "nombreArea" : "Salón del trono",
+          "nombreZona" : null,
+          "spawns" : [
+            "castle.1",
+            "castle.2"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 19,
+      "base" : {
+        "attackCooldown" : 1.3,
+        "attackRange" : 6,
+        "damage" : 16,
+        "dropChance" : 0.80000000000000004,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 100,
+        "level" : 10,
+        "speed" : 50,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.2,
+      "familia" : "goblin",
+      "id" : "goblinGuard",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            1,
+            3
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Guardia real goblin",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 16
+    },
+    {
+      "areas" : [
+        {
+          "area" : "town",
+          "nivel" : 9,
+          "nombreArea" : "Valdehierro",
+          "nombreZona" : "Patio del castillo",
+          "spawns" : [
+            "courtyard.3",
+            "courtyard.4"
+          ],
+          "zona" : "courtyard"
+        },
+        {
+          "area" : "castle",
+          "nivel" : 10,
+          "nombreArea" : "Salón del trono",
+          "nombreZona" : null,
+          "spawns" : [
+            "castle.3",
+            "castle.4"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.paso",
+          "nivel" : 10,
+          "nombreArea" : "Paso del Norte",
+          "nombreZona" : "Paso del Norte",
+          "spawns" : [
+            "valdemar.paso.4"
+          ],
+          "zona" : "valdemar.paso.sendero"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 19,
+      "base" : {
+        "attackCooldown" : 2.2000000000000002,
+        "attackRange" : 210,
+        "damage" : 16,
+        "dropChance" : 0.80000000000000004,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 50,
+        "level" : 10,
+        "speed" : 45,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1,
+      "familia" : "goblin",
+      "id" : "goblinMage",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            1,
+            4
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Mago goblin",
+      "nombreComportamiento" : "a distancia",
+      "radio" : 14
+    },
+    {
+      "areas" : [
+        {
+          "area" : "valdemar.pedregal",
+          "nivel" : 9,
+          "nombreArea" : "Colinas del Pedregal",
+          "nombreZona" : "Campamento orco",
+          "spawns" : [
+            "valdemar.pedregal.17"
+          ],
+          "zona" : "valdemar.pedregal.campamento"
+        },
+        {
+          "area" : "valdemar.paso",
+          "nivel" : 10,
+          "nombreArea" : "Paso del Norte",
+          "nombreZona" : "Paso del Norte",
+          "spawns" : [
+            "valdemar.paso.6"
+          ],
+          "zona" : "valdemar.paso.sendero"
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 19,
+      "base" : {
+        "attackCooldown" : 2.3999999999999999,
+        "attackRange" : 6,
+        "damage" : 20,
+        "dropChance" : 0.90000000000000002,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 120,
+        "level" : 10,
+        "speed" : 75,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "charger",
+      "escala" : 1.3,
+      "familia" : "boar",
+      "id" : "armoredBoar",
+      "jefe" : false,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Jabalí acorazado",
+      "nombreComportamiento" : "embestida",
+      "radio" : 18
+    },
+    {
+      "areas" : [
+        {
+          "area" : "castle",
+          "nivel" : 10,
+          "nombreArea" : "Salón del trono",
+          "nombreZona" : null,
+          "spawns" : [
+            "castle.5"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaPrimeraOleada" : 19,
+      "base" : {
+        "attackCooldown" : 1.6000000000000001,
+        "attackRange" : 6,
+        "damage" : 14,
+        "dropChance" : 1,
+        "dropRolls" : 2,
+        "goldMultiplier" : 1,
+        "hp" : 160,
+        "level" : 10,
+        "speed" : 40,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 1.3999999999999999,
+      "familia" : "goblin",
+      "id" : "goblinStandard",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.calabozos",
+          "jefe" : false,
+          "nivel" : 9,
+          "nombre" : "Calabozos del castillo",
+          "oleadas" : [
+            4
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Abanderado goblin",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "radio" : 18
+    },
+    {
+      "areas" : [
+        {
+          "area" : "castle",
+          "nivel" : 10,
+          "nombreArea" : "Salón del trono",
+          "nombreZona" : null,
+          "spawns" : [
+            "castle.6"
+          ],
+          "zona" : null
+        }
+      ],
+      "arena" : true,
+      "arenaOleadasDeJefe" : [
+        50,
+        100
+      ],
+      "arenaPrimeraOleada" : 50,
+      "base" : {
+        "attackCooldown" : 1.3999999999999999,
+        "attackRange" : 14,
+        "damage" : 34,
+        "dropChance" : 1,
+        "dropRolls" : 9,
+        "goldMultiplier" : 1,
+        "hp" : 2600,
+        "level" : 10,
+        "speed" : 50,
+        "storyDamageMultiplier" : 0.5,
+        "storyHPMultiplier" : 0.94999999999999996,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "melee",
+      "escala" : 2.3999999999999999,
+      "familia" : "goblin",
+      "id" : "goblinKing",
+      "jefe" : true,
+      "mazmorras" : [
+
+      ],
+      "misiones" : [
+        "valdemar.rey_goblin"
+      ],
+      "nombre" : "Rey Goblin",
+      "nombreComportamiento" : "cuerpo a cuerpo",
+      "pieza" : {
+        "id" : "boss.goblinKing",
+        "nombre" : "Corona del Rey Goblin"
+      },
+      "piezaHistoria" : {
+        "id" : "boss.goblinKing.valdemar",
+        "nombre" : "Corona del Rey Goblin"
+      },
+      "radio" : 34
+    },
+    {
+      "areas" : [
+        {
+          "area" : "mayor",
+          "nivel" : 7,
+          "nombreArea" : "Casa del alcalde",
+          "nombreZona" : null,
+          "spawns" : [
+            "mayor.2",
+            "mayor.4"
+          ],
+          "zona" : null
+        },
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 8,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Claustro en ruinas",
+          "spawns" : [
+            "valdemar.abadia.13"
+          ],
+          "zona" : "valdemar.abadia.claustro"
+        },
+        {
+          "area" : "valdemar.abadia",
+          "nivel" : 7,
+          "nombreArea" : "Abadía de Valsombra",
+          "nombreZona" : "Huerto de los monjes",
+          "spawns" : [
+            "valdemar.abadia.15"
+          ],
+          "zona" : "valdemar.abadia.huerto"
+        }
+      ],
+      "arena" : false,
+      "base" : {
+        "attackCooldown" : 2.3999999999999999,
+        "attackRange" : 180,
+        "damage" : 13,
+        "dropChance" : 0.69999999999999996,
+        "dropRolls" : 1,
+        "goldMultiplier" : 1,
+        "hp" : 45,
+        "level" : 7,
+        "speed" : 50,
+        "xpMultiplier" : 1
+      },
+      "comportamiento" : "ranged",
+      "escala" : 1.05,
+      "familia" : "human",
+      "id" : "eclipseAcolyte",
+      "jefe" : false,
+      "mazmorras" : [
+        {
+          "id" : "valdemar.cripta",
+          "jefe" : false,
+          "nivel" : 8,
+          "nombre" : "Cripta de la abadía",
+          "oleadas" : [
+            2
+          ]
+        }
+      ],
+      "misiones" : [
+
+      ],
+      "nombre" : "Acólito del Eclipse",
+      "nombreComportamiento" : "a distancia",
+      "radio" : 15
+    }
+  ],
+  "generado" : "make datos (Harness exportar-datos): valores del código, no editar a mano",
+  "nota" : "Valores en su nivel de aparición; escalan con el nivel de la zona u oleada (economia.json: enemyHPPerLevel…).",
+  "schemaVersion" : 1
+}

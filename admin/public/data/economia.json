@@ -1,0 +1,672 @@
+{
+  "base" : {
+    "arenaBossXPMultiplier" : 12,
+    "arenaRewardBase" : 16,
+    "arenaRewardPerWave" : 7,
+    "arenaStartingGold" : 50,
+    "arenaWavesPerShopLevel" : 2,
+    "continentLootWeights" : [
+      35,
+      27,
+      20,
+      12,
+      6
+    ],
+    "enemyDamageDifficulty" : 0.089999999999999997,
+    "enemyDamagePerLevel" : 0.10000000000000001,
+    "enemyHPDifficulty" : 0.11,
+    "enemyHPPerLevel" : 0.13,
+    "enemySpeedPerLevel" : 0.02,
+    "forgeGoldBase" : 5,
+    "forgeGoldPerTier" : 10,
+    "levelAttackGrowth" : 0.085000000000000006,
+    "levelDefensePerLevel" : 0.59999999999999998,
+    "levelHPGrowth" : 0.080000000000000002,
+    "mineralDropRate" : 0.14999999999999999,
+    "potionBasePrice" : 15,
+    "potionHeal" : 0.5,
+    "potionPricePerLevel" : 5,
+    "rerollBaseCost" : 10,
+    "rerollCostStep" : 10,
+    "respawningXPMultiplier" : 0.29999999999999999,
+    "storyBossGoldPerLevel" : 10,
+    "storyBossXPMultiplier" : 6,
+    "storyDungeonRepeatPartChance" : 0.25,
+    "storyKillGoldBase" : 1,
+    "storyKillGoldLevelsPerCoin" : 3,
+    "storyZoneGoldPerLevel" : 3,
+    "wallWave" : 20,
+    "xpCurveBase" : 50,
+    "xpCurveExponent" : 1.6000000000000001,
+    "xpCurveFlat" : 30
+  },
+  "generado" : "make datos (Harness exportar-datos): valores del código, no editar a mano",
+  "nota" : "Las tablas se calculan con los valores base; cambian si se ajusta la economía.",
+  "ruleta" : [
+    {
+      "base" : {
+        "multiplier" : 0.59999999999999998,
+        "weight" : 10
+      },
+      "id" : "broken",
+      "nombre" : "Rota",
+      "rareza" : "Común",
+      "suerte" : -0.5
+    },
+    {
+      "base" : {
+        "multiplier" : 0.80000000000000004,
+        "weight" : 20
+      },
+      "id" : "crude",
+      "nombre" : "Tosca",
+      "rareza" : "Común",
+      "suerte" : -0.29999999999999999
+    },
+    {
+      "base" : {
+        "multiplier" : 1,
+        "weight" : 30
+      },
+      "id" : "normal",
+      "nombre" : "Normal",
+      "rareza" : "Común",
+      "suerte" : 0
+    },
+    {
+      "base" : {
+        "multiplier" : 1.2,
+        "weight" : 22
+      },
+      "id" : "fine",
+      "nombre" : "Fina",
+      "rareza" : "Raro",
+      "suerte" : 0.29999999999999999
+    },
+    {
+      "base" : {
+        "multiplier" : 1.5,
+        "weight" : 13
+      },
+      "id" : "excellent",
+      "nombre" : "Excelente",
+      "rareza" : "Épico",
+      "suerte" : 0.69999999999999996
+    },
+    {
+      "base" : {
+        "multiplier" : 2,
+        "weight" : 5
+      },
+      "id" : "masterwork",
+      "nombre" : "Obra maestra",
+      "rareza" : "Legendario",
+      "suerte" : 1.2
+    }
+  ],
+  "schemaVersion" : 1,
+  "tablas" : {
+    "nivelEnemigosArena" : [
+      {
+        "nivel" : 1,
+        "oleada" : 1
+      },
+      {
+        "nivel" : 1,
+        "oleada" : 2
+      },
+      {
+        "nivel" : 1,
+        "oleada" : 3
+      },
+      {
+        "nivel" : 1,
+        "oleada" : 4
+      },
+      {
+        "nivel" : 1,
+        "oleada" : 5
+      },
+      {
+        "nivel" : 2,
+        "oleada" : 6
+      },
+      {
+        "nivel" : 2,
+        "oleada" : 7
+      },
+      {
+        "nivel" : 3,
+        "oleada" : 8
+      },
+      {
+        "nivel" : 4,
+        "oleada" : 9
+      },
+      {
+        "nivel" : 4,
+        "oleada" : 10
+      },
+      {
+        "nivel" : 5,
+        "oleada" : 11
+      },
+      {
+        "nivel" : 5,
+        "oleada" : 12
+      },
+      {
+        "nivel" : 6,
+        "oleada" : 13
+      },
+      {
+        "nivel" : 7,
+        "oleada" : 14
+      },
+      {
+        "nivel" : 7,
+        "oleada" : 15
+      },
+      {
+        "nivel" : 8,
+        "oleada" : 16
+      },
+      {
+        "nivel" : 8,
+        "oleada" : 17
+      },
+      {
+        "nivel" : 9,
+        "oleada" : 18
+      },
+      {
+        "nivel" : 10,
+        "oleada" : 19
+      },
+      {
+        "nivel" : 10,
+        "oleada" : 20
+      },
+      {
+        "nivel" : 12,
+        "oleada" : 21
+      },
+      {
+        "nivel" : 14,
+        "oleada" : 22
+      },
+      {
+        "nivel" : 16,
+        "oleada" : 23
+      },
+      {
+        "nivel" : 18,
+        "oleada" : 24
+      },
+      {
+        "nivel" : 20,
+        "oleada" : 25
+      },
+      {
+        "nivel" : 22,
+        "oleada" : 26
+      },
+      {
+        "nivel" : 24,
+        "oleada" : 27
+      },
+      {
+        "nivel" : 26,
+        "oleada" : 28
+      },
+      {
+        "nivel" : 28,
+        "oleada" : 29
+      },
+      {
+        "nivel" : 30,
+        "oleada" : 30
+      },
+      {
+        "nivel" : 32,
+        "oleada" : 31
+      },
+      {
+        "nivel" : 34,
+        "oleada" : 32
+      },
+      {
+        "nivel" : 36,
+        "oleada" : 33
+      },
+      {
+        "nivel" : 38,
+        "oleada" : 34
+      },
+      {
+        "nivel" : 40,
+        "oleada" : 35
+      },
+      {
+        "nivel" : 42,
+        "oleada" : 36
+      },
+      {
+        "nivel" : 44,
+        "oleada" : 37
+      },
+      {
+        "nivel" : 46,
+        "oleada" : 38
+      },
+      {
+        "nivel" : 48,
+        "oleada" : 39
+      },
+      {
+        "nivel" : 50,
+        "oleada" : 40
+      }
+    ],
+    "oroArenaPorOleada" : [
+      {
+        "oleada" : 1,
+        "oro" : 23
+      },
+      {
+        "oleada" : 2,
+        "oro" : 30
+      },
+      {
+        "oleada" : 3,
+        "oro" : 37
+      },
+      {
+        "oleada" : 4,
+        "oro" : 44
+      },
+      {
+        "oleada" : 5,
+        "oro" : 51
+      },
+      {
+        "oleada" : 6,
+        "oro" : 58
+      },
+      {
+        "oleada" : 7,
+        "oro" : 65
+      },
+      {
+        "oleada" : 8,
+        "oro" : 72
+      },
+      {
+        "oleada" : 9,
+        "oro" : 79
+      },
+      {
+        "oleada" : 10,
+        "oro" : 86
+      },
+      {
+        "oleada" : 11,
+        "oro" : 93
+      },
+      {
+        "oleada" : 12,
+        "oro" : 100
+      },
+      {
+        "oleada" : 13,
+        "oro" : 107
+      },
+      {
+        "oleada" : 14,
+        "oro" : 114
+      },
+      {
+        "oleada" : 15,
+        "oro" : 121
+      },
+      {
+        "oleada" : 16,
+        "oro" : 128
+      },
+      {
+        "oleada" : 17,
+        "oro" : 135
+      },
+      {
+        "oleada" : 18,
+        "oro" : 142
+      },
+      {
+        "oleada" : 19,
+        "oro" : 149
+      },
+      {
+        "oleada" : 20,
+        "oro" : 156
+      },
+      {
+        "oleada" : 21,
+        "oro" : 163
+      },
+      {
+        "oleada" : 22,
+        "oro" : 170
+      },
+      {
+        "oleada" : 23,
+        "oro" : 177
+      },
+      {
+        "oleada" : 24,
+        "oro" : 184
+      },
+      {
+        "oleada" : 25,
+        "oro" : 191
+      },
+      {
+        "oleada" : 26,
+        "oro" : 198
+      },
+      {
+        "oleada" : 27,
+        "oro" : 205
+      },
+      {
+        "oleada" : 28,
+        "oro" : 212
+      },
+      {
+        "oleada" : 29,
+        "oro" : 219
+      },
+      {
+        "oleada" : 30,
+        "oro" : 226
+      },
+      {
+        "oleada" : 31,
+        "oro" : 233
+      },
+      {
+        "oleada" : 32,
+        "oro" : 240
+      },
+      {
+        "oleada" : 33,
+        "oro" : 247
+      },
+      {
+        "oleada" : 34,
+        "oro" : 254
+      },
+      {
+        "oleada" : 35,
+        "oro" : 261
+      },
+      {
+        "oleada" : 36,
+        "oro" : 268
+      },
+      {
+        "oleada" : 37,
+        "oro" : 275
+      },
+      {
+        "oleada" : 38,
+        "oro" : 282
+      },
+      {
+        "oleada" : 39,
+        "oro" : 289
+      },
+      {
+        "oleada" : 40,
+        "oro" : 296
+      }
+    ],
+    "xpParaSubir" : [
+      {
+        "nivel" : 1,
+        "xp" : 80
+      },
+      {
+        "nivel" : 2,
+        "xp" : 182
+      },
+      {
+        "nivel" : 3,
+        "xp" : 320
+      },
+      {
+        "nivel" : 4,
+        "xp" : 489
+      },
+      {
+        "nivel" : 5,
+        "xp" : 687
+      },
+      {
+        "nivel" : 6,
+        "xp" : 909
+      },
+      {
+        "nivel" : 7,
+        "xp" : 1155
+      },
+      {
+        "nivel" : 8,
+        "xp" : 1423
+      },
+      {
+        "nivel" : 9,
+        "xp" : 1712
+      },
+      {
+        "nivel" : 10,
+        "xp" : 2021
+      },
+      {
+        "nivel" : 11,
+        "xp" : 2348
+      },
+      {
+        "nivel" : 12,
+        "xp" : 2695
+      },
+      {
+        "nivel" : 13,
+        "xp" : 3059
+      },
+      {
+        "nivel" : 14,
+        "xp" : 3440
+      },
+      {
+        "nivel" : 15,
+        "xp" : 3838
+      },
+      {
+        "nivel" : 16,
+        "xp" : 4252
+      },
+      {
+        "nivel" : 17,
+        "xp" : 4683
+      },
+      {
+        "nivel" : 18,
+        "xp" : 5128
+      },
+      {
+        "nivel" : 19,
+        "xp" : 5589
+      },
+      {
+        "nivel" : 20,
+        "xp" : 6064
+      },
+      {
+        "nivel" : 21,
+        "xp" : 6554
+      },
+      {
+        "nivel" : 22,
+        "xp" : 7058
+      },
+      {
+        "nivel" : 23,
+        "xp" : 7576
+      },
+      {
+        "nivel" : 24,
+        "xp" : 8108
+      },
+      {
+        "nivel" : 25,
+        "xp" : 8653
+      },
+      {
+        "nivel" : 26,
+        "xp" : 9212
+      },
+      {
+        "nivel" : 27,
+        "xp" : 9783
+      },
+      {
+        "nivel" : 28,
+        "xp" : 10368
+      },
+      {
+        "nivel" : 29,
+        "xp" : 10965
+      },
+      {
+        "nivel" : 30,
+        "xp" : 11574
+      },
+      {
+        "nivel" : 31,
+        "xp" : 12196
+      },
+      {
+        "nivel" : 32,
+        "xp" : 12830
+      },
+      {
+        "nivel" : 33,
+        "xp" : 13476
+      },
+      {
+        "nivel" : 34,
+        "xp" : 14134
+      },
+      {
+        "nivel" : 35,
+        "xp" : 14803
+      },
+      {
+        "nivel" : 36,
+        "xp" : 15484
+      },
+      {
+        "nivel" : 37,
+        "xp" : 16177
+      },
+      {
+        "nivel" : 38,
+        "xp" : 16881
+      },
+      {
+        "nivel" : 39,
+        "xp" : 17596
+      },
+      {
+        "nivel" : 40,
+        "xp" : 18322
+      },
+      {
+        "nivel" : 41,
+        "xp" : 19059
+      },
+      {
+        "nivel" : 42,
+        "xp" : 19807
+      },
+      {
+        "nivel" : 43,
+        "xp" : 20566
+      },
+      {
+        "nivel" : 44,
+        "xp" : 21336
+      },
+      {
+        "nivel" : 45,
+        "xp" : 22116
+      },
+      {
+        "nivel" : 46,
+        "xp" : 22906
+      },
+      {
+        "nivel" : 47,
+        "xp" : 23707
+      },
+      {
+        "nivel" : 48,
+        "xp" : 24518
+      },
+      {
+        "nivel" : 49,
+        "xp" : 25340
+      },
+      {
+        "nivel" : 50,
+        "xp" : 26171
+      },
+      {
+        "nivel" : 51,
+        "xp" : 27013
+      },
+      {
+        "nivel" : 52,
+        "xp" : 27864
+      },
+      {
+        "nivel" : 53,
+        "xp" : 28725
+      },
+      {
+        "nivel" : 54,
+        "xp" : 29597
+      },
+      {
+        "nivel" : 55,
+        "xp" : 30477
+      },
+      {
+        "nivel" : 56,
+        "xp" : 31368
+      },
+      {
+        "nivel" : 57,
+        "xp" : 32268
+      },
+      {
+        "nivel" : 58,
+        "xp" : 33178
+      },
+      {
+        "nivel" : 59,
+        "xp" : 34097
+      }
+    ]
+  }
+}

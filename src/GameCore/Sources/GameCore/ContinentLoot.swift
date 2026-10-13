@@ -8,7 +8,8 @@ import Foundation
 
 extension Continent {
     /// Pesos de la familia, de común a muy rara (`progresion.md` §5). Los ajusta el balance-designer.
-    public static let familyWeights: [Double] = [35, 27, 20, 12, 6]
+    /// Ajustable: `economy.continentLootWeights`.
+    public static var familyWeights: [Double] { TunedData.current.economy.continentLootWeights }
 
     /// Tabla de botín: cada mineral de la familia con su peso.
     public var lootTable: [(Mineral, Double)] {

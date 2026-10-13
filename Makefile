@@ -1,4 +1,4 @@
-.PHONY: project open test build mac clean harness-link balance historia check-town check-valdemar sprites hero maps dungeon shop shots fichas verify
+.PHONY: project open test build mac clean harness-link balance historia check-town check-valdemar sprites hero maps dungeon shop shots fichas datos verify admin admin-build admin-test
 
 # Genera GameTest1.xcodeproj a partir de project.yml
 project:
@@ -67,10 +67,27 @@ shots: harness-link
 fichas: harness-link
 	$(HARNESS) fichas
 
+# Valores base del juego en JSON para el panel web de administración (admin/public/data/; contrato en assets/admin/contrato.md).
+datos: harness-link
+	$(HARNESS) exportar-datos
+
+# --- Panel web de administración (admin/; guía en admin/README.md) ---
+# Servidor de desarrollo en http://localhost:5174 (sin admin/.env.local arranca en modo demo).
+admin:
+	cd admin && ([ -d node_modules ] || npm install) && npm run dev
+
+# Tests de la lógica del panel + tipos + compilación en admin/dist/.
+admin-build:
+	cd admin && ([ -d node_modules ] || npm install) && npm test && npm run build
+
+# Solo los tests del panel (Vitest).
+admin-test:
+	cd admin && ([ -d node_modules ] || npm install) && npm test
+
 # Todo lo que hay que pasar antes de dar un cambio por bueno.
 verify: test check-town check-valdemar
 	xcodebuild -project GameTest1.xcodeproj -scheme GameTest1Mac -destination 'platform=macOS' -derivedDataPath build/mac build -quiet
 	xcodebuild -project GameTest1.xcodeproj -scheme GameTest1 -destination 'generic/platform=iOS Simulator' -derivedDataPath build/ios build -quiet
 
 clean:
-	rm -rf GameTest1.xcodeproj src/GameCore/.build build DerivedData tools/Harness/.build tools/Harness/output
+	rm -rf GameTest1.xcodeproj src/GameCore/.build build DerivedData tools/Harness/.build tools/Harness/output admin/dist

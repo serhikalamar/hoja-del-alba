@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" shape-rendering="crispEdges">
+  <!-- Escudo con una hoja: pixel-art 16×16 -->
+  <path fill="#050307" d="M2 1h12v8h-1v2h-1v1h-1v1h-1v1H6v-1H5v-1H4v-1H3V9H2z"/>
+  <path fill="#8f6a22" d="M3 2h10v7h-1v2h-1v1h-1v1H6v-1H5v-1H4V9H3z"/>
+  <path fill="#e8b44c" d="M4 3h8v6h-1v2h-1v1H6v-1H5V9H4z"/>
+  <path fill="#efe8da" d="M7 3h2v7H7z"/>
+  <path fill="#5a4b66" d="M5 6h6v1H5z"/>
+  <path fill="#26202d" d="M7 10h2v2H7z"/>
+</svg>

@@ -4,16 +4,21 @@ import Foundation
 public struct CraftQuality: Identifiable, Equatable, Sendable {
     public let id: String
     public let name: String
-    public let multiplier: Double
-    /// Peso base de la casilla.
-    public let weight: Double
+    /// Ajustable: `roulette.<id>.multiplier`.
+    public internal(set) var multiplier: Double
+    /// Peso base de la casilla (ajustable: `roulette.<id>.weight`).
+    public internal(set) var weight: Double
     /// Cómo afecta la suerte: positivo = más probable con minerales raros.
     public let luckFactor: Double
     public let rarity: Rarity
 }
 
 public enum Roulette {
-    public static let segments: [CraftQuality] = [
+    /// Casillas con los ajustes del panel aplicados.
+    public static var segments: [CraftQuality] { TunedData.current.roulette }
+
+    /// Casillas del código.
+    static let baseSegments: [CraftQuality] = [
         CraftQuality(id: "broken", name: "Rota", multiplier: 0.6, weight: 10, luckFactor: -0.5, rarity: .common),
         CraftQuality(id: "crude", name: "Tosca", multiplier: 0.8, weight: 20, luckFactor: -0.3, rarity: .common),
         CraftQuality(id: "normal", name: "Normal", multiplier: 1.0, weight: 30, luckFactor: 0, rarity: .common),
@@ -67,7 +72,11 @@ public struct WeaponRecipe: Equatable, Sendable {
 
     public var tier: Int { parts.map(\.tier).max() ?? 1 }
 
-    public var goldCost: Int { 10 * tier + 5 }
+    /// 10 × tier + 5 (`economy.forgeGoldPerTier`, `forgeGoldBase`).
+    public var goldCost: Int {
+        let k = TunedData.current.economy
+        return Int(k.forgeGoldPerTier) * tier + Int(k.forgeGoldBase)
+    }
 
     /// Suerte de la ruleta: minerales raros y piezas de jefe (máx. 1.5).
     public var luck: Double {

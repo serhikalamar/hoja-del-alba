@@ -1,0 +1,78 @@
+# Publica el panel de administración (admin/) en GitHub Pages.
+#
+# NO está activado: de momento solo se lanza a mano (Actions → "Panel de administración (Pages)" → Run workflow).
+# Cómo activarlo y configurarlo: admin/README.md, sección "Publicarlo en GitHub Pages".
+#
+# Lee la configuración de las variables del repositorio (Settings → Secrets and variables → Actions → Variables;
+# también vale como "secret"): VITE_SUPABASE_URL, VITE_SUPABASE_ANON_KEY (la clave PÚBLICA) y, opcional,
+# VITE_EMAIL_PLANTILLA. Sin ellas se publica el modo demo (solo lectura, valores base).
+# La clave anon/publishable acaba dentro de la web y se puede ver: es normal, la seguridad la da RLS.
+# NUNCA pongas aquí la service_role ni una sb_secret_: el paso "Comprobar la clave" para el despliegue.
+
+name: Panel de administración (Pages)
+
+on:
+  workflow_dispatch:
+  # Para publicar solo al cambiar el panel en main, quita los # de estas líneas:
+  # push:
+  #   branches: [main]
+  #   paths: ['admin/**', '.github/workflows/admin-pages.yml']
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: admin-pages
+  cancel-in-progress: true
+
+jobs:
+  construir:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: admin
+    env:
+      VITE_SUPABASE_URL: ${{ vars.VITE_SUPABASE_URL || secrets.VITE_SUPABASE_URL }}
+      VITE_SUPABASE_ANON_KEY: ${{ vars.VITE_SUPABASE_ANON_KEY || secrets.VITE_SUPABASE_ANON_KEY }}
+      VITE_EMAIL_PLANTILLA: ${{ vars.VITE_EMAIL_PLANTILLA || '{usuario}@jugadores.valdehierro.app' }}
+      # La web se sirve en https://<usuario>.github.io/<repositorio>/
+      VITE_BASE: /${{ github.event.repository.name }}/
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: admin/package-lock.json
+
+      - name: Comprobar la clave (nunca una secreta)
+        run: |
+          node -e '
+            const k = process.env.VITE_SUPABASE_ANON_KEY || "";
+            const mal = (m) => { console.log("::error::" + m); process.exit(1) };
+            if (k.startsWith("sb_secret_")) mal("VITE_SUPABASE_ANON_KEY es una clave SECRETA (sb_secret_). Usa la publishable/anon y cambia la secreta en Supabase.");
+            const carga = k.split(".")[1];
+            if (carga) { try { if (JSON.parse(Buffer.from(carga, "base64url").toString()).role === "service_role") mal("VITE_SUPABASE_ANON_KEY es la service_role. Usa la anon/publishable y rota la service_role en Supabase.") } catch {} }
+            if (!k || !process.env.VITE_SUPABASE_URL) console.log("::warning::Sin VITE_SUPABASE_URL / VITE_SUPABASE_ANON_KEY: se publica el modo demo (solo lectura).");
+          '
+
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: admin/dist
+
+  publicar:
+    needs: construir
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.despliegue.outputs.page_url }}
+    steps:
+      - id: despliegue
+        uses: actions/deploy-pages@v4

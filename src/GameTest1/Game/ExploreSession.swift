@@ -589,11 +589,10 @@ final class ExploreSession: CombatDelegate {
     func spawnKilled(_ id: String, enemy: EnemyDefinition, at tile: TilePoint) {
         let area = currentArea
         let level = area.level(at: tile)
-        store.profile.earnGold(StoryEconomy.killGold(level: level, isBoss: enemy.isBoss))
+        store.profile.earnGold(StoryEconomy.killGold(enemy, level: level))
         // Los de campo que reaparecen dan menos XP (`Leveling.respawningMultiplier`).
         let respawns = area.isField && area.spawns.first(where: { $0.id == id }).map { !area.isPermanent($0) } == true
-        let xp = Leveling.storyXPForKill(enemyLevel: level, heroLevel: store.profile.characterLevel, isBoss: enemy.isBoss,
-                                         respawns: respawns)
+        let xp = Leveling.storyXPForKill(enemy, level: level, heroLevel: store.profile.characterLevel, respawns: respawns)
         if store.profile.gainXP(xp) > 0 { leveledUp() }
 
         let spawn = area.spawns.first { $0.id == id }

@@ -237,11 +237,12 @@ public struct WeaponPart: Identifiable, Hashable, Sendable {
     /// Forma (clave del dibujo): `WeaponShape`, `GuardShape` o `GripShape`.
     public let shape: String
     public let materialName: String
-    public let tier: Int
-    public let stats: Stats
+    /// Ajustable (`parts.<id>.tier`), como `stats` y `price`. Lo ya forjado no cambia: sus números van en el `Item`.
+    public internal(set) var tier: Int
+    public internal(set) var stats: Stats
     public let elements: [Element]
     public let palette: [UInt32]
-    public let price: Int
+    public internal(set) var price: Int
     /// Pieza única de jefe.
     public let isSpecial: Bool
     /// Habilidad propia (solo piezas de jefe).
@@ -251,7 +252,11 @@ public struct WeaponPart: Identifiable, Hashable, Sendable {
 }
 
 public enum PartCatalog {
-    public static let normalParts: [WeaponPart] = {
+    /// Piezas normales con los ajustes del panel aplicados.
+    public static var normalParts: [WeaponPart] { TunedData.current.normalParts }
+
+    /// Piezas normales del código.
+    static let baseNormalParts: [WeaponPart] = {
         var parts: [WeaponPart] = []
         let slotPrice: [PartSlot: Double] = [.head: 30, .hilt: 18, .grip: 15]
         func make(_ slot: PartSlot, shape: String, partName: String, shapeElement: Element?, base: Stats, material: PartMaterial) -> WeaponPart {
@@ -291,8 +296,11 @@ public enum PartCatalog {
         return parts
     }()
 
-    /// Piezas únicas que sueltan los jefes.
-    public static let specialParts: [WeaponPart] = [
+    /// Piezas únicas que sueltan los jefes (con los ajustes del panel aplicados).
+    public static var specialParts: [WeaponPart] { TunedData.current.specialParts }
+
+    /// Piezas únicas del código.
+    static let baseSpecialParts: [WeaponPart] = [
         special("boss.ratKing", "Diente del Rey Rata", .head, WeaponShape.dagger.rawValue, 3,
                 Stats(attack: 14, attackSpeed: 0.4, critChance: 0.08), [.poison, .blood], [0xFFF6D0, 0xE0D0A0, 0x8A7040], "rat_bite"),
         special("boss.banditChief", "Guarda del Capitán", .hilt, GuardShape.skull.rawValue, 3,
@@ -326,7 +334,8 @@ public enum PartCatalog {
                    elements: elements, palette: palette, price: 0, isSpecial: true, abilityID: ability)
     }
 
-    public static let all: [WeaponPart] = normalParts + specialParts + storyBossParts
+    /// Todas las piezas (normales, únicas y copias de jefe de la historia), con los ajustes del panel aplicados.
+    public static var all: [WeaponPart] { TunedData.current.allParts }
 
     // MARK: Piezas de jefe de la historia (balance, B1)
     //
@@ -343,10 +352,14 @@ public enum PartCatalog {
         bossLevel >= 9 ? 1.75 : (bossLevel >= 7 ? 1.6 : 1.5)
     }
 
-    /// Copias de Valdemar de las piezas de jefe (`boss.*`).
-    public static let storyBossParts: [WeaponPart] = specialParts.filter { $0.id.hasPrefix("boss.") }.map { part in
+    /// Copias de Valdemar de las piezas de jefe (`boss.*`), con los ajustes del panel aplicados. Se ajustan aparte
+    /// (`parts.boss.<jefe>.valdemar`): cambiar la pieza de la arena no cambia su copia.
+    public static var storyBossParts: [WeaponPart] { TunedData.current.storyBossParts }
+
+    /// Copias de Valdemar del código (salen de las piezas y niveles del código, no de los ajustados).
+    static let baseStoryBossParts: [WeaponPart] = baseSpecialParts.filter { $0.id.hasPrefix("boss.") }.map { part in
         let bossID = String(part.id.dropFirst("boss.".count))
-        let target = storyPower(bossLevel: Bestiary.enemy(bossID)?.level ?? 5)
+        let target = storyPower(bossLevel: Bestiary.baseEnemy(bossID)?.level ?? 5)
         let power = [1.0, 1.6, 2.4, 3.3, 4.4, 5.6][max(1, min(6, part.tier)) - 1]
         let soft = 1 + (power - 1) * 0.2, targetSoft = 1 + (target - 1) * 0.2
         var stats = part.stats
@@ -367,9 +380,7 @@ public enum PartCatalog {
         return id + valdemarSuffix
     }
 
-    private static let byID: [String: WeaponPart] = Dictionary(uniqueKeysWithValues: all.map { ($0.id, $0) })
-
-    public static func part(_ id: String) -> WeaponPart? { byID[id] }
+    public static func part(_ id: String) -> WeaponPart? { TunedData.current.partByID[id] }
 
     /// Tier máximo de material a la venta según el nivel: 2,2,3,3,4,4,5,5,6,6.
     public static func maxShopTier(forLevel level: Int) -> Int {

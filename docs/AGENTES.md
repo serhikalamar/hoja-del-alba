@@ -17,7 +17,8 @@ convierte las ideas en diseño y reparte el trabajo entre los especialistas.
 ├── qa-tester.md            Pruebas y bugs (informa, no arregla)
 ├── world-designer.md       Director del mundo: 6 continentes, niveles 1-60  → assets/world/
 ├── continent-lead.md       Jefe de UN continente (se lanza uno por cada)    → assets/world/continentes/<id>/
-└── backend-engineer.md     Cuentas y guardado en la nube (Supabase)         → backend/, src/GameTest1/Account/
+├── backend-engineer.md     Cuentas y guardado en la nube (Supabase)         → backend/, src/GameTest1/Account/
+└── web-admin-developer.md  Panel web de administración: datos y balance en vivo → admin/
 ```
 
 ## Importante: abrir Claude Code en esta carpeta

@@ -6,9 +6,11 @@ public enum Leveling {
     public static let maxLevel = 60
 
     /// Experiencia necesaria para pasar de `level` al siguiente.
+    /// 50 × nivel^1,6 + 30 (`economy.xpCurveBase`, `xpCurveExponent`, `xpCurveFlat`).
     public static func xpToNext(_ level: Int) -> Int {
         guard level < maxLevel else { return 0 }
-        return Int((50 * pow(Double(level), 1.6)).rounded()) + 30
+        let k = TunedData.current.economy
+        return Int((k.xpCurveBase * pow(Double(level), k.xpCurveExponent)).rounded()) + Int(k.xpCurveFlat)
     }
 
     /// Experiencia por matar a un enemigo de nivel `enemyLevel` siendo de nivel `heroLevel`.
@@ -21,17 +23,17 @@ public enum Leveling {
         return max(1, Int((base * factor * (isBoss ? bossMultiplier : 1)).rounded()))
     }
 
-    /// Multiplicador de XP de los jefes en la arena.
-    public static let arenaBossMultiplier: Double = 12
+    /// Multiplicador de XP de los jefes en la arena: ×12 (`economy.arenaBossXPMultiplier`).
+    public static var arenaBossMultiplier: Double { TunedData.current.economy.arenaBossXPMultiplier }
     /// Multiplicador de XP de los jefes de la historia (pueblo, campo, mazmorras de historia).
     /// ×6 (balance, B1): con ×12 el pueblo daba nivel ~7 al liberarlo; con ×6, ~6 (objetivo del brief). Medido con
-    /// `Harness niveles`.
-    public static let storyBossMultiplier: Double = 6
+    /// `Harness niveles`. Ajustable: `economy.storyBossXPMultiplier`.
+    public static var storyBossMultiplier: Double { TunedData.current.economy.storyBossXPMultiplier }
     /// XP de los monstruos que se repiten en la historia: los de campo que reaparecen y los normales de las mazmorras
     /// de historia (repetibles). ×0,3 (balance, B1): con ×1 el campo de Valdemar llevaba al héroe al nivel ~10,6 antes
     /// del patio (objetivo ~9); con ×0,4, a ~9,8 (el bot repite monstruos para las misiones y al morir). Los permanentes
-    /// (pueblo, interiores, jefes) dan la XP entera. Medido con `make historia`.
-    public static let respawningMultiplier: Double = 0.3
+    /// (pueblo, interiores, jefes) dan la XP entera. Medido con `make historia`. Ajustable: `economy.respawningXPMultiplier`.
+    public static var respawningMultiplier: Double { TunedData.current.economy.respawningXPMultiplier }
 
     /// XP de un monstruo de la historia (pueblo, campo y mazmorras de historia).
     /// - Parameter respawns: monstruo que vuelve a salir (campo o mazmorra repetible) y no es jefe.
@@ -41,11 +43,27 @@ public enum Leveling {
         return max(1, Int((Double(xp) * respawningMultiplier).rounded()))
     }
 
+    /// XP de matar a `enemy` en la historia, con su multiplicador propio (`EnemyDefinition.xpMultiplier`).
+    public static func storyXPForKill(_ enemy: EnemyDefinition, level: Int, heroLevel: Int, respawns: Bool) -> Int {
+        let xp = storyXPForKill(enemyLevel: level, heroLevel: heroLevel, isBoss: enemy.isBoss, respawns: respawns)
+        return enemy.xpMultiplier == 1 ? xp : max(0, Int((Double(xp) * enemy.xpMultiplier).rounded()))
+    }
+
+    /// XP de matar a `enemy` en la arena, con su multiplicador propio (`EnemyDefinition.xpMultiplier`).
+    public static func xpForKill(_ enemy: EnemyDefinition, level: Int, heroLevel: Int) -> Int {
+        let xp = xpForKill(enemyLevel: level, heroLevel: heroLevel, isBoss: enemy.isBoss)
+        return enemy.xpMultiplier == 1 ? xp : max(0, Int((Double(xp) * enemy.xpMultiplier).rounded()))
+    }
+
     /// Estadísticas extra por nivel sobre las de la raza (nivel 1 = nada).
+    /// Vida 8 % y ataque 8,5 % de la raza por nivel y +0,6 de defensa (`economy.levelHPGrowth`, `levelAttackGrowth`,
+    /// `levelDefensePerLevel`).
     public static func levelBonus(race: Race, level: Int) -> Stats {
         let n = Double(max(0, min(maxLevel, level) - 1))
         let base = race.baseStats
-        return Stats(maxHP: base.maxHP * 0.08 * n, attack: base.attack * 0.085 * n, defense: 0.6 * n)
+        let k = TunedData.current.economy
+        return Stats(maxHP: base.maxHP * k.levelHPGrowth * n, attack: base.attack * k.levelAttackGrowth * n,
+                     defense: k.levelDefensePerLevel * n)
     }
 
     /// Multiplicador de daño según la diferencia de nivel: pegar a alguien de más nivel cuesta,

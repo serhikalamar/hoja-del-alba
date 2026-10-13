@@ -1,0 +1,4664 @@
+{
+  "armaduras" : [
+    {
+      "base" : {
+        "price" : 22,
+        "stats" : {
+          "defense" : 3,
+          "maxHP" : 8
+        }
+      },
+      "hueco" : "helmet",
+      "id" : "helm.knight",
+      "materiales" : [
+        {
+          "id" : "copper",
+          "nombre" : "Cobre",
+          "tier" : 1
+        },
+        {
+          "id" : "iron",
+          "nombre" : "Hierro",
+          "tier" : 2
+        },
+        {
+          "id" : "silver",
+          "nombre" : "Plata",
+          "tier" : 3
+        },
+        {
+          "id" : "obsidian",
+          "nombre" : "Obsidiana",
+          "tier" : 4
+        },
+        {
+          "id" : "glacite",
+          "nombre" : "Glacita",
+          "tier" : 5
+        },
+        {
+          "id" : "mithril",
+          "nombre" : "Mithril",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Yelmo de caballero",
+      "nombreHueco" : "Casco",
+      "tipoMaterial" : "metal"
+    },
+    {
+      "base" : {
+        "price" : 22,
+        "stats" : {
+          "attack" : 1,
+          "defense" : 2,
+          "maxHP" : 6
+        }
+      },
+      "hueco" : "helmet",
+      "id" : "helm.horned",
+      "materiales" : [
+        {
+          "id" : "copper",
+          "nombre" : "Cobre",
+          "tier" : 1
+        },
+        {
+          "id" : "iron",
+          "nombre" : "Hierro",
+          "tier" : 2
+        },
+        {
+          "id" : "silver",
+          "nombre" : "Plata",
+          "tier" : 3
+        },
+        {
+          "id" : "obsidian",
+          "nombre" : "Obsidiana",
+          "tier" : 4
+        },
+        {
+          "id" : "glacite",
+          "nombre" : "Glacita",
+          "tier" : 5
+        },
+        {
+          "id" : "mithril",
+          "nombre" : "Mithril",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Casco astado",
+      "nombreHueco" : "Casco",
+      "tipoMaterial" : "metal"
+    },
+    {
+      "base" : {
+        "price" : 22,
+        "stats" : {
+          "defense" : 5,
+          "maxHP" : 10,
+          "moveSpeed" : -3
+        }
+      },
+      "hueco" : "helmet",
+      "id" : "helm.great",
+      "materiales" : [
+        {
+          "id" : "copper",
+          "nombre" : "Cobre",
+          "tier" : 1
+        },
+        {
+          "id" : "iron",
+          "nombre" : "Hierro",
+          "tier" : 2
+        },
+        {
+          "id" : "silver",
+          "nombre" : "Plata",
+          "tier" : 3
+        },
+        {
+          "id" : "obsidian",
+          "nombre" : "Obsidiana",
+          "tier" : 4
+        },
+        {
+          "id" : "glacite",
+          "nombre" : "Glacita",
+          "tier" : 5
+        },
+        {
+          "id" : "mithril",
+          "nombre" : "Mithril",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Gran yelmo",
+      "nombreHueco" : "Casco",
+      "tipoMaterial" : "metal"
+    },
+    {
+      "base" : {
+        "price" : 22,
+        "stats" : {
+          "critChance" : 0.02,
+          "defense" : 1
+        }
+      },
+      "hueco" : "helmet",
+      "id" : "helm.hood",
+      "materiales" : [
+        {
+          "id" : "linen",
+          "nombre" : "Lino",
+          "tier" : 1
+        },
+        {
+          "id" : "wool",
+          "nombre" : "Lana",
+          "tier" : 2
+        },
+        {
+          "id" : "silk",
+          "nombre" : "Seda",
+          "tier" : 3
+        },
+        {
+          "id" : "velvet",
+          "nombre" : "Terciopelo",
+          "tier" : 4
+        },
+        {
+          "id" : "moonsilk",
+          "nombre" : "Seda lunar",
+          "tier" : 5
+        },
+        {
+          "id" : "starcloth",
+          "nombre" : "Tela de estrellas",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Capucha",
+      "nombreHueco" : "Casco",
+      "tipoMaterial" : "cloth"
+    },
+    {
+      "base" : {
+        "price" : 22,
+        "stats" : {
+          "attackSpeed" : 0.029999999999999999,
+          "critChance" : 0.029999999999999999
+        }
+      },
+      "hueco" : "helmet",
+      "id" : "helm.circlet",
+      "materiales" : [
+        {
+          "id" : "copper",
+          "nombre" : "Cobre",
+          "tier" : 1
+        },
+        {
+          "id" : "iron",
+          "nombre" : "Hierro",
+          "tier" : 2
+        },
+        {
+          "id" : "silver",
+          "nombre" : "Plata",
+          "tier" : 3
+        },
+        {
+          "id" : "obsidian",
+          "nombre" : "Obsidiana",
+          "tier" : 4
+        },
+        {
+          "id" : "glacite",
+          "nombre" : "Glacita",
+          "tier" : 5
+        },
+        {
+          "id" : "mithril",
+          "nombre" : "Mithril",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Diadema",
+      "nombreHueco" : "Casco",
+      "tipoMaterial" : "metal"
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "defense" : 8,
+          "maxHP" : 25,
+          "moveSpeed" : -6
+        }
+      },
+      "hueco" : "chest",
+      "id" : "chest.plate",
+      "materiales" : [
+        {
+          "id" : "copper",
+          "nombre" : "Cobre",
+          "tier" : 1
+        },
+        {
+          "id" : "iron",
+          "nombre" : "Hierro",
+          "tier" : 2
+        },
+        {
+          "id" : "silver",
+          "nombre" : "Plata",
+          "tier" : 3
+        },
+        {
+          "id" : "obsidian",
+          "nombre" : "Obsidiana",
+          "tier" : 4
+        },
+        {
+          "id" : "glacite",
+          "nombre" : "Glacita",
+          "tier" : 5
+        },
+        {
+          "id" : "mithril",
+          "nombre" : "Mithril",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Peto de placas",
+      "nombreHueco" : "Peto",
+      "tipoMaterial" : "metal"
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "defense" : 6,
+          "maxHP" : 18
+        }
+      },
+      "hueco" : "chest",
+      "id" : "chest.chain",
+      "materiales" : [
+        {
+          "id" : "copper",
+          "nombre" : "Cobre",
+          "tier" : 1
+        },
+        {
+          "id" : "iron",
+          "nombre" : "Hierro",
+          "tier" : 2
+        },
+        {
+          "id" : "silver",
+          "nombre" : "Plata",
+          "tier" : 3
+        },
+        {
+          "id" : "obsidian",
+          "nombre" : "Obsidiana",
+          "tier" : 4
+        },
+        {
+          "id" : "glacite",
+          "nombre" : "Glacita",
+          "tier" : 5
+        },
+        {
+          "id" : "mithril",
+          "nombre" : "Mithril",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Cota de malla",
+      "nombreHueco" : "Peto",
+      "tipoMaterial" : "metal"
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "defense" : 4,
+          "maxHP" : 12,
+          "moveSpeed" : 4
+        }
+      },
+      "hueco" : "chest",
+      "id" : "chest.leather",
+      "materiales" : [
+        {
+          "id" : "hide",
+          "nombre" : "Piel curtida",
+          "tier" : 1
+        },
+        {
+          "id" : "boarhide",
+          "nombre" : "Cuero de jabalí",
+          "tier" : 2
+        },
+        {
+          "id" : "wolfhide",
+          "nombre" : "Piel de lobo",
+          "tier" : 3
+        },
+        {
+          "id" : "trollhide",
+          "nombre" : "Cuero de troll",
+          "tier" : 4
+        },
+        {
+          "id" : "shadowhide",
+          "nombre" : "Cuero sombrío",
+          "tier" : 5
+        },
+        {
+          "id" : "dragonhide",
+          "nombre" : "Piel de dragón",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Jubón de cuero",
+      "nombreHueco" : "Peto",
+      "tipoMaterial" : "leather"
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "critChance" : 0.029999999999999999,
+          "defense" : 2,
+          "maxHP" : 10,
+          "regen" : 0.29999999999999999
+        }
+      },
+      "hueco" : "chest",
+      "id" : "chest.robe",
+      "materiales" : [
+        {
+          "id" : "linen",
+          "nombre" : "Lino",
+          "tier" : 1
+        },
+        {
+          "id" : "wool",
+          "nombre" : "Lana",
+          "tier" : 2
+        },
+        {
+          "id" : "silk",
+          "nombre" : "Seda",
+          "tier" : 3
+        },
+        {
+          "id" : "velvet",
+          "nombre" : "Terciopelo",
+          "tier" : 4
+        },
+        {
+          "id" : "moonsilk",
+          "nombre" : "Seda lunar",
+          "tier" : 5
+        },
+        {
+          "id" : "starcloth",
+          "nombre" : "Tela de estrellas",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Túnica arcana",
+      "nombreHueco" : "Peto",
+      "tipoMaterial" : "cloth"
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "defense" : 5,
+          "goldBonus" : 0.029999999999999999,
+          "maxHP" : 15
+        }
+      },
+      "hueco" : "chest",
+      "id" : "chest.tabard",
+      "materiales" : [
+        {
+          "id" : "linen",
+          "nombre" : "Lino",
+          "tier" : 1
+        },
+        {
+          "id" : "wool",
+          "nombre" : "Lana",
+          "tier" : 2
+        },
+        {
+          "id" : "silk",
+          "nombre" : "Seda",
+          "tier" : 3
+        },
+        {
+          "id" : "velvet",
+          "nombre" : "Terciopelo",
+          "tier" : 4
+        },
+        {
+          "id" : "moonsilk",
+          "nombre" : "Seda lunar",
+          "tier" : 5
+        },
+        {
+          "id" : "starcloth",
+          "nombre" : "Tela de estrellas",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Tabardo de guardia",
+      "nombreHueco" : "Peto",
+      "tipoMaterial" : "cloth"
+    },
+    {
+      "base" : {
+        "price" : 16,
+        "stats" : {
+          "attack" : 1,
+          "defense" : 2
+        }
+      },
+      "hueco" : "gloves",
+      "id" : "gloves.gauntlets",
+      "materiales" : [
+        {
+          "id" : "copper",
+          "nombre" : "Cobre",
+          "tier" : 1
+        },
+        {
+          "id" : "iron",
+          "nombre" : "Hierro",
+          "tier" : 2
+        },
+        {
+          "id" : "silver",
+          "nombre" : "Plata",
+          "tier" : 3
+        },
+        {
+          "id" : "obsidian",
+          "nombre" : "Obsidiana",
+          "tier" : 4
+        },
+        {
+          "id" : "glacite",
+          "nombre" : "Glacita",
+          "tier" : 5
+        },
+        {
+          "id" : "mithril",
+          "nombre" : "Mithril",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Guanteletes",
+      "nombreHueco" : "Guantes",
+      "tipoMaterial" : "metal"
+    },
+    {
+      "base" : {
+        "price" : 16,
+        "stats" : {
+          "attackSpeed" : 0.050000000000000003,
+          "defense" : 1
+        }
+      },
+      "hueco" : "gloves",
+      "id" : "gloves.leather",
+      "materiales" : [
+        {
+          "id" : "hide",
+          "nombre" : "Piel curtida",
+          "tier" : 1
+        },
+        {
+          "id" : "boarhide",
+          "nombre" : "Cuero de jabalí",
+          "tier" : 2
+        },
+        {
+          "id" : "wolfhide",
+          "nombre" : "Piel de lobo",
+          "tier" : 3
+        },
+        {
+          "id" : "trollhide",
+          "nombre" : "Cuero de troll",
+          "tier" : 4
+        },
+        {
+          "id" : "shadowhide",
+          "nombre" : "Cuero sombrío",
+          "tier" : 5
+        },
+        {
+          "id" : "dragonhide",
+          "nombre" : "Piel de dragón",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Guantes de cuero",
+      "nombreHueco" : "Guantes",
+      "tipoMaterial" : "leather"
+    },
+    {
+      "base" : {
+        "price" : 16,
+        "stats" : {
+          "attack" : 2,
+          "critChance" : 0.01
+        }
+      },
+      "hueco" : "gloves",
+      "id" : "gloves.bracers",
+      "materiales" : [
+        {
+          "id" : "copper",
+          "nombre" : "Cobre",
+          "tier" : 1
+        },
+        {
+          "id" : "iron",
+          "nombre" : "Hierro",
+          "tier" : 2
+        },
+        {
+          "id" : "silver",
+          "nombre" : "Plata",
+          "tier" : 3
+        },
+        {
+          "id" : "obsidian",
+          "nombre" : "Obsidiana",
+          "tier" : 4
+        },
+        {
+          "id" : "glacite",
+          "nombre" : "Glacita",
+          "tier" : 5
+        },
+        {
+          "id" : "mithril",
+          "nombre" : "Mithril",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Brazales",
+      "nombreHueco" : "Guantes",
+      "tipoMaterial" : "metal"
+    },
+    {
+      "base" : {
+        "price" : 16,
+        "stats" : {
+          "attackSpeed" : 0.080000000000000002
+        }
+      },
+      "hueco" : "gloves",
+      "id" : "gloves.wraps",
+      "materiales" : [
+        {
+          "id" : "linen",
+          "nombre" : "Lino",
+          "tier" : 1
+        },
+        {
+          "id" : "wool",
+          "nombre" : "Lana",
+          "tier" : 2
+        },
+        {
+          "id" : "silk",
+          "nombre" : "Seda",
+          "tier" : 3
+        },
+        {
+          "id" : "velvet",
+          "nombre" : "Terciopelo",
+          "tier" : 4
+        },
+        {
+          "id" : "moonsilk",
+          "nombre" : "Seda lunar",
+          "tier" : 5
+        },
+        {
+          "id" : "starcloth",
+          "nombre" : "Tela de estrellas",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Vendas de luchador",
+      "nombreHueco" : "Guantes",
+      "tipoMaterial" : "cloth"
+    },
+    {
+      "base" : {
+        "price" : 20,
+        "stats" : {
+          "defense" : 3,
+          "maxHP" : 6,
+          "moveSpeed" : -2
+        }
+      },
+      "hueco" : "boots",
+      "id" : "boots.greaves",
+      "materiales" : [
+        {
+          "id" : "copper",
+          "nombre" : "Cobre",
+          "tier" : 1
+        },
+        {
+          "id" : "iron",
+          "nombre" : "Hierro",
+          "tier" : 2
+        },
+        {
+          "id" : "silver",
+          "nombre" : "Plata",
+          "tier" : 3
+        },
+        {
+          "id" : "obsidian",
+          "nombre" : "Obsidiana",
+          "tier" : 4
+        },
+        {
+          "id" : "glacite",
+          "nombre" : "Glacita",
+          "tier" : 5
+        },
+        {
+          "id" : "mithril",
+          "nombre" : "Mithril",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Grebas",
+      "nombreHueco" : "Botas",
+      "tipoMaterial" : "metal"
+    },
+    {
+      "base" : {
+        "price" : 20,
+        "stats" : {
+          "defense" : 1,
+          "moveSpeed" : 8
+        }
+      },
+      "hueco" : "boots",
+      "id" : "boots.leather",
+      "materiales" : [
+        {
+          "id" : "hide",
+          "nombre" : "Piel curtida",
+          "tier" : 1
+        },
+        {
+          "id" : "boarhide",
+          "nombre" : "Cuero de jabalí",
+          "tier" : 2
+        },
+        {
+          "id" : "wolfhide",
+          "nombre" : "Piel de lobo",
+          "tier" : 3
+        },
+        {
+          "id" : "trollhide",
+          "nombre" : "Cuero de troll",
+          "tier" : 4
+        },
+        {
+          "id" : "shadowhide",
+          "nombre" : "Cuero sombrío",
+          "tier" : 5
+        },
+        {
+          "id" : "dragonhide",
+          "nombre" : "Piel de dragón",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Botas de cuero",
+      "nombreHueco" : "Botas",
+      "tipoMaterial" : "leather"
+    },
+    {
+      "base" : {
+        "price" : 20,
+        "stats" : {
+          "maxHP" : 10,
+          "regen" : 0.20000000000000001
+        }
+      },
+      "hueco" : "boots",
+      "id" : "boots.fur",
+      "materiales" : [
+        {
+          "id" : "hide",
+          "nombre" : "Piel curtida",
+          "tier" : 1
+        },
+        {
+          "id" : "boarhide",
+          "nombre" : "Cuero de jabalí",
+          "tier" : 2
+        },
+        {
+          "id" : "wolfhide",
+          "nombre" : "Piel de lobo",
+          "tier" : 3
+        },
+        {
+          "id" : "trollhide",
+          "nombre" : "Cuero de troll",
+          "tier" : 4
+        },
+        {
+          "id" : "shadowhide",
+          "nombre" : "Cuero sombrío",
+          "tier" : 5
+        },
+        {
+          "id" : "dragonhide",
+          "nombre" : "Piel de dragón",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Botas de piel",
+      "nombreHueco" : "Botas",
+      "tipoMaterial" : "leather"
+    },
+    {
+      "base" : {
+        "price" : 20,
+        "stats" : {
+          "moveSpeed" : 14
+        }
+      },
+      "hueco" : "boots",
+      "id" : "boots.winged",
+      "materiales" : [
+        {
+          "id" : "linen",
+          "nombre" : "Lino",
+          "tier" : 1
+        },
+        {
+          "id" : "wool",
+          "nombre" : "Lana",
+          "tier" : 2
+        },
+        {
+          "id" : "silk",
+          "nombre" : "Seda",
+          "tier" : 3
+        },
+        {
+          "id" : "velvet",
+          "nombre" : "Terciopelo",
+          "tier" : 4
+        },
+        {
+          "id" : "moonsilk",
+          "nombre" : "Seda lunar",
+          "tier" : 5
+        },
+        {
+          "id" : "starcloth",
+          "nombre" : "Tela de estrellas",
+          "tier" : 6
+        }
+      ],
+      "nombre" : "Botas aladas",
+      "nombreHueco" : "Botas",
+      "tipoMaterial" : "cloth"
+    }
+  ],
+  "generado" : "make datos (Harness exportar-datos): valores del código, no editar a mano",
+  "materiales" : [
+    {
+      "elemento" : "storm",
+      "id" : "copper",
+      "nombre" : "Cobre",
+      "poder" : 1,
+      "tier" : 1
+    },
+    {
+      "elemento" : "earth",
+      "id" : "iron",
+      "nombre" : "Hierro",
+      "poder" : 1.6000000000000001,
+      "tier" : 2
+    },
+    {
+      "elemento" : "holy",
+      "id" : "silver",
+      "nombre" : "Plata",
+      "poder" : 2.3999999999999999,
+      "tier" : 3
+    },
+    {
+      "elemento" : "fire",
+      "id" : "obsidian",
+      "nombre" : "Obsidiana",
+      "poder" : 3.2999999999999998,
+      "tier" : 4
+    },
+    {
+      "elemento" : "ice",
+      "id" : "glacite",
+      "nombre" : "Glacita",
+      "poder" : 4.4000000000000004,
+      "tier" : 5
+    },
+    {
+      "elemento" : "wind",
+      "id" : "mithril",
+      "nombre" : "Mithril",
+      "poder" : 5.5999999999999996,
+      "tier" : 6
+    },
+    {
+      "elemento" : "earth",
+      "id" : "oak",
+      "nombre" : "Roble",
+      "poder" : 1,
+      "tier" : 1
+    },
+    {
+      "elemento" : "blood",
+      "id" : "leather",
+      "nombre" : "Cuero",
+      "poder" : 1.6000000000000001,
+      "tier" : 2
+    },
+    {
+      "elemento" : "wind",
+      "id" : "ash",
+      "nombre" : "Fresno",
+      "poder" : 2.3999999999999999,
+      "tier" : 3
+    },
+    {
+      "elemento" : "shadow",
+      "id" : "bone",
+      "nombre" : "Hueso",
+      "poder" : 3.2999999999999998,
+      "tier" : 4
+    },
+    {
+      "elemento" : "arcane",
+      "id" : "ebony",
+      "nombre" : "Ébano",
+      "poder" : 4.4000000000000004,
+      "tier" : 5
+    },
+    {
+      "elemento" : "fire",
+      "id" : "dragonscale",
+      "nombre" : "Escama de dragón",
+      "poder" : 5.5999999999999996,
+      "tier" : 6
+    },
+    {
+      "elemento" : null,
+      "id" : "hide",
+      "nombre" : "Piel curtida",
+      "poder" : 1,
+      "tier" : 1
+    },
+    {
+      "elemento" : "earth",
+      "id" : "boarhide",
+      "nombre" : "Cuero de jabalí",
+      "poder" : 1.6000000000000001,
+      "tier" : 2
+    },
+    {
+      "elemento" : "wind",
+      "id" : "wolfhide",
+      "nombre" : "Piel de lobo",
+      "poder" : 2.3999999999999999,
+      "tier" : 3
+    },
+    {
+      "elemento" : "blood",
+      "id" : "trollhide",
+      "nombre" : "Cuero de troll",
+      "poder" : 3.2999999999999998,
+      "tier" : 4
+    },
+    {
+      "elemento" : "shadow",
+      "id" : "shadowhide",
+      "nombre" : "Cuero sombrío",
+      "poder" : 4.4000000000000004,
+      "tier" : 5
+    },
+    {
+      "elemento" : "fire",
+      "id" : "dragonhide",
+      "nombre" : "Piel de dragón",
+      "poder" : 5.5999999999999996,
+      "tier" : 6
+    },
+    {
+      "elemento" : null,
+      "id" : "linen",
+      "nombre" : "Lino",
+      "poder" : 1,
+      "tier" : 1
+    },
+    {
+      "elemento" : "earth",
+      "id" : "wool",
+      "nombre" : "Lana",
+      "poder" : 1.6000000000000001,
+      "tier" : 2
+    },
+    {
+      "elemento" : "wind",
+      "id" : "silk",
+      "nombre" : "Seda",
+      "poder" : 2.3999999999999999,
+      "tier" : 3
+    },
+    {
+      "elemento" : "arcane",
+      "id" : "velvet",
+      "nombre" : "Terciopelo",
+      "poder" : 3.2999999999999998,
+      "tier" : 4
+    },
+    {
+      "elemento" : "ice",
+      "id" : "moonsilk",
+      "nombre" : "Seda lunar",
+      "poder" : 4.4000000000000004,
+      "tier" : 5
+    },
+    {
+      "elemento" : "holy",
+      "id" : "starcloth",
+      "nombre" : "Tela de estrellas",
+      "poder" : 5.5999999999999996,
+      "tier" : 6
+    }
+  ],
+  "nota" : "Las armaduras se escalan con el material (poder) y la ruleta; los materiales no son ajustables.",
+  "piezas" : [
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "attack" : 9,
+          "attackSpeed" : 0.10000000000000001
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm"
+      ],
+      "forma" : "sword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.sword.copper",
+      "material" : "Cobre",
+      "nombre" : "Hoja de espada de Cobre",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "attack" : 13,
+          "attackSpeed" : -0.10000000000000001,
+          "critMultiplier" : 0.20000000000000001
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "blood"
+      ],
+      "forma" : "axe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.axe.copper",
+      "material" : "Cobre",
+      "nombre" : "Cabeza de hacha de Cobre",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "attack" : 17,
+          "attackSpeed" : -0.25,
+          "critMultiplier" : 0.29999999999999999
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "earth"
+      ],
+      "forma" : "hammer",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.hammer.copper",
+      "material" : "Cobre",
+      "nombre" : "Cabeza de martillo de Cobre",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "attack" : 10,
+          "range" : 18
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "wind"
+      ],
+      "forma" : "spear",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.spear.copper",
+      "material" : "Cobre",
+      "nombre" : "Punta de lanza de Cobre",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "attack" : 6,
+          "attackSpeed" : 0.34999999999999998,
+          "critChance" : 0.059999999999999998
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "poison"
+      ],
+      "forma" : "dagger",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.dagger.copper",
+      "material" : "Cobre",
+      "nombre" : "Hoja de daga de Cobre",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "attack" : 13,
+          "critMultiplier" : 0.14999999999999999,
+          "range" : 10
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "shadow"
+      ],
+      "forma" : "scythe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.scythe.copper",
+      "material" : "Cobre",
+      "nombre" : "Hoja de guadaña de Cobre",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "attack" : 14,
+          "attackSpeed" : -0.14999999999999999,
+          "defense" : 2
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "holy"
+      ],
+      "forma" : "mace",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.mace.copper",
+      "material" : "Cobre",
+      "nombre" : "Bola de maza de Cobre",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "attack" : 10,
+          "attackSpeed" : 0.14999999999999999,
+          "critChance" : 0.050000000000000003
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "storm"
+      ],
+      "forma" : "katana",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.katana.copper",
+      "material" : "Cobre",
+      "nombre" : "Hoja de katana de Cobre",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 30,
+        "stats" : {
+          "attack" : 17,
+          "attackSpeed" : -0.14999999999999999,
+          "range" : 8
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm"
+      ],
+      "forma" : "greatsword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.greatsword.copper",
+      "material" : "Cobre",
+      "nombre" : "Hoja de mandoble de Cobre",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 55,
+        "stats" : {
+          "attack" : 14.4,
+          "attackSpeed" : 0.112
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth"
+      ],
+      "forma" : "sword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.sword.iron",
+      "material" : "Hierro",
+      "nombre" : "Hoja de espada de Hierro",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 55,
+        "stats" : {
+          "attack" : 20.800000000000001,
+          "attackSpeed" : -0.112,
+          "critMultiplier" : 0.224
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "blood"
+      ],
+      "forma" : "axe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.axe.iron",
+      "material" : "Hierro",
+      "nombre" : "Cabeza de hacha de Hierro",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 55,
+        "stats" : {
+          "attack" : 27.199999999999999,
+          "attackSpeed" : -0.28000000000000003,
+          "critMultiplier" : 0.33600000000000002
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "earth"
+      ],
+      "forma" : "hammer",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.hammer.iron",
+      "material" : "Hierro",
+      "nombre" : "Cabeza de martillo de Hierro",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 55,
+        "stats" : {
+          "attack" : 16,
+          "range" : 20.16
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "wind"
+      ],
+      "forma" : "spear",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.spear.iron",
+      "material" : "Hierro",
+      "nombre" : "Punta de lanza de Hierro",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 55,
+        "stats" : {
+          "attack" : 9.5999999999999996,
+          "attackSpeed" : 0.39200000000000002,
+          "critChance" : 0.067199999999999996
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "poison"
+      ],
+      "forma" : "dagger",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.dagger.iron",
+      "material" : "Hierro",
+      "nombre" : "Hoja de daga de Hierro",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 55,
+        "stats" : {
+          "attack" : 20.800000000000001,
+          "critMultiplier" : 0.16800000000000001,
+          "range" : 11.199999999999999
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "shadow"
+      ],
+      "forma" : "scythe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.scythe.iron",
+      "material" : "Hierro",
+      "nombre" : "Hoja de guadaña de Hierro",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 55,
+        "stats" : {
+          "attack" : 22.399999999999999,
+          "attackSpeed" : -0.16800000000000001,
+          "defense" : 3.2000000000000002
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "holy"
+      ],
+      "forma" : "mace",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.mace.iron",
+      "material" : "Hierro",
+      "nombre" : "Bola de maza de Hierro",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "nombreNpc" : "Fray Anselmo",
+        "npc" : "anselmo",
+        "tipo" : "forja y rescate"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 55,
+        "stats" : {
+          "attack" : 16,
+          "attackSpeed" : 0.16800000000000001,
+          "critChance" : 0.056000000000000001
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "storm"
+      ],
+      "forma" : "katana",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.katana.iron",
+      "material" : "Hierro",
+      "nombre" : "Hoja de katana de Hierro",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 55,
+        "stats" : {
+          "attack" : 27.199999999999999,
+          "attackSpeed" : -0.16800000000000001,
+          "range" : 8.9600000000000009
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth"
+      ],
+      "forma" : "greatsword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.greatsword.iron",
+      "material" : "Hierro",
+      "nombre" : "Hoja de mandoble de Hierro",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 94,
+        "stats" : {
+          "attack" : 21.600000000000001,
+          "attackSpeed" : 0.128
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy"
+      ],
+      "forma" : "sword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.sword.silver",
+      "material" : "Plata",
+      "nombre" : "Hoja de espada de Plata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 94,
+        "stats" : {
+          "attack" : 31.199999999999999,
+          "attackSpeed" : -0.128,
+          "critMultiplier" : 0.25600000000000001
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "blood"
+      ],
+      "forma" : "axe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.axe.silver",
+      "material" : "Plata",
+      "nombre" : "Cabeza de hacha de Plata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 94,
+        "stats" : {
+          "attack" : 40.799999999999997,
+          "attackSpeed" : -0.32000000000000001,
+          "critMultiplier" : 0.38400000000000001
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "earth"
+      ],
+      "forma" : "hammer",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.hammer.silver",
+      "material" : "Plata",
+      "nombre" : "Cabeza de martillo de Plata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 94,
+        "stats" : {
+          "attack" : 24,
+          "range" : 23.039999999999999
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "wind"
+      ],
+      "forma" : "spear",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.spear.silver",
+      "material" : "Plata",
+      "nombre" : "Punta de lanza de Plata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 94,
+        "stats" : {
+          "attack" : 14.4,
+          "attackSpeed" : 0.44800000000000001,
+          "critChance" : 0.076799999999999993
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "poison"
+      ],
+      "forma" : "dagger",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.dagger.silver",
+      "material" : "Plata",
+      "nombre" : "Hoja de daga de Plata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 94,
+        "stats" : {
+          "attack" : 31.199999999999999,
+          "critMultiplier" : 0.192,
+          "range" : 12.800000000000001
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "shadow"
+      ],
+      "forma" : "scythe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.scythe.silver",
+      "material" : "Plata",
+      "nombre" : "Hoja de guadaña de Plata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 94,
+        "stats" : {
+          "attack" : 33.600000000000001,
+          "attackSpeed" : -0.192,
+          "defense" : 4.7999999999999998
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "holy"
+      ],
+      "forma" : "mace",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.mace.silver",
+      "material" : "Plata",
+      "nombre" : "Bola de maza de Plata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 94,
+        "stats" : {
+          "attack" : 24,
+          "attackSpeed" : 0.192,
+          "critChance" : 0.064000000000000001
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "storm"
+      ],
+      "forma" : "katana",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.katana.silver",
+      "material" : "Plata",
+      "nombre" : "Hoja de katana de Plata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 94,
+        "stats" : {
+          "attack" : 40.799999999999997,
+          "attackSpeed" : -0.192,
+          "range" : 10.24
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy"
+      ],
+      "forma" : "greatsword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.greatsword.silver",
+      "material" : "Plata",
+      "nombre" : "Hoja de mandoble de Plata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 142,
+        "stats" : {
+          "attack" : 29.699999999999999,
+          "attackSpeed" : 0.14599999999999999
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire"
+      ],
+      "forma" : "sword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.sword.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Hoja de espada de Obsidiana",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 142,
+        "stats" : {
+          "attack" : 42.899999999999999,
+          "attackSpeed" : -0.14599999999999999,
+          "critMultiplier" : 0.29199999999999998
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "blood"
+      ],
+      "forma" : "axe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.axe.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Cabeza de hacha de Obsidiana",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 142,
+        "stats" : {
+          "attack" : 56.100000000000001,
+          "attackSpeed" : -0.36499999999999999,
+          "critMultiplier" : 0.438
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "earth"
+      ],
+      "forma" : "hammer",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.hammer.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Cabeza de martillo de Obsidiana",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 142,
+        "stats" : {
+          "attack" : 33,
+          "range" : 26.280000000000001
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "wind"
+      ],
+      "forma" : "spear",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.spear.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Punta de lanza de Obsidiana",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 142,
+        "stats" : {
+          "attack" : 19.800000000000001,
+          "attackSpeed" : 0.51100000000000001,
+          "critChance" : 0.087599999999999997
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "poison"
+      ],
+      "forma" : "dagger",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.dagger.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Hoja de daga de Obsidiana",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 142,
+        "stats" : {
+          "attack" : 42.899999999999999,
+          "critMultiplier" : 0.219,
+          "range" : 14.6
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "shadow"
+      ],
+      "forma" : "scythe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.scythe.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Hoja de guadaña de Obsidiana",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 142,
+        "stats" : {
+          "attack" : 46.200000000000003,
+          "attackSpeed" : -0.219,
+          "defense" : 6.5999999999999996
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "holy"
+      ],
+      "forma" : "mace",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.mace.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Bola de maza de Obsidiana",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 142,
+        "stats" : {
+          "attack" : 33,
+          "attackSpeed" : 0.219,
+          "critChance" : 0.072999999999999995
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "storm"
+      ],
+      "forma" : "katana",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.katana.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Hoja de katana de Obsidiana",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 142,
+        "stats" : {
+          "attack" : 56.100000000000001,
+          "attackSpeed" : -0.219,
+          "range" : 11.68
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire"
+      ],
+      "forma" : "greatsword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.greatsword.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Hoja de mandoble de Obsidiana",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 206,
+        "stats" : {
+          "attack" : 39.600000000000001,
+          "attackSpeed" : 0.16800000000000001
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice"
+      ],
+      "forma" : "sword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.sword.glacite",
+      "material" : "Glacita",
+      "nombre" : "Hoja de espada de Glacita",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 206,
+        "stats" : {
+          "attack" : 57.200000000000003,
+          "attackSpeed" : -0.16800000000000001,
+          "critMultiplier" : 0.33600000000000002
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "blood"
+      ],
+      "forma" : "axe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.axe.glacite",
+      "material" : "Glacita",
+      "nombre" : "Cabeza de hacha de Glacita",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 206,
+        "stats" : {
+          "attack" : 74.799999999999997,
+          "attackSpeed" : -0.41999999999999998,
+          "critMultiplier" : 0.504
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "earth"
+      ],
+      "forma" : "hammer",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.hammer.glacite",
+      "material" : "Glacita",
+      "nombre" : "Cabeza de martillo de Glacita",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 206,
+        "stats" : {
+          "attack" : 44,
+          "range" : 30.239999999999998
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "wind"
+      ],
+      "forma" : "spear",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.spear.glacite",
+      "material" : "Glacita",
+      "nombre" : "Punta de lanza de Glacita",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 206,
+        "stats" : {
+          "attack" : 26.399999999999999,
+          "attackSpeed" : 0.58799999999999997,
+          "critChance" : 0.1008
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "poison"
+      ],
+      "forma" : "dagger",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.dagger.glacite",
+      "material" : "Glacita",
+      "nombre" : "Hoja de daga de Glacita",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 206,
+        "stats" : {
+          "attack" : 57.200000000000003,
+          "critMultiplier" : 0.252,
+          "range" : 16.800000000000001
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "shadow"
+      ],
+      "forma" : "scythe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.scythe.glacite",
+      "material" : "Glacita",
+      "nombre" : "Hoja de guadaña de Glacita",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 206,
+        "stats" : {
+          "attack" : 61.600000000000001,
+          "attackSpeed" : -0.252,
+          "defense" : 8.8000000000000007
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "holy"
+      ],
+      "forma" : "mace",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.mace.glacite",
+      "material" : "Glacita",
+      "nombre" : "Bola de maza de Glacita",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 206,
+        "stats" : {
+          "attack" : 44,
+          "attackSpeed" : 0.252,
+          "critChance" : 0.084000000000000005
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "storm"
+      ],
+      "forma" : "katana",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.katana.glacite",
+      "material" : "Glacita",
+      "nombre" : "Hoja de katana de Glacita",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 206,
+        "stats" : {
+          "attack" : 74.799999999999997,
+          "attackSpeed" : -0.252,
+          "range" : 13.44
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice"
+      ],
+      "forma" : "greatsword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.greatsword.glacite",
+      "material" : "Glacita",
+      "nombre" : "Hoja de mandoble de Glacita",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 282,
+        "stats" : {
+          "attack" : 50.399999999999999,
+          "attackSpeed" : 0.192
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind"
+      ],
+      "forma" : "sword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.sword.mithril",
+      "material" : "Mithril",
+      "nombre" : "Hoja de espada de Mithril",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 282,
+        "stats" : {
+          "attack" : 72.799999999999997,
+          "attackSpeed" : -0.192,
+          "critMultiplier" : 0.38400000000000001
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "blood"
+      ],
+      "forma" : "axe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.axe.mithril",
+      "material" : "Mithril",
+      "nombre" : "Cabeza de hacha de Mithril",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 282,
+        "stats" : {
+          "attack" : 95.200000000000003,
+          "attackSpeed" : -0.47999999999999998,
+          "critMultiplier" : 0.57599999999999996
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "earth"
+      ],
+      "forma" : "hammer",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.hammer.mithril",
+      "material" : "Mithril",
+      "nombre" : "Cabeza de martillo de Mithril",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 282,
+        "stats" : {
+          "attack" : 56,
+          "range" : 34.560000000000002
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "wind"
+      ],
+      "forma" : "spear",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.spear.mithril",
+      "material" : "Mithril",
+      "nombre" : "Punta de lanza de Mithril",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 282,
+        "stats" : {
+          "attack" : 33.600000000000001,
+          "attackSpeed" : 0.67200000000000004,
+          "critChance" : 0.1152
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "poison"
+      ],
+      "forma" : "dagger",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.dagger.mithril",
+      "material" : "Mithril",
+      "nombre" : "Hoja de daga de Mithril",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 282,
+        "stats" : {
+          "attack" : 72.799999999999997,
+          "critMultiplier" : 0.28799999999999998,
+          "range" : 19.199999999999999
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "shadow"
+      ],
+      "forma" : "scythe",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.scythe.mithril",
+      "material" : "Mithril",
+      "nombre" : "Hoja de guadaña de Mithril",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 282,
+        "stats" : {
+          "attack" : 78.400000000000006,
+          "attackSpeed" : -0.28799999999999998,
+          "defense" : 11.199999999999999
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "holy"
+      ],
+      "forma" : "mace",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.mace.mithril",
+      "material" : "Mithril",
+      "nombre" : "Bola de maza de Mithril",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 282,
+        "stats" : {
+          "attack" : 56,
+          "attackSpeed" : 0.28799999999999998,
+          "critChance" : 0.096000000000000002
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "storm"
+      ],
+      "forma" : "katana",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.katana.mithril",
+      "material" : "Mithril",
+      "nombre" : "Hoja de katana de Mithril",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 282,
+        "stats" : {
+          "attack" : 95.200000000000003,
+          "attackSpeed" : -0.28799999999999998,
+          "range" : 15.359999999999999
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind"
+      ],
+      "forma" : "greatsword",
+      "grupo" : "normal",
+      "hueco" : "head",
+      "id" : "head.greatsword.mithril",
+      "material" : "Mithril",
+      "nombre" : "Hoja de mandoble de Mithril",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 18,
+        "stats" : {
+          "defense" : 2
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "holy"
+      ],
+      "forma" : "straight",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.straight.copper",
+      "material" : "Cobre",
+      "nombre" : "Guarda recta de Cobre",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 18,
+        "stats" : {
+          "critChance" : 0.029999999999999999
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm"
+      ],
+      "forma" : "curved",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.curved.copper",
+      "material" : "Cobre",
+      "nombre" : "Guarda curva de Cobre",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 18,
+        "stats" : {
+          "attackSpeed" : 0.080000000000000002
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "wind"
+      ],
+      "forma" : "winged",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.winged.copper",
+      "material" : "Cobre",
+      "nombre" : "Guarda alada de Cobre",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 18,
+        "stats" : {
+          "critMultiplier" : 0.10000000000000001
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "arcane"
+      ],
+      "forma" : "ring",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.ring.copper",
+      "material" : "Cobre",
+      "nombre" : "Guarda de anillo de Cobre",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 18,
+        "stats" : {
+          "attack" : 2,
+          "lifesteal" : 0.01
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "shadow"
+      ],
+      "forma" : "skull",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.skull.copper",
+      "material" : "Cobre",
+      "nombre" : "Guarda de calavera de Cobre",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 18,
+        "stats" : {
+          "attack" : 1,
+          "critChance" : 0.02
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "storm",
+        "blood"
+      ],
+      "forma" : "claw",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.claw.copper",
+      "material" : "Cobre",
+      "nombre" : "Guarda de garra de Cobre",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 33,
+        "stats" : {
+          "defense" : 3.2000000000000002
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "holy"
+      ],
+      "forma" : "straight",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.straight.iron",
+      "material" : "Hierro",
+      "nombre" : "Guarda recta de Hierro",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 33,
+        "stats" : {
+          "critChance" : 0.033599999999999998
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth"
+      ],
+      "forma" : "curved",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.curved.iron",
+      "material" : "Hierro",
+      "nombre" : "Guarda curva de Hierro",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 33,
+        "stats" : {
+          "attackSpeed" : 0.089599999999999999
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "wind"
+      ],
+      "forma" : "winged",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.winged.iron",
+      "material" : "Hierro",
+      "nombre" : "Guarda alada de Hierro",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 33,
+        "stats" : {
+          "critMultiplier" : 0.112
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "arcane"
+      ],
+      "forma" : "ring",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.ring.iron",
+      "material" : "Hierro",
+      "nombre" : "Guarda de anillo de Hierro",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 33,
+        "stats" : {
+          "attack" : 3.2000000000000002,
+          "lifesteal" : 0.0112
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "shadow"
+      ],
+      "forma" : "skull",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.skull.iron",
+      "material" : "Hierro",
+      "nombre" : "Guarda de calavera de Hierro",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 33,
+        "stats" : {
+          "attack" : 1.6000000000000001,
+          "critChance" : 0.0224
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "earth",
+        "blood"
+      ],
+      "forma" : "claw",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.claw.iron",
+      "material" : "Hierro",
+      "nombre" : "Guarda de garra de Hierro",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 56,
+        "stats" : {
+          "defense" : 4.7999999999999998
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "holy"
+      ],
+      "forma" : "straight",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.straight.silver",
+      "material" : "Plata",
+      "nombre" : "Guarda recta de Plata",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 56,
+        "stats" : {
+          "critChance" : 0.038399999999999997
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy"
+      ],
+      "forma" : "curved",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.curved.silver",
+      "material" : "Plata",
+      "nombre" : "Guarda curva de Plata",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 56,
+        "stats" : {
+          "attackSpeed" : 0.1024
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "wind"
+      ],
+      "forma" : "winged",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.winged.silver",
+      "material" : "Plata",
+      "nombre" : "Guarda alada de Plata",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 56,
+        "stats" : {
+          "critMultiplier" : 0.128
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "arcane"
+      ],
+      "forma" : "ring",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.ring.silver",
+      "material" : "Plata",
+      "nombre" : "Guarda de anillo de Plata",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 56,
+        "stats" : {
+          "attack" : 4.7999999999999998,
+          "lifesteal" : 0.012800000000000001
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "shadow"
+      ],
+      "forma" : "skull",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.skull.silver",
+      "material" : "Plata",
+      "nombre" : "Guarda de calavera de Plata",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 56,
+        "stats" : {
+          "attack" : 2.3999999999999999,
+          "critChance" : 0.025600000000000001
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "holy",
+        "blood"
+      ],
+      "forma" : "claw",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.claw.silver",
+      "material" : "Plata",
+      "nombre" : "Guarda de garra de Plata",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 85,
+        "stats" : {
+          "defense" : 6.5999999999999996
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "holy"
+      ],
+      "forma" : "straight",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.straight.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Guarda recta de Obsidiana",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 85,
+        "stats" : {
+          "critChance" : 0.043799999999999999
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire"
+      ],
+      "forma" : "curved",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.curved.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Guarda curva de Obsidiana",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 85,
+        "stats" : {
+          "attackSpeed" : 0.1168
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "wind"
+      ],
+      "forma" : "winged",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.winged.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Guarda alada de Obsidiana",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 85,
+        "stats" : {
+          "critMultiplier" : 0.14599999999999999
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "arcane"
+      ],
+      "forma" : "ring",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.ring.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Guarda de anillo de Obsidiana",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 85,
+        "stats" : {
+          "attack" : 6.5999999999999996,
+          "lifesteal" : 0.0146
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "shadow"
+      ],
+      "forma" : "skull",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.skull.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Guarda de calavera de Obsidiana",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 85,
+        "stats" : {
+          "attack" : 3.2999999999999998,
+          "critChance" : 0.0292
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "blood"
+      ],
+      "forma" : "claw",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.claw.obsidian",
+      "material" : "Obsidiana",
+      "nombre" : "Guarda de garra de Obsidiana",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 124,
+        "stats" : {
+          "defense" : 8.8000000000000007
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "holy"
+      ],
+      "forma" : "straight",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.straight.glacite",
+      "material" : "Glacita",
+      "nombre" : "Guarda recta de Glacita",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 124,
+        "stats" : {
+          "critChance" : 0.0504
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice"
+      ],
+      "forma" : "curved",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.curved.glacite",
+      "material" : "Glacita",
+      "nombre" : "Guarda curva de Glacita",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 124,
+        "stats" : {
+          "attackSpeed" : 0.13439999999999999
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "wind"
+      ],
+      "forma" : "winged",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.winged.glacite",
+      "material" : "Glacita",
+      "nombre" : "Guarda alada de Glacita",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 124,
+        "stats" : {
+          "critMultiplier" : 0.16800000000000001
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "arcane"
+      ],
+      "forma" : "ring",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.ring.glacite",
+      "material" : "Glacita",
+      "nombre" : "Guarda de anillo de Glacita",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 124,
+        "stats" : {
+          "attack" : 8.8000000000000007,
+          "lifesteal" : 0.016799999999999999
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "shadow"
+      ],
+      "forma" : "skull",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.skull.glacite",
+      "material" : "Glacita",
+      "nombre" : "Guarda de calavera de Glacita",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 124,
+        "stats" : {
+          "attack" : 4.4000000000000004,
+          "critChance" : 0.033599999999999998
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "ice",
+        "blood"
+      ],
+      "forma" : "claw",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.claw.glacite",
+      "material" : "Glacita",
+      "nombre" : "Guarda de garra de Glacita",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 169,
+        "stats" : {
+          "defense" : 11.199999999999999
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "holy"
+      ],
+      "forma" : "straight",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.straight.mithril",
+      "material" : "Mithril",
+      "nombre" : "Guarda recta de Mithril",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 169,
+        "stats" : {
+          "critChance" : 0.057599999999999998
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind"
+      ],
+      "forma" : "curved",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.curved.mithril",
+      "material" : "Mithril",
+      "nombre" : "Guarda curva de Mithril",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 169,
+        "stats" : {
+          "attackSpeed" : 0.15359999999999999
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "wind"
+      ],
+      "forma" : "winged",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.winged.mithril",
+      "material" : "Mithril",
+      "nombre" : "Guarda alada de Mithril",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 169,
+        "stats" : {
+          "critMultiplier" : 0.192
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "arcane"
+      ],
+      "forma" : "ring",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.ring.mithril",
+      "material" : "Mithril",
+      "nombre" : "Guarda de anillo de Mithril",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 169,
+        "stats" : {
+          "attack" : 11.199999999999999,
+          "lifesteal" : 0.019199999999999998
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "shadow"
+      ],
+      "forma" : "skull",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.skull.mithril",
+      "material" : "Mithril",
+      "nombre" : "Guarda de calavera de Mithril",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 169,
+        "stats" : {
+          "attack" : 5.5999999999999996,
+          "critChance" : 0.038399999999999997
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "wind",
+        "blood"
+      ],
+      "forma" : "claw",
+      "grupo" : "normal",
+      "hueco" : "guard",
+      "id" : "guard.claw.mithril",
+      "material" : "Mithril",
+      "nombre" : "Guarda de garra de Mithril",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 15,
+        "stats" : {
+          "attackSpeed" : 0.10000000000000001
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "earth"
+      ],
+      "forma" : "short",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.short.oak",
+      "material" : "Roble",
+      "nombre" : "Empuñadura corta de Roble",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 15,
+        "stats" : {
+          "range" : 6
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "earth"
+      ],
+      "forma" : "long",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.long.oak",
+      "material" : "Roble",
+      "nombre" : "Empuñadura larga de Roble",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 15,
+        "stats" : {
+          "critChance" : 0.02
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "earth",
+        "poison"
+      ],
+      "forma" : "wrapped",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.wrapped.oak",
+      "material" : "Roble",
+      "nombre" : "Empuñadura vendada de Roble",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 15,
+        "stats" : {
+          "attack" : 2
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "earth",
+        "earth"
+      ],
+      "forma" : "pommel",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.pommel.oak",
+      "material" : "Roble",
+      "nombre" : "Empuñadura con pomo de Roble",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 15,
+        "stats" : {
+          "critChance" : 0.01,
+          "critMultiplier" : 0.050000000000000003
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "earth",
+        "arcane"
+      ],
+      "forma" : "runic",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.runic.oak",
+      "material" : "Roble",
+      "nombre" : "Empuñadura rúnica de Roble",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 28,
+        "stats" : {
+          "attackSpeed" : 0.112
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "blood"
+      ],
+      "forma" : "short",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.short.leather",
+      "material" : "Cuero",
+      "nombre" : "Empuñadura corta de Cuero",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 28,
+        "stats" : {
+          "range" : 6.7199999999999998
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "blood"
+      ],
+      "forma" : "long",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.long.leather",
+      "material" : "Cuero",
+      "nombre" : "Empuñadura larga de Cuero",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 28,
+        "stats" : {
+          "critChance" : 0.0224
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "blood",
+        "poison"
+      ],
+      "forma" : "wrapped",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.wrapped.leather",
+      "material" : "Cuero",
+      "nombre" : "Empuñadura vendada de Cuero",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 28,
+        "stats" : {
+          "attack" : 3.2000000000000002
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "blood",
+        "earth"
+      ],
+      "forma" : "pommel",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.pommel.leather",
+      "material" : "Cuero",
+      "nombre" : "Empuñadura con pomo de Cuero",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 28,
+        "stats" : {
+          "critChance" : 0.0112,
+          "critMultiplier" : 0.056000000000000001
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "blood",
+        "arcane"
+      ],
+      "forma" : "runic",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.runic.leather",
+      "material" : "Cuero",
+      "nombre" : "Empuñadura rúnica de Cuero",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 47,
+        "stats" : {
+          "attackSpeed" : 0.128
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "wind"
+      ],
+      "forma" : "short",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.short.ash",
+      "material" : "Fresno",
+      "nombre" : "Empuñadura corta de Fresno",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 47,
+        "stats" : {
+          "range" : 7.6799999999999997
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "wind"
+      ],
+      "forma" : "long",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.long.ash",
+      "material" : "Fresno",
+      "nombre" : "Empuñadura larga de Fresno",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 47,
+        "stats" : {
+          "critChance" : 0.025600000000000001
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "wind",
+        "poison"
+      ],
+      "forma" : "wrapped",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.wrapped.ash",
+      "material" : "Fresno",
+      "nombre" : "Empuñadura vendada de Fresno",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 47,
+        "stats" : {
+          "attack" : 4.7999999999999998
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "wind",
+        "earth"
+      ],
+      "forma" : "pommel",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.pommel.ash",
+      "material" : "Fresno",
+      "nombre" : "Empuñadura con pomo de Fresno",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 47,
+        "stats" : {
+          "critChance" : 0.012800000000000001,
+          "critMultiplier" : 0.064000000000000001
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "wind",
+        "arcane"
+      ],
+      "forma" : "runic",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.runic.ash",
+      "material" : "Fresno",
+      "nombre" : "Empuñadura rúnica de Fresno",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 71,
+        "stats" : {
+          "attackSpeed" : 0.14599999999999999
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "shadow"
+      ],
+      "forma" : "short",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.short.bone",
+      "material" : "Hueso",
+      "nombre" : "Empuñadura corta de Hueso",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 71,
+        "stats" : {
+          "range" : 8.7599999999999998
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "shadow"
+      ],
+      "forma" : "long",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.long.bone",
+      "material" : "Hueso",
+      "nombre" : "Empuñadura larga de Hueso",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 71,
+        "stats" : {
+          "critChance" : 0.0292
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "shadow",
+        "poison"
+      ],
+      "forma" : "wrapped",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.wrapped.bone",
+      "material" : "Hueso",
+      "nombre" : "Empuñadura vendada de Hueso",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 71,
+        "stats" : {
+          "attack" : 6.5999999999999996
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "shadow",
+        "earth"
+      ],
+      "forma" : "pommel",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.pommel.bone",
+      "material" : "Hueso",
+      "nombre" : "Empuñadura con pomo de Hueso",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 71,
+        "stats" : {
+          "critChance" : 0.0146,
+          "critMultiplier" : 0.072999999999999995
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "shadow",
+        "arcane"
+      ],
+      "forma" : "runic",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.runic.bone",
+      "material" : "Hueso",
+      "nombre" : "Empuñadura rúnica de Hueso",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 103,
+        "stats" : {
+          "attackSpeed" : 0.16800000000000001
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "arcane"
+      ],
+      "forma" : "short",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.short.ebony",
+      "material" : "Ébano",
+      "nombre" : "Empuñadura corta de Ébano",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 103,
+        "stats" : {
+          "range" : 10.08
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "arcane"
+      ],
+      "forma" : "long",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.long.ebony",
+      "material" : "Ébano",
+      "nombre" : "Empuñadura larga de Ébano",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 103,
+        "stats" : {
+          "critChance" : 0.033599999999999998
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "arcane",
+        "poison"
+      ],
+      "forma" : "wrapped",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.wrapped.ebony",
+      "material" : "Ébano",
+      "nombre" : "Empuñadura vendada de Ébano",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 103,
+        "stats" : {
+          "attack" : 8.8000000000000007
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "arcane",
+        "earth"
+      ],
+      "forma" : "pommel",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.pommel.ebony",
+      "material" : "Ébano",
+      "nombre" : "Empuñadura con pomo de Ébano",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 103,
+        "stats" : {
+          "critChance" : 0.016799999999999999,
+          "critMultiplier" : 0.084000000000000005
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "arcane",
+        "arcane"
+      ],
+      "forma" : "runic",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.runic.ebony",
+      "material" : "Ébano",
+      "nombre" : "Empuñadura rúnica de Ébano",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 141,
+        "stats" : {
+          "attackSpeed" : 0.192
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "fire"
+      ],
+      "forma" : "short",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.short.dragonscale",
+      "material" : "Escama de dragón",
+      "nombre" : "Empuñadura corta de Escama de dragón",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 141,
+        "stats" : {
+          "range" : 11.52
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "fire"
+      ],
+      "forma" : "long",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.long.dragonscale",
+      "material" : "Escama de dragón",
+      "nombre" : "Empuñadura larga de Escama de dragón",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 141,
+        "stats" : {
+          "critChance" : 0.038399999999999997
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "fire",
+        "poison"
+      ],
+      "forma" : "wrapped",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.wrapped.dragonscale",
+      "material" : "Escama de dragón",
+      "nombre" : "Empuñadura vendada de Escama de dragón",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 141,
+        "stats" : {
+          "attack" : 11.199999999999999
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "fire",
+        "earth"
+      ],
+      "forma" : "pommel",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.pommel.dragonscale",
+      "material" : "Escama de dragón",
+      "nombre" : "Empuñadura con pomo de Escama de dragón",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 141,
+        "stats" : {
+          "critChance" : 0.019199999999999998,
+          "critMultiplier" : 0.096000000000000002
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "fire",
+        "arcane"
+      ],
+      "forma" : "runic",
+      "grupo" : "normal",
+      "hueco" : "grip",
+      "id" : "grip.runic.dragonscale",
+      "material" : "Escama de dragón",
+      "nombre" : "Empuñadura rúnica de Escama de dragón",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "tipo" : "forja"
+      },
+      "unica" : false
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 14,
+          "attackSpeed" : 0.40000000000000002,
+          "critChance" : 0.080000000000000002
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "poison",
+        "blood"
+      ],
+      "forma" : "dagger",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "rat_bite",
+        "nombre" : "Mordisco pestilente"
+      },
+      "hueco" : "head",
+      "id" : "boss.ratKing",
+      "material" : "Único",
+      "nombre" : "Diente del Rey Rata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "jefe" : "ratKing",
+        "nombreJefe" : "Rey de las ratas",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 5,
+          "critChance" : 0.080000000000000002,
+          "goldBonus" : 0.14999999999999999
+        },
+        "tier" : 3
+      },
+      "elementos" : [
+        "shadow",
+        "blood"
+      ],
+      "forma" : "skull",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "low_blow",
+        "nombre" : "Golpe bajo"
+      },
+      "hueco" : "guard",
+      "id" : "boss.banditChief",
+      "material" : "Único",
+      "nombre" : "Guarda del Capitán",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "jefe" : "banditChief",
+        "nombreJefe" : "Capitán bandido",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 6,
+          "critChance" : 0.040000000000000001,
+          "range" : 10
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "shadow",
+        "fire"
+      ],
+      "forma" : "wrapped",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "burning_harvest",
+        "nombre" : "Cosecha ardiente"
+      },
+      "hueco" : "grip",
+      "id" : "boss.scarecrow",
+      "material" : "Único",
+      "nombre" : "Mango del Espantapájaros",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "jefe" : "scarecrow",
+        "nombreJefe" : "Espantapájaros maldito",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 40,
+          "attackSpeed" : -0.20000000000000001,
+          "critMultiplier" : 0.40000000000000002,
+          "defense" : 4
+        },
+        "tier" : 4
+      },
+      "elementos" : [
+        "fire",
+        "earth"
+      ],
+      "forma" : "hammer",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "hellforge",
+        "nombre" : "Forja infernal"
+      },
+      "hueco" : "head",
+      "id" : "boss.possessedSmith",
+      "material" : "Único",
+      "nombre" : "Martillo del Herrero",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "jefe" : "possessedSmith",
+        "nombreJefe" : "Herrero poseído",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 8,
+          "attackSpeed" : 0.20000000000000001,
+          "lifesteal" : 0.029999999999999999
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "blood",
+        "wind"
+      ],
+      "forma" : "claw",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "frenzy",
+        "nombre" : "Frenesí"
+      },
+      "hueco" : "guard",
+      "id" : "boss.alphaWolf",
+      "material" : "Único",
+      "nombre" : "Colmillo Alfa",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "jefe" : "alphaWolf",
+        "nombreJefe" : "Lobo alfa",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 6,
+          "attackSpeed" : 0.14999999999999999,
+          "critMultiplier" : 0.25
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "poison",
+        "arcane"
+      ],
+      "forma" : "runic",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "hex",
+        "nombre" : "Maleficio"
+      },
+      "hueco" : "grip",
+      "id" : "boss.witch",
+      "material" : "Único",
+      "nombre" : "Escoba de la Bruja",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "jefe" : "witch",
+        "nombreJefe" : "Bruja del pozo",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 55,
+          "attackSpeed" : -0.29999999999999999,
+          "defense" : 6,
+          "maxHP" : 40
+        },
+        "tier" : 5
+      },
+      "elementos" : [
+        "earth",
+        "earth"
+      ],
+      "forma" : "mace",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "crush",
+        "nombre" : "Aplastamiento"
+      },
+      "hueco" : "head",
+      "id" : "boss.ogre",
+      "material" : "Único",
+      "nombre" : "Piedra de molino",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "jefe" : "ogre",
+        "nombreJefe" : "Ogro del molino",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 10,
+          "critChance" : 0.059999999999999998,
+          "regen" : 1.5
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "holy",
+        "shadow"
+      ],
+      "forma" : "ring",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "dark_communion",
+        "nombre" : "Comunión oscura"
+      },
+      "hueco" : "guard",
+      "id" : "boss.abbot",
+      "material" : "Único",
+      "nombre" : "Rosario del Abad",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "jefe" : "abbot",
+        "nombreJefe" : "Abad no-muerto",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 75,
+          "attackSpeed" : -0.10000000000000001,
+          "critMultiplier" : 0.29999999999999999,
+          "range" : 14
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "blood",
+        "storm"
+      ],
+      "forma" : "greatsword",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "carnage",
+        "nombre" : "Carnicería"
+      },
+      "hueco" : "head",
+      "id" : "boss.warlord",
+      "material" : "Único",
+      "nombre" : "Hoja del Señor de la Guerra",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "jefe" : "warlord",
+        "nombreJefe" : "Señor de la guerra orco",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 18,
+          "attackSpeed" : 0.20000000000000001,
+          "critChance" : 0.10000000000000001,
+          "goldBonus" : 0.29999999999999999
+        },
+        "tier" : 6
+      },
+      "elementos" : [
+        "arcane",
+        "holy",
+        "storm"
+      ],
+      "forma" : "crown",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "royal_decree",
+        "nombre" : "Decreto real"
+      },
+      "hueco" : "guard",
+      "id" : "boss.goblinKing",
+      "material" : "Único",
+      "nombre" : "Corona del Rey Goblin",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "jefe" : "goblinKing",
+        "nombreJefe" : "Rey Goblin",
+        "tipo" : "jefe (arena)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 36,
+          "attackSpeed" : 0.059999999999999998,
+          "critChance" : 0.059999999999999998,
+          "critMultiplier" : 0.25,
+          "range" : 10
+        },
+        "tier" : 2
+      },
+      "elementos" : [
+        "holy",
+        "storm",
+        "fire"
+      ],
+      "forma" : "greatsword",
+      "grupo" : "única",
+      "habilidad" : {
+        "id" : "dawn",
+        "nombre" : "Amanecer"
+      },
+      "hueco" : "head",
+      "id" : "legend.dawn",
+      "material" : "Único",
+      "nombre" : "Hoja del Alba",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "nombreNpc" : "Princesa Aurora",
+        "npc" : "princess",
+        "tipo" : "rescate"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 8.75,
+          "attackSpeed" : 0.34000000000000002,
+          "critChance" : 0.070000000000000007
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "poison",
+        "blood"
+      ],
+      "forma" : "dagger",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "rat_bite",
+        "nombre" : "Mordisco pestilente"
+      },
+      "hueco" : "head",
+      "id" : "boss.ratKing.valdemar",
+      "material" : "Único",
+      "nombre" : "Diente del Rey Rata",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "jefe" : "ratKing",
+        "nombreJefe" : "Rey de las ratas",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 3.1299999999999999,
+          "critChance" : 0.070000000000000007,
+          "goldBonus" : 0.13
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "shadow",
+        "blood"
+      ],
+      "forma" : "skull",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "low_blow",
+        "nombre" : "Golpe bajo"
+      },
+      "hueco" : "guard",
+      "id" : "boss.banditChief.valdemar",
+      "material" : "Único",
+      "nombre" : "Guarda del Capitán",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "jefe" : "banditChief",
+        "nombreJefe" : "Capitán bandido",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 2.73,
+          "critChance" : 0.029999999999999999,
+          "range" : 7.5300000000000002
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "shadow",
+        "fire"
+      ],
+      "forma" : "wrapped",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "burning_harvest",
+        "nombre" : "Cosecha ardiente"
+      },
+      "hueco" : "grip",
+      "id" : "boss.scarecrow.valdemar",
+      "material" : "Único",
+      "nombre" : "Mango del Espantapájaros",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "jefe" : "scarecrow",
+        "nombreJefe" : "Espantapájaros maldito",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 18.18,
+          "attackSpeed" : -0.14999999999999999,
+          "critMultiplier" : 0.29999999999999999,
+          "defense" : 1.8200000000000001
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "fire",
+        "earth"
+      ],
+      "forma" : "hammer",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "hellforge",
+        "nombre" : "Forja infernal"
+      },
+      "hueco" : "head",
+      "id" : "boss.possessedSmith.valdemar",
+      "material" : "Único",
+      "nombre" : "Martillo del Herrero",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "jefe" : "possessedSmith",
+        "nombreJefe" : "Herrero poseído",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 2.73,
+          "attackSpeed" : 0.13,
+          "lifesteal" : 0.02
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "blood",
+        "wind"
+      ],
+      "forma" : "claw",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "frenzy",
+        "nombre" : "Frenesí"
+      },
+      "hueco" : "guard",
+      "id" : "boss.alphaWolf.valdemar",
+      "material" : "Único",
+      "nombre" : "Colmillo Alfa",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "jefe" : "alphaWolf",
+        "nombreJefe" : "Lobo alfa",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 2.0499999999999998,
+          "attackSpeed" : 0.10000000000000001,
+          "critMultiplier" : 0.16
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "poison",
+        "arcane"
+      ],
+      "forma" : "runic",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "hex",
+        "nombre" : "Maleficio"
+      },
+      "hueco" : "grip",
+      "id" : "boss.witch.valdemar",
+      "material" : "Único",
+      "nombre" : "Escoba de la Bruja",
+      "nombreHueco" : "Empuñadura",
+      "origen" : {
+        "jefe" : "witch",
+        "nombreJefe" : "Bruja del pozo",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 20,
+          "attackSpeed" : -0.20000000000000001,
+          "defense" : 2.1800000000000002,
+          "maxHP" : 14.550000000000001
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "earth",
+        "earth"
+      ],
+      "forma" : "mace",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "crush",
+        "nombre" : "Aplastamiento"
+      },
+      "hueco" : "head",
+      "id" : "boss.ogre.valdemar",
+      "material" : "Único",
+      "nombre" : "Piedra de molino",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "jefe" : "ogre",
+        "nombreJefe" : "Ogro del molino",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 2.8599999999999999,
+          "critChance" : 0.040000000000000001,
+          "regen" : 0.42999999999999999
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "holy",
+        "shadow"
+      ],
+      "forma" : "ring",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "dark_communion",
+        "nombre" : "Comunión oscura"
+      },
+      "hueco" : "guard",
+      "id" : "boss.abbot.valdemar",
+      "material" : "Único",
+      "nombre" : "Rosario del Abad",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "jefe" : "abbot",
+        "nombreJefe" : "Abad no-muerto",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 23.440000000000001,
+          "attackSpeed" : -0.059999999999999998,
+          "critMultiplier" : 0.17999999999999999,
+          "range" : 8.3900000000000006
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "blood",
+        "storm"
+      ],
+      "forma" : "greatsword",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "carnage",
+        "nombre" : "Carnicería"
+      },
+      "hueco" : "head",
+      "id" : "boss.warlord.valdemar",
+      "material" : "Único",
+      "nombre" : "Hoja del Señor de la Guerra",
+      "nombreHueco" : "Hoja / cabeza",
+      "origen" : {
+        "jefe" : "warlord",
+        "nombreJefe" : "Señor de la guerra orco",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    },
+    {
+      "base" : {
+        "price" : 0,
+        "stats" : {
+          "attack" : 5.6299999999999999,
+          "attackSpeed" : 0.12,
+          "critChance" : 0.059999999999999998,
+          "goldBonus" : 0.17999999999999999
+        },
+        "tier" : 1
+      },
+      "elementos" : [
+        "arcane",
+        "holy",
+        "storm"
+      ],
+      "forma" : "crown",
+      "grupo" : "jefe de la historia",
+      "habilidad" : {
+        "id" : "royal_decree",
+        "nombre" : "Decreto real"
+      },
+      "hueco" : "guard",
+      "id" : "boss.goblinKing.valdemar",
+      "material" : "Único",
+      "nombre" : "Corona del Rey Goblin",
+      "nombreHueco" : "Guarda",
+      "origen" : {
+        "jefe" : "goblinKing",
+        "nombreJefe" : "Rey Goblin",
+        "tipo" : "jefe (historia de Valdemar)"
+      },
+      "unica" : true
+    }
+  ],
+  "schemaVersion" : 1
+}

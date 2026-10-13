@@ -21,3 +21,9 @@ tools/Harness/output/
 # Configuración de las cuentas (Supabase): URL y clave del proyecto, no se versiona.
 # Plantilla en backend/SupabaseConfig.example.plist
 src/GameTest1/Resources/SupabaseConfig.plist
+
+# Panel web de administración: dependencias, compilación y configuración local (plantilla en admin/.env.example).
+admin/node_modules/
+admin/dist/
+admin/.env.local
+admin/.env.*.local

@@ -116,7 +116,7 @@ extension PlayerProfile {
         run.name = hero.name
         run.appearance = hero.appearance
         run.hasChosenRace = true
-        run.gold = 50
+        run.gold = Int(TunedData.current.economy.arenaStartingGold)  // 50 (`economy.arenaStartingGold`)
         run.minerals = [:]
         run.parts = [:]
         run.discoveredAbilities = hero.discoveredAbilities

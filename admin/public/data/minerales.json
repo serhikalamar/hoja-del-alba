@@ -1,0 +1,187 @@
+{
+  "familias" : [
+    {
+      "continente" : "valdemar",
+      "minerales" : [
+        {
+          "id" : "copper",
+          "peso" : 35
+        },
+        {
+          "id" : "iron",
+          "peso" : 27
+        },
+        {
+          "id" : "silver",
+          "peso" : 20
+        },
+        {
+          "id" : "gold",
+          "peso" : 12
+        },
+        {
+          "id" : "emerald",
+          "peso" : 6
+        }
+      ],
+      "nombre" : "Reino de Valdemar"
+    }
+  ],
+  "generado" : "make datos (Harness exportar-datos): valores del código, no editar a mano",
+  "minerales" : [
+    {
+      "base" : {
+        "dropWeight" : 30,
+        "stats" : {
+          "attack" : 2
+        },
+        "value" : 2
+      },
+      "continentes" : [
+        "valdemar"
+      ],
+      "id" : "copper",
+      "nombre" : "Cobre",
+      "rareza" : 1
+    },
+    {
+      "base" : {
+        "dropWeight" : 22,
+        "stats" : {
+          "defense" : 2
+        },
+        "value" : 3
+      },
+      "continentes" : [
+        "valdemar"
+      ],
+      "id" : "iron",
+      "nombre" : "Hierro",
+      "rareza" : 2
+    },
+    {
+      "base" : {
+        "dropWeight" : 15,
+        "stats" : {
+          "attackSpeed" : 0.050000000000000003
+        },
+        "value" : 5
+      },
+      "continentes" : [
+        "valdemar"
+      ],
+      "id" : "silver",
+      "nombre" : "Plata",
+      "rareza" : 3
+    },
+    {
+      "base" : {
+        "dropWeight" : 10,
+        "stats" : {
+          "goldBonus" : 0.040000000000000001
+        },
+        "value" : 8
+      },
+      "continentes" : [
+        "valdemar"
+      ],
+      "id" : "gold",
+      "nombre" : "Oro",
+      "rareza" : 4
+    },
+    {
+      "base" : {
+        "dropWeight" : 8,
+        "stats" : {
+          "regen" : 0.40000000000000002
+        },
+        "value" : 12
+      },
+      "continentes" : [
+        "valdemar"
+      ],
+      "id" : "emerald",
+      "nombre" : "Esmeralda",
+      "rareza" : 5
+    },
+    {
+      "base" : {
+        "dropWeight" : 6,
+        "stats" : {
+          "range" : 3
+        },
+        "value" : 16
+      },
+      "continentes" : [
+
+      ],
+      "id" : "sapphire",
+      "nombre" : "Zafiro",
+      "rareza" : 6
+    },
+    {
+      "base" : {
+        "dropWeight" : 4,
+        "stats" : {
+          "critChance" : 0.029999999999999999
+        },
+        "value" : 24
+      },
+      "continentes" : [
+
+      ],
+      "id" : "ruby",
+      "nombre" : "Rubí",
+      "rareza" : 7
+    },
+    {
+      "base" : {
+        "dropWeight" : 3,
+        "stats" : {
+          "lifesteal" : 0.02
+        },
+        "value" : 32
+      },
+      "continentes" : [
+
+      ],
+      "id" : "amethyst",
+      "nombre" : "Amatista",
+      "rareza" : 8
+    },
+    {
+      "base" : {
+        "dropWeight" : 1.5,
+        "stats" : {
+          "critMultiplier" : 0.12
+        },
+        "value" : 50
+      },
+      "continentes" : [
+
+      ],
+      "id" : "diamond",
+      "nombre" : "Diamante",
+      "rareza" : 9
+    },
+    {
+      "base" : {
+        "dropWeight" : 0.5,
+        "stats" : {
+          "attack" : 2,
+          "defense" : 2,
+          "maxHP" : 12
+        },
+        "value" : 80
+      },
+      "continentes" : [
+
+      ],
+      "id" : "mithril",
+      "nombre" : "Mithril",
+      "rareza" : 10
+    }
+  ],
+  "nota" : "dropWeight solo vale para la arena; en la historia salen las familias (economy.continentLootWeights).",
+  "schemaVersion" : 1
+}

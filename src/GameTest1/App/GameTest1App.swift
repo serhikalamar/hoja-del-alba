@@ -5,6 +5,8 @@ struct GameTest1App: App {
     @State private var store = GameStore()
     /// Cuenta y guardado en la nube (sin configuración de Supabase, no hace nada).
     @State private var account = AccountManager()
+    /// Ajustes en vivo publicados desde el panel de administración (sin configuración de Supabase, no hace nada).
+    @State private var remoteConfig = RemoteConfig()
     @Environment(\.scenePhase) private var scenePhase
 
     var body: some Scene {
@@ -12,7 +14,11 @@ struct GameTest1App: App {
             RootView()
                 .environment(store)
                 .environment(account)
-                .onAppear { account.attach(to: store) }
+                .environment(remoteConfig)
+                .onAppear {
+                    remoteConfig.attach(to: store)
+                    account.attach(to: store)
+                }
             #if DEBUG
                 .onAppear { DebugLaunch.apply(to: store) }
             #endif
@@ -29,7 +35,10 @@ struct GameTest1App: App {
         #endif
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { store.appWentToBackground() }
-            if phase == .active { account.scheduleSync(after: 1) }
+            if phase == .active {
+                account.scheduleSync(after: 1)
+                remoteConfig.appBecameActive()
+            }
         }
     }
 }

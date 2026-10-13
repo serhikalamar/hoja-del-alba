@@ -35,7 +35,10 @@ public enum ValdemarQuests {
     /// Recompensas (balance, B1, medido con `make historia`): las de fuera del pueblo dan ~55 % de la XP y ~40 % del
     /// oro de la primera versión, para llegar al patio con nivel ~9 y que el oro de la forja pese.
     /// Textos de `assets/story/valdemar.md` §5 (story-writer).
-    public static let all: [Quest] = [
+    public static var all: [Quest] { TunedData.current.quests }
+
+    /// Las misiones del código (recompensas sin ajustes; las del panel: `quests.<id>`).
+    static let baseQuests: [Quest] = [
         Quest(
             id: liberar, giverID: captainID,
             title: "La noche sin luna",

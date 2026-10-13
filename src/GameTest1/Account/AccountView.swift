@@ -57,6 +57,7 @@ extension View {
 
 struct AccountPanel: View {
     @Environment(AccountManager.self) private var account: AccountManager?
+    @Environment(RemoteConfig.self) private var remoteConfig: RemoteConfig?
     @Environment(GameStore.self) private var store
     let close: () -> Void
 
@@ -84,6 +85,9 @@ struct AccountPanel: View {
                             } else {
                                 signedOut(account)
                             }
+                        }
+                        if let line = remoteConfig?.statusLine {
+                            note(line, color: Theme.textDim.opacity(0.7), size: 9)
                         }
                     }
                     .padding(16)

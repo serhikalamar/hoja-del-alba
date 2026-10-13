@@ -1,0 +1,384 @@
+{
+  "generado" : "make datos (Harness exportar-datos): valores del código, no editar a mano",
+  "misiones" : [
+    {
+      "areas" : [
+
+      ],
+      "base" : {
+        "gold" : 50,
+        "minerals" : {
+
+        },
+        "xp" : 172
+      },
+      "daMision" : "capitanGuardia",
+      "id" : "valdemar.liberar",
+      "monstruos" : [
+
+      ],
+      "nombreDaMision" : "Capitán Rodrigo Vela",
+      "objetivos" : [
+        "Rescata a los aldeanos: N/6"
+      ],
+      "resumen" : "Libera las calles de Valdehierro y rescata a sus seis aldeanos.",
+      "titulo" : "La noche sin luna"
+    },
+    {
+      "areas" : [
+        "valdemar.huertos"
+      ],
+      "base" : {
+        "gold" : 50,
+        "minerals" : {
+          "silver" : 2
+        },
+        "xp" : 100
+      },
+      "daMision" : "tomas",
+      "id" : "valdemar.molino",
+      "monstruos" : [
+        "zombieFarmer",
+        "ogre"
+      ],
+      "nombreDaMision" : "Tomás",
+      "objetivos" : [
+        "Granjeros zombi en los Huertos: N/6",
+        "Derrota al Ogro del molino"
+      ],
+      "resumen" : "Tomás: limpia de zombis los Huertos del Molino y echa al Ogro del molino viejo.",
+      "titulo" : "El molino de mi padre"
+    },
+    {
+      "areas" : [
+        "valdemar.robleda"
+      ],
+      "base" : {
+        "gold" : 50,
+        "minerals" : {
+          "iron" : 3
+        },
+        "xp" : 100
+      },
+      "daMision" : "bruno",
+      "id" : "valdemar.caza_mayor",
+      "monstruos" : [
+        "wolf",
+        "alphaWolf"
+      ],
+      "nombreDaMision" : "Bruno",
+      "objetivos" : [
+        "Lobos grises en Robleda: N/6",
+        "Derrota al Lobo alfa"
+      ],
+      "resumen" : "Bruno: caza lobos en el Bosque de Robleda y acaba con el Lobo alfa.",
+      "titulo" : "Caza mayor"
+    },
+    {
+      "areas" : [
+        "valdemar.robleda"
+      ],
+      "base" : {
+        "gold" : 40,
+        "minerals" : {
+
+        },
+        "xp" : 75
+      },
+      "daMision" : "elena",
+      "id" : "valdemar.hilos",
+      "monstruos" : [
+        "bandit",
+        "mercenary"
+      ],
+      "nombreDaMision" : "Elena",
+      "objetivos" : [
+        "Bandidos o mercenarios en Robleda: N/8",
+        "Vuelve con Elena"
+      ],
+      "resumen" : "Elena: desmonta el campamento bandido de Robleda y vuelve con lo que encuentres.",
+      "titulo" : "Tirar del hilo"
+    },
+    {
+      "areas" : [
+        "mayor"
+      ],
+      "base" : {
+        "gold" : 40,
+        "minerals" : {
+          "gold" : 1
+        },
+        "xp" : 95
+      },
+      "daMision" : "elena",
+      "id" : "valdemar.alcalde",
+      "monstruos" : [
+
+      ],
+      "nombreDaMision" : "Elena",
+      "objetivos" : [
+        "Despeja la casa del alcalde (barrio este)",
+        "Lee la carta del escritorio"
+      ],
+      "resumen" : "Elena: entra en la casa del alcalde Fausto y averigua qué esconde.",
+      "titulo" : "La casa del alcalde"
+    },
+    {
+      "areas" : [
+
+      ],
+      "base" : {
+        "gold" : 40,
+        "minerals" : {
+          "emerald" : 1
+        },
+        "xp" : 65
+      },
+      "daMision" : "iris",
+      "id" : "valdemar.pociones",
+      "monstruos" : [
+        "slime",
+        "fireSlime",
+        "iceSlime"
+      ],
+      "nombreDaMision" : "Iris",
+      "objetivos" : [
+        "Limos de cualquier color: N/6"
+      ],
+      "resumen" : "Iris: aplasta seis limos de cualquier color en Valdemar.",
+      "titulo" : "Limo fresco"
+    },
+    {
+      "areas" : [
+        "valdemar.abadia"
+      ],
+      "base" : {
+        "gold" : 80,
+        "minerals" : {
+          "emerald" : 2
+        },
+        "xp" : 130
+      },
+      "daMision" : "anselmo",
+      "id" : "valdemar.abadia",
+      "monstruos" : [
+        "skeleton",
+        "skeletonArcher",
+        "ghoul",
+        "wraith"
+      ],
+      "nombreDaMision" : "Fray Anselmo",
+      "objetivos" : [
+        "No-muertos en la abadía: N/10",
+        "Supera la Cripta de la abadía"
+      ],
+      "resumen" : "Fray Anselmo: limpia el cementerio de Valsombra y baja a la cripta de la abadía.",
+      "titulo" : "Los muertos de Valsombra"
+    },
+    {
+      "areas" : [
+        "valdemar.pedregal"
+      ],
+      "base" : {
+        "gold" : 80,
+        "minerals" : {
+          "gold" : 2
+        },
+        "xp" : 100
+      },
+      "daMision" : "capitanGuardia",
+      "id" : "valdemar.pedregal",
+      "monstruos" : [
+        "orc",
+        "berserker",
+        "warlord"
+      ],
+      "nombreDaMision" : "Capitán Rodrigo Vela",
+      "objetivos" : [
+        "Orcos en el Pedregal: N/6",
+        "Derrota al Señor de la guerra orco"
+      ],
+      "resumen" : "Capitán Vela: deja al Rey Goblin sin orcos en las Colinas del Pedregal.",
+      "titulo" : "Hachas en el Pedregal"
+    },
+    {
+      "areas" : [
+
+      ],
+      "base" : {
+        "gold" : 0,
+        "minerals" : {
+
+        },
+        "xp" : 505
+      },
+      "daMision" : "capitanGuardia",
+      "id" : "valdemar.rey_goblin",
+      "monstruos" : [
+        "goblinKing"
+      ],
+      "nombreDaMision" : "Capitán Rodrigo Vela",
+      "objetivos" : [
+        "Derrota al Rey Goblin",
+        "Habla con la princesa Aurora"
+      ],
+      "resumen" : "Sube al castillo, derrota al Rey Goblin y libera a la princesa Aurora.",
+      "titulo" : "El trono de Valdehierro"
+    },
+    {
+      "areas" : [
+
+      ],
+      "base" : {
+        "gold" : 0,
+        "minerals" : {
+
+        },
+        "xp" : 150
+      },
+      "daMision" : "smithy",
+      "id" : "valdemar.paso_norte",
+      "monstruos" : [
+
+      ],
+      "nombreDaMision" : "el herrero",
+      "objetivos" : [
+        "Ve a la forja: el herrero quiere verte."
+      ],
+      "resumen" : "El herrero de la forja quiere hablar contigo.",
+      "titulo" : "Fuego Hollín"
+    },
+    {
+      "areas" : [
+
+      ],
+      "base" : {
+        "gold" : 60,
+        "minerals" : {
+          "silver" : 2
+        },
+        "xp" : 100
+      },
+      "daMision" : "capitanGuardia",
+      "id" : "valdemar.calabozos",
+      "monstruos" : [
+
+      ],
+      "nombreDaMision" : "Capitán Rodrigo Vela",
+      "objetivos" : [
+        "Supera los Calabozos del castillo"
+      ],
+      "resumen" : "Capitán Vela: limpia los calabozos del castillo. Si se vuelven a llenar, vuelve.",
+      "titulo" : "Ronda por los calabozos"
+    }
+  ],
+  "rescates" : [
+    {
+      "area" : "bakery",
+      "base" : {
+        "gold" : 25,
+        "minerals" : {
+          "copper" : 3,
+          "iron" : 1
+        }
+      },
+      "id" : "marta",
+      "nombre" : "Marta, la panadera",
+      "nombreArea" : "Panadería",
+      "papel" : "aldeano"
+    },
+    {
+      "area" : "weaver",
+      "base" : {
+        "gold" : 30,
+        "minerals" : {
+          "copper" : 1,
+          "silver" : 2
+        }
+      },
+      "id" : "elena",
+      "nombre" : "Elena, la tejedora",
+      "nombreArea" : "Casa de la tejedora",
+      "papel" : "aldeano"
+    },
+    {
+      "area" : "mill",
+      "base" : {
+        "gold" : 35,
+        "minerals" : {
+          "copper" : 3,
+          "emerald" : 1
+        }
+      },
+      "id" : "tomas",
+      "nombre" : "Tomás, el molinero",
+      "nombreArea" : "Casa del molinero",
+      "papel" : "aldeano"
+    },
+    {
+      "area" : "chapel",
+      "base" : {
+        "gold" : 40,
+        "minerals" : {
+          "emerald" : 1,
+          "silver" : 2
+        }
+      },
+      "id" : "anselmo",
+      "nombre" : "Fray Anselmo",
+      "nombreArea" : "Capilla",
+      "papel" : "aldeano",
+      "pieza" : {
+        "id" : "head.mace.iron",
+        "nombre" : "Bola de maza de Hierro"
+      }
+    },
+    {
+      "area" : "inn",
+      "base" : {
+        "gold" : 45,
+        "minerals" : {
+          "gold" : 1,
+          "iron" : 2
+        }
+      },
+      "id" : "bruno",
+      "nombre" : "Bruno, el posadero",
+      "nombreArea" : "Posada del Jabalí",
+      "papel" : "aldeano"
+    },
+    {
+      "area" : "alchemist",
+      "base" : {
+        "gold" : 50,
+        "minerals" : {
+          "emerald" : 1,
+          "silver" : 1
+        }
+      },
+      "id" : "iris",
+      "nombre" : "Iris, la alquimista",
+      "nombreArea" : "Casa de la alquimista",
+      "papel" : "aldeano"
+    },
+    {
+      "area" : "castle",
+      "base" : {
+        "gold" : 200,
+        "minerals" : {
+          "emerald" : 2,
+          "gold" : 2
+        }
+      },
+      "id" : "princess",
+      "nombre" : "Princesa Aurora",
+      "nombreArea" : "Salón del trono",
+      "papel" : "princesa",
+      "pieza" : {
+        "id" : "legend.dawn",
+        "nombre" : "Hoja del Alba"
+      }
+    }
+  ],
+  "schemaVersion" : 1
+}

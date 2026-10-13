@@ -61,11 +61,15 @@ public enum ShopGenerator {
             let item = ArmorCatalog.makeShopItem(style, tier: tierCap, dye: dye)
             offers.append(ShopOffer(kind: .equipment(item), price: item.value))
         }
-        offers.append(ShopOffer(kind: .potion(healFraction: 0.5), price: 15 + 5 * level))
+        // Poción: cura el 50 % y cuesta 15 + 5 × nivel (`economy.potionHeal`, `potionBasePrice`, `potionPricePerLevel`).
+        let k = TunedData.current.economy
+        offers.append(ShopOffer(kind: .potion(healFraction: k.potionHeal), price: Int(k.potionBasePrice) + Int(k.potionPricePerLevel) * level))
         return offers
     }
 
+    /// 10 + 10 × renovaciones (`economy.rerollBaseCost`, `rerollCostStep`).
     public static func rerollCost(rerollsSoFar: Int) -> Int {
-        10 + 10 * rerollsSoFar
+        let k = TunedData.current.economy
+        return Int(k.rerollBaseCost) + Int(k.rerollCostStep) * rerollsSoFar
     }
 }

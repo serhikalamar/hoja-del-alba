@@ -269,16 +269,15 @@ final class BattleSession: CombatDelegate {
         if let story {
             // Historia: experiencia y oro de verdad, y cuenta para las misiones (`kill`, `defeat`).
             let level = story.level
-            goldEarned += store.profile.earnGold(StoryEconomy.killGold(level: level, isBoss: enemy.isBoss))
+            goldEarned += store.profile.earnGold(StoryEconomy.killGold(enemy, level: level))
             // Mazmorra repetible: los normales, con `Leveling.respawningMultiplier`; el jefe, entero.
-            let xp = Leveling.storyXPForKill(enemyLevel: level, heroLevel: store.profile.characterLevel, isBoss: enemy.isBoss,
-                                             respawns: true)
+            let xp = Leveling.storyXPForKill(enemy, level: level, heroLevel: store.profile.characterLevel, respawns: true)
             if store.profile.gainXP(xp) > 0 { levelUp() }
             store.profile.record(.killed(enemyID: enemy.id, areaID: story.id))
             return
         }
         // Experiencia de la partida (se pierde al acabar, como todo en la arena).
-        let xp = Leveling.xpForKill(enemyLevel: Arena.enemyLevel(wave: wave), heroLevel: store.profile.characterLevel, isBoss: enemy.isBoss)
+        let xp = Leveling.xpForKill(enemy, level: Arena.enemyLevel(wave: wave), heroLevel: store.profile.characterLevel)
         if store.profile.gainXP(xp) > 0 { levelUp() }
     }
 

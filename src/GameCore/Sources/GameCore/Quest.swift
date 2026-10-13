@@ -67,7 +67,8 @@ public struct Quest: Identifiable, Sendable {
     /// Todas deben cumplirse para que se ofrezca ("!" sobre el NPC).
     public let requires: [StoryCondition]
     public let objectives: [QuestObjective]
-    public let reward: QuestReward
+    /// Ajustable: `quests.<id>` (xp, oro, minerales).
+    public internal(set) var reward: QuestReward
     /// Se acepta sola al cumplirse los requisitos (`valdemar.liberar`).
     public let autoAccept: Bool
     /// Se entrega sola al cumplir el último objetivo, sin volver a hablar con quien la dio

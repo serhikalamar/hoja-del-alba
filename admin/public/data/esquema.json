@@ -1,0 +1,671 @@
+{
+  "apartados" : {
+    "areas" : {
+      "campos" : [
+        {
+          "clave" : "level",
+          "codigo" : "AreaMap.level",
+          "descripcion" : "Nivel de los monstruos fuera de zonas (interiores y campo)",
+          "max" : 60,
+          "min" : 1,
+          "tipo" : "entero"
+        }
+      ],
+      "clave" : "id de área (zonas.json · areas)",
+      "descripcion" : "Áreas"
+    },
+    "armor" : {
+      "campos" : [
+        {
+          "clave" : "price",
+          "codigo" : "ArmorStyle.forgePrice",
+          "descripcion" : "Oro base de la forja a tier 1 (coste = precio × poder^1,3 + 5)",
+          "max" : 10000,
+          "min" : 0,
+          "tipo" : "número"
+        }
+      ],
+      "clave" : "id de diseño (piezas.json · armaduras)",
+      "descripcion" : "Diseños de armadura",
+      "mapas" : {
+        "stats" : "mapa clave de estadística → valor final (ver `estadisticas`); solo cambian las que vienen"
+      }
+    },
+    "dungeons" : {
+      "campos" : [
+        {
+          "clave" : "level",
+          "codigo" : "StoryDungeon.level",
+          "descripcion" : "Nivel fijo de los monstruos de la mazmorra",
+          "max" : 60,
+          "min" : 1,
+          "tipo" : "entero"
+        }
+      ],
+      "clave" : "id de mazmorra (zonas.json · mazmorras)",
+      "descripcion" : "Mazmorras de historia",
+      "mapas" : {
+        "bossEscort" : "mapa id de monstruo → cuántos (0-40, sin jefes)",
+        "waves" : "lista de 1-10 oleadas; cada una, mapa id de monstruo → cuántos (0-40, sin jefes, al menos uno)"
+      }
+    },
+    "economy" : {
+      "campos" : [
+        {
+          "clave" : "mineralDropRate",
+          "codigo" : "Mineral.dropRateMultiplier",
+          "descripcion" : "Multiplica la probabilidad de soltar mineral de los monstruos normales",
+          "max" : 5,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "arenaStartingGold",
+          "codigo" : "PlayerProfile.arenaRun · gold",
+          "descripcion" : "Oro al empezar una partida de arena",
+          "max" : 100000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "arenaRewardBase",
+          "codigo" : "Arena.reward(wave:) = base + porOleada × oleada",
+          "descripcion" : "Oro fijo por superar una oleada de la arena",
+          "max" : 10000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "arenaRewardPerWave",
+          "codigo" : "Arena.reward(wave:)",
+          "descripcion" : "Oro extra por número de oleada",
+          "max" : 1000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "arenaWavesPerShopLevel",
+          "codigo" : "Arena.shopLevel(wave:)",
+          "descripcion" : "Oleadas por cada nivel de la forja de la arena (nivel = oleada ÷ esto)",
+          "max" : 10,
+          "min" : 1,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "wallWave",
+          "codigo" : "Arena.wallWave",
+          "descripcion" : "Oleada del muro: desde ella los monstruos suben 2 niveles por oleada",
+          "max" : 200,
+          "min" : 5,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "arenaBossXPMultiplier",
+          "codigo" : "Leveling.arenaBossMultiplier",
+          "descripcion" : "Multiplicador de XP de los jefes en la arena",
+          "max" : 50,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "storyBossXPMultiplier",
+          "codigo" : "Leveling.storyBossMultiplier",
+          "descripcion" : "Multiplicador de XP de los jefes en la historia",
+          "max" : 50,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "respawningXPMultiplier",
+          "codigo" : "Leveling.respawningMultiplier",
+          "descripcion" : "Multiplicador de XP de los monstruos que reaparecen (campo y mazmorras repetibles)",
+          "max" : 10,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "xpCurveBase",
+          "codigo" : "Leveling.xpToNext",
+          "descripcion" : "XP para subir de nivel = base × nivel^exponente + fija",
+          "max" : 1000,
+          "min" : 1,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "xpCurveExponent",
+          "codigo" : "Leveling.xpToNext",
+          "descripcion" : "Exponente de la curva de XP",
+          "max" : 3,
+          "min" : 1,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "xpCurveFlat",
+          "codigo" : "Leveling.xpToNext",
+          "descripcion" : "Parte fija de la XP por nivel",
+          "max" : 1000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "levelHPGrowth",
+          "codigo" : "Leveling.levelBonus",
+          "descripcion" : "Vida extra por nivel (fracción de la vida de la raza)",
+          "max" : 1,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "levelAttackGrowth",
+          "codigo" : "Leveling.levelBonus",
+          "descripcion" : "Ataque extra por nivel (fracción del ataque de la raza)",
+          "max" : 1,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "levelDefensePerLevel",
+          "codigo" : "Leveling.levelBonus",
+          "descripcion" : "Defensa extra por nivel",
+          "max" : 10,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "enemyHPPerLevel",
+          "codigo" : "EnemyDefinition.stats(level:)",
+          "descripcion" : "Vida extra del monstruo por cada nivel por encima del suyo",
+          "max" : 1,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "enemyHPDifficulty",
+          "codigo" : "EnemyDefinition.stats(level:)",
+          "descripcion" : "Vida extra del monstruo por nivel de juego (dificultad global)",
+          "max" : 1,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "enemyDamagePerLevel",
+          "codigo" : "EnemyDefinition.stats(level:)",
+          "descripcion" : "Daño extra del monstruo por cada nivel por encima del suyo",
+          "max" : 1,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "enemyDamageDifficulty",
+          "codigo" : "EnemyDefinition.stats(level:)",
+          "descripcion" : "Daño extra del monstruo por nivel de juego (dificultad global)",
+          "max" : 1,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "enemySpeedPerLevel",
+          "codigo" : "EnemyDefinition.stats(level:)",
+          "descripcion" : "Velocidad extra del monstruo por cada nivel por encima del suyo",
+          "max" : 0.20000000000000001,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "storyKillGoldBase",
+          "codigo" : "StoryEconomy.killGold = base + nivel ÷ nivelesPorMoneda (+ jefe)",
+          "descripcion" : "Oro fijo por monstruo en la historia",
+          "max" : 1000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "storyKillGoldLevelsPerCoin",
+          "codigo" : "StoryEconomy.killGold",
+          "descripcion" : "Niveles de zona por cada moneda extra por monstruo",
+          "max" : 60,
+          "min" : 1,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "storyBossGoldPerLevel",
+          "codigo" : "StoryEconomy.bossGoldPerLevel",
+          "descripcion" : "Oro extra de un jefe de la historia por nivel",
+          "max" : 1000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "storyZoneGoldPerLevel",
+          "codigo" : "StoryEconomy.zoneGold",
+          "descripcion" : "Oro por nivel al liberar una zona por primera vez",
+          "max" : 1000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "storyDungeonRepeatPartChance",
+          "codigo" : "StoryDungeon.repeatPartChance",
+          "descripcion" : "Probabilidad de que el jefe de una mazmorra repetida suelte su pieza",
+          "max" : 1,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "forgeGoldBase",
+          "codigo" : "WeaponRecipe.goldCost",
+          "descripcion" : "Oro fijo del ritual de un arma (precio = base + porTier × tier)",
+          "max" : 10000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "forgeGoldPerTier",
+          "codigo" : "WeaponRecipe.goldCost",
+          "descripcion" : "Oro del ritual por tier del arma",
+          "max" : 10000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "rerollBaseCost",
+          "codigo" : "ShopGenerator.rerollCost",
+          "descripcion" : "Precio de la primera renovación de la forja",
+          "max" : 10000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "rerollCostStep",
+          "codigo" : "ShopGenerator.rerollCost",
+          "descripcion" : "Cuánto sube cada renovación siguiente",
+          "max" : 10000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "potionBasePrice",
+          "codigo" : "ShopGenerator.offers · poción",
+          "descripcion" : "Precio fijo de la poción (precio = base + porNivel × nivel de la forja)",
+          "max" : 10000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "potionPricePerLevel",
+          "codigo" : "ShopGenerator.offers · poción",
+          "descripcion" : "Precio de la poción por nivel de la forja",
+          "max" : 1000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "potionHeal",
+          "codigo" : "ShopGenerator.offers · healFraction",
+          "descripcion" : "Fracción de la vida máxima que cura la poción",
+          "max" : 1,
+          "min" : 0.050000000000000003,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "continentLootWeights",
+          "codigo" : "Continent.familyWeights",
+          "descripcion" : "Peso de cada mineral de la familia del continente (de común a muy rara; deben sumar más de 0)",
+          "max" : 100,
+          "min" : 0,
+          "tipo" : "lista de 5 números"
+        }
+      ],
+      "descripcion" : "Números globales (un solo objeto, sin ids)"
+    },
+    "enemies" : {
+      "campos" : [
+        {
+          "clave" : "hp",
+          "codigo" : "EnemyDefinition.hp",
+          "descripcion" : "Vida en su nivel de aparición",
+          "max" : 1000000,
+          "min" : 1,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "damage",
+          "codigo" : "EnemyDefinition.damage",
+          "descripcion" : "Daño por golpe o proyectil en su nivel de aparición",
+          "max" : 100000,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "speed",
+          "codigo" : "EnemyDefinition.speed",
+          "descripcion" : "Velocidad de movimiento (puntos/s; el héroe va a 125)",
+          "max" : 250,
+          "min" : 10,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "attackCooldown",
+          "codigo" : "EnemyDefinition.attackCooldown",
+          "descripcion" : "Segundos entre ataques (mínimo 0,8: el más rápido del juego)",
+          "max" : 10,
+          "min" : 0.80000000000000004,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "attackRange",
+          "codigo" : "EnemyDefinition.attackRange",
+          "descripcion" : "Alcance del ataque: cuerpo a cuerpo y embestida 4-40; a distancia 60-300",
+          "max" : 300,
+          "min" : 4,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "level",
+          "codigo" : "EnemyDefinition.level",
+          "descripcion" : "Nivel de aparición: en qué oleadas de la arena sale y desde dónde escala",
+          "max" : 60,
+          "min" : 1,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "dropChance",
+          "codigo" : "EnemyDefinition.dropChance",
+          "descripcion" : "Probabilidad de soltar mineral en cada tirada (1 = siempre, como los jefes)",
+          "max" : 1,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "dropRolls",
+          "codigo" : "EnemyDefinition.dropRolls",
+          "descripcion" : "Tiradas de mineral al morir",
+          "max" : 10,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "xpMultiplier",
+          "codigo" : "EnemyDefinition.xpMultiplier",
+          "descripcion" : "Multiplicador de la experiencia que da",
+          "max" : 10,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "goldMultiplier",
+          "codigo" : "EnemyDefinition.goldMultiplier",
+          "descripcion" : "Multiplicador del oro que da en la historia (en la arena se cobra por oleada)",
+          "max" : 10,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "storyHPMultiplier",
+          "codigo" : "EnemyDefinition.storyBossTuning[id].hp",
+          "descripcion" : "Solo jefes: multiplicador de vida en la historia",
+          "max" : 10,
+          "min" : 0.10000000000000001,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "storyDamageMultiplier",
+          "codigo" : "EnemyDefinition.storyBossTuning[id].damage",
+          "descripcion" : "Solo jefes: multiplicador de daño en la historia",
+          "max" : 10,
+          "min" : 0.10000000000000001,
+          "tipo" : "número"
+        }
+      ],
+      "clave" : "id de monstruo (enemigos.json)",
+      "descripcion" : "Monstruos y jefes"
+    },
+    "minerals" : {
+      "campos" : [
+        {
+          "clave" : "value",
+          "codigo" : "Mineral.value",
+          "descripcion" : "Valor en oro por unidad",
+          "max" : 100000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "dropWeight",
+          "codigo" : "Mineral.dropPercent",
+          "descripcion" : "Peso en el botín de la arena (los 10 suman 100 de serie)",
+          "max" : 100,
+          "min" : 0,
+          "tipo" : "número"
+        }
+      ],
+      "clave" : "id de mineral (minerales.json)",
+      "descripcion" : "Minerales",
+      "mapas" : {
+        "stats" : "mapa clave de estadística → bonificación por unidad"
+      }
+    },
+    "parts" : {
+      "campos" : [
+        {
+          "clave" : "price",
+          "codigo" : "WeaponPart.price",
+          "descripcion" : "Precio en la forja (las únicas no se venden: 0)",
+          "max" : 1000000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "tier",
+          "codigo" : "WeaponPart.tier",
+          "descripcion" : "Tier: desde cuándo la vende la forja y precio del ritual",
+          "max" : 6,
+          "min" : 1,
+          "tipo" : "entero"
+        }
+      ],
+      "clave" : "id de pieza (piezas.json · piezas)",
+      "descripcion" : "Piezas de arma",
+      "mapas" : {
+        "stats" : "mapa clave de estadística → valor final (ver `estadisticas`); solo cambian las que vienen"
+      }
+    },
+    "quests" : {
+      "campos" : [
+        {
+          "clave" : "xp",
+          "codigo" : "QuestReward.xp",
+          "descripcion" : "Experiencia (solo misiones)",
+          "max" : 1000000,
+          "min" : 0,
+          "tipo" : "entero"
+        },
+        {
+          "clave" : "gold",
+          "codigo" : "QuestReward.gold / Reward.gold",
+          "descripcion" : "Oro",
+          "max" : 1000000,
+          "min" : 0,
+          "tipo" : "entero"
+        }
+      ],
+      "clave" : "id de misión (misiones.json · misiones)",
+      "descripcion" : "Recompensas de misión",
+      "mapas" : {
+        "minerals" : "mapa id de mineral → unidades (0-99); si viene, sustituye a todos"
+      }
+    },
+    "rescues" : {
+      "campos" : [
+        {
+          "clave" : "gold",
+          "codigo" : "QuestReward.gold / Reward.gold",
+          "descripcion" : "Oro",
+          "max" : 1000000,
+          "min" : 0,
+          "tipo" : "entero"
+        }
+      ],
+      "clave" : "id de aldeano o princesa (misiones.json · rescates)",
+      "descripcion" : "Recompensas de rescate (sin xp)",
+      "mapas" : {
+        "minerals" : "mapa id de mineral → unidades (0-99); si viene, sustituye a todos"
+      }
+    },
+    "roulette" : {
+      "campos" : [
+        {
+          "clave" : "weight",
+          "codigo" : "CraftQuality.weight",
+          "descripcion" : "Peso base de la casilla",
+          "max" : 100,
+          "min" : 0,
+          "tipo" : "número"
+        },
+        {
+          "clave" : "multiplier",
+          "codigo" : "CraftQuality.multiplier",
+          "descripcion" : "Multiplicador de estadísticas y valor del objeto",
+          "max" : 5,
+          "min" : 0.10000000000000001,
+          "tipo" : "número"
+        }
+      ],
+      "clave" : "id de casilla (economia.json · ruleta)",
+      "descripcion" : "Ruleta de la forja"
+    },
+    "spawns" : {
+      "clave" : "id de spawn (zonas.json)",
+      "descripcion" : "Qué monstruo sale en ese punto",
+      "valor" : "id de monstruo que no sea jefe; los jefes no se mueven. Si una misión de «mata N» se queda sin sus monstruos en su área, se deshacen los cambios de esa área"
+    },
+    "zones" : {
+      "campos" : [
+        {
+          "clave" : "level",
+          "codigo" : "Zone.level",
+          "descripcion" : "Nivel de los monstruos de la zona (y oro al liberarla)",
+          "max" : 60,
+          "min" : 1,
+          "tipo" : "entero"
+        }
+      ],
+      "clave" : "id de zona (zonas.json · areas[].zonas)",
+      "descripcion" : "Zonas"
+    }
+  },
+  "documento" : {
+    "note" : "texto opcional: nota de quien publica",
+    "schemaVersion" : "entero: versión del formato (1)",
+    "version" : "entero opcional: versión publicada en el panel"
+  },
+  "estadisticas" : [
+    {
+      "clave" : "maxHP",
+      "codigo" : "Stats.maxHP",
+      "descripcion" : "Vida máxima",
+      "max" : 2000,
+      "min" : -200,
+      "nombre" : "VIDA",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "attack",
+      "codigo" : "Stats.attack",
+      "descripcion" : "Ataque",
+      "max" : 500,
+      "min" : -50,
+      "nombre" : "ATQ",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "defense",
+      "codigo" : "Stats.defense",
+      "descripcion" : "Defensa",
+      "max" : 200,
+      "min" : -50,
+      "nombre" : "DEF",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "attackSpeed",
+      "codigo" : "Stats.attackSpeed",
+      "descripcion" : "Ataques por segundo (suma)",
+      "max" : 2,
+      "min" : -1,
+      "nombre" : "VEL.ATQ",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "range",
+      "codigo" : "Stats.range",
+      "descripcion" : "Alcance (puntos)",
+      "max" : 80,
+      "min" : -30,
+      "nombre" : "ALCANCE",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "moveSpeed",
+      "codigo" : "Stats.moveSpeed",
+      "descripcion" : "Velocidad de movimiento (puntos/s)",
+      "max" : 60,
+      "min" : -60,
+      "nombre" : "VELOC.",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "critChance",
+      "codigo" : "Stats.critChance",
+      "descripcion" : "Probabilidad de crítico (0,05 = 5 %)",
+      "max" : 0.5,
+      "min" : -0.5,
+      "nombre" : "CRÍTICO",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "critMultiplier",
+      "codigo" : "Stats.critMultiplier",
+      "descripcion" : "Daño crítico extra (0,2 = +20 %)",
+      "max" : 3,
+      "min" : -1,
+      "nombre" : "DAÑO CRÍT.",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "lifesteal",
+      "codigo" : "Stats.lifesteal",
+      "descripcion" : "Robo de vida (0,02 = 2 %)",
+      "max" : 0.20000000000000001,
+      "min" : 0,
+      "nombre" : "ROBO VIDA",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "goldBonus",
+      "codigo" : "Stats.goldBonus",
+      "descripcion" : "Oro extra (0,1 = +10 %)",
+      "max" : 2,
+      "min" : -0.5,
+      "nombre" : "ORO",
+      "tipo" : "número"
+    },
+    {
+      "clave" : "regen",
+      "codigo" : "Stats.regen",
+      "descripcion" : "Vida por segundo",
+      "max" : 20,
+      "min" : 0,
+      "nombre" : "REGEN.",
+      "tipo" : "número"
+    }
+  ],
+  "generado" : "make datos (Harness exportar-datos): valores del código, no editar a mano",
+  "reglas" : [
+    "Todos los campos son opcionales: solo lo que viene cambia.",
+    "Los ids desconocidos se ignoran y los números fuera de rango se recortan (el juego devuelve avisos).",
+    "Los campos de tipo entero se redondean.",
+    "Lo ya forjado o guardado no cambia: un arma conserva sus números."
+  ],
+  "schemaVersion" : 1
+}

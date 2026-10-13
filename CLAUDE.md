@@ -20,6 +20,7 @@ src/
   GameCore/       Paquete Swift con la lógica pura + tests (razas, piezas, habilidades, bestiario, arena, pueblo, guardado)
 assets/           Diseño por áreas: design/, maps/, characters/, art/, story/, balance/ (cada una con su responsable)
 backend/          Cuentas y guardado en la nube (Supabase): migraciones SQL y guía de configuración
+admin/            Panel web de administración (Vite + React + TS): datos de jugadores y balance en vivo
 tools/Harness/    Banco de pruebas sin pantalla: simulación, balance, sprites, mapas, capturas, fichas
 docs/AGENTES.md   Cómo usar los agentes
 project.yml       Proyecto Xcode (XcodeGen) — el .xcodeproj se regenera, no se versiona
@@ -47,6 +48,7 @@ project.yml       Proyecto Xcode (XcodeGen) — el .xcodeproj se regenera, no se
 | Mundo: 6 continentes, historia global, niveles 1-60 | `world-designer` | `world/` | — (no implementa) |
 | Un continente (uno por continente) | `continent-lead` | `world/continentes/<id>/` | — (prepara encargos) |
 | Cuentas y guardado en la nube (Supabase) | `backend-engineer` | `backend/` | `Account/`, `backend/` |
+| Panel web de administración (datos de jugadores, balance en vivo) | `web-admin-developer` | `admin/` (contrato `GameTuning`) | `admin/` |
 | Pruebas | `qa-tester` | — | — (informa) |
 
 Para una petición grande o ambigua, empieza por `game-designer`: devuelve un plan con encargos para cada
@@ -67,6 +69,7 @@ make shop          # tienda del enano: poses del herrero y escena de la forja �
 make shots         # capturas de la escena (pueblo, interiores, arena) → tools/Harness/output/
 make fichas        # regenera las fichas de assets/ desde el código
 make verify        # test + check-town + compilar Mac e iOS (hacerlo antes de dar algo por terminado)
+make admin         # panel web de administración en http://localhost:5174 (make admin-build: tests + compilar)
 make project       # regenerar GameTest1.xcodeproj (OBLIGATORIO tras añadir/quitar/renombrar ficheros)
 make mac           # compilar y abrir la versión de Mac
 ```
