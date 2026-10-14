@@ -6,7 +6,9 @@ import GameCore
 /// `xcrun simctl launch <simulador> com.sergimartinez.gametest1 -pantalla tienda`
 /// Pantallas: `dialogo`, `pausa`, `tienda`, `arena-tienda`, `arena-pausa`, `historia`, `arena`,
 /// `campo` (Huertos del Molino con el pueblo liberado), `diario` (pausa con misiones en curso),
-/// `mapa` (pausa con el mapa del continente), `capitan` (diálogo de misión del Capitán), `cripta` (mazmorra de historia).
+/// `mapa` (pausa con el mapa del continente), `capitan` (diálogo de misión del Capitán), `cripta` (mazmorra de historia),
+/// `perfil` (ficha del personaje desde el retrato del HUD), `mision` (panel del botón "!"), `alcance` (el héroe junto al
+/// Capitán: "…" de al alcance), `paseo` (el héroe camina solo hasta un aldeano tocado), `arena-perfil` (ficha en la arena).
 enum DebugLaunch {
     static func apply(to store: GameStore) {
         let args = ProcessInfo.processInfo.arguments
@@ -39,12 +41,37 @@ enum DebugLaunch {
             debugStoryProgress(store, acceptQuests: false)
             store.startTown(at: (Valdehierro.townID, TilePoint(18, 14)))
             store.explore?.debugSkipDialogs()
-            if let captain = World.npc(ValdemarQuests.captainID) { store.explore?.npcReached(captain) }
+            if let captain = World.npc(ValdemarQuests.captainID) { store.explore?.talk(to: captain) }
+        case "perfil":
+            debugStoryProgress(store)
+            store.startTown(at: (Valdehierro.townID, TilePoint(21, 14)))
+            store.explore?.debugSkipDialogs()
+            store.explore?.openProfile()
+        case "mision":
+            debugStoryProgress(store)
+            store.startTown(at: (Valdehierro.townID, TilePoint(21, 14)))
+            store.explore?.debugSkipDialogs()
+            store.explore?.openQuests()
+        case "alcance":
+            // Junto al Capitán (con su "!"): el HUD con el retrato y el "!", y el "…" de al alcance.
+            debugStoryProgress(store, acceptQuests: false)
+            store.startTown(at: (Valdehierro.townID, TilePoint(19, 14)))
+            store.explore?.debugSkipDialogs()
+        case "paseo":
+            // Toca a un aldeano lejano: el héroe va andando hasta él (la captura sale a medio camino).
+            debugStoryProgress(store)
+            store.startTown(at: (Valdehierro.townID, Valdehierro.town.entry))
+            store.explore?.debugSkipDialogs()
+            if let id = store.explore?.scene.debugFarthestNPC() { store.explore?.interact(with: id) }
         case "cripta":
             debugStoryProgress(store)
             store.startStoryDungeon("valdemar.cripta", from: "valdemar.abadia", at: TilePoint(40, 15))
         case "arena":
             store.startArena()
+        case "arena-perfil":
+            store.startArena()
+            store.battle?.startNextWave()
+            DebugLaunch.openProfile = true
         case "arena-pausa":
             store.startArena()
             store.battle?.startNextWave()
@@ -61,6 +88,8 @@ enum DebugLaunch {
 extension DebugLaunch {
     /// Pestaña inicial de la pausa (`mapa` para abrir el mapa del continente).
     static var pauseTab = ""
+    /// Abrir la ficha del personaje al entrar en la arena (`arena-perfil`).
+    static var openProfile = false
 
     /// Partida avanzada para revisar el modo historia: pueblo liberado, áreas visitadas y algunas misiones en curso.
     static func debugStoryProgress(_ store: GameStore, acceptQuests: Bool = true) {

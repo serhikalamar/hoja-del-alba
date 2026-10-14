@@ -131,6 +131,8 @@ public enum ValdemarDialogue {
     }
     public static func objectiveDone(_ name: String) -> String { "¡Objetivo cumplido! Vuelve con \(name)." }
     public static let roomCleared = "¡Sala despejada! Habla con quien estaba atrapado."
+    /// Al tocar a alguien atrapado (o una pista) con monstruos aún en la sala.
+    public static let roomNotCleared = "¡Primero acaba con los monstruos de la sala!"
     public static let mayorCleared = "¡Sala despejada! Hay una carta sobre el escritorio."
     public static let mayorFirstVisit = "Papeles ardiendo en la chimenea. Del alcalde, ni rastro."
     public static let mayorOpened = "La casa del alcalde ya no está atrancada."

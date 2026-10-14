@@ -38,6 +38,24 @@ func checkValdemar() {
         change(&town)
         store.profile.town = town
     }
+    /// Toca a un NPC como el jugador: si no está en esta área, entra en `areaID`; si está lejos, camina hasta él
+    /// (con la escena corriendo) y habla al llegar. Devuelve si se ha abierto su diálogo.
+    @discardableResult
+    func tapNPC(_ id: String, in areaID: String? = nil) -> Bool {
+        if let areaID, s.areaID != areaID, let area = World.area(areaID) {
+            s.goTo(area.id, at: area.entry)
+            skipDialogs()
+        }
+        guard let decision = s.interact(with: id) else { return false }
+        if decision == .walk {
+            for _ in 0..<(60 * 30) where s.overlay != .dialog && s.scene.walkingTo != nil {
+                t += 1.0 / 60
+                s.joystick = .zero
+                s.scene.update(t)
+            }
+        }
+        return s.overlay == .dialog
+    }
     func finish(_ ids: [String]) {
         var all = store.profile.quests ?? [:]
         for id in ids { all[id] = QuestState(accepted: true, progress: World.quest(id)!.objectives.map(\.target), done: true) }
@@ -101,7 +119,7 @@ func checkValdemar() {
     let molino = World.quest(ValdemarQuests.molino)!
     if let tomas = World.npc("tomas") {
         check(store.profile.marker(for: "tomas") == .offer, "«!» sobre Tomás")
-        s.npcReached(tomas)
+        check(tapNPC(tomas.id, in: town.id), "se toca a Tomás en el pueblo: camina hasta él y habla")
         skipDialogs()
         check(store.profile.isActive(molino), "hablando con Tomás se acepta «\(molino.title)»")
     }
@@ -119,7 +137,7 @@ func checkValdemar() {
         check(store.profile.isComplete(molino), "con el Ogro muerto antes, la misión está cumplida")
         check(store.profile.marker(for: "tomas") == .turnIn, "«?» sobre Tomás")
         let xp = store.profile.levelXP, level = store.profile.characterLevel
-        s.npcReached(World.npc("tomas")!)
+        check(tapNPC("tomas", in: town.id), "se le vuelve a tocar para entregar")
         skipDialogs()
         check(store.profile.isQuestDone(molino.id), "entregada al hablar con Tomás")
         check(store.profile.levelXP != xp || store.profile.characterLevel != level, "da experiencia")
@@ -211,12 +229,19 @@ func checkValdemar() {
         check(saved && s.overlay == .none, "su presentación queda en el perfil y no se repite en otra sesión")
     }
     if let mayorArea = area("mayor"), let carta = mayorArea.npcs.first(where: { $0.role == .clue }) {
+        setTown { $0.killedSpawns.subtract(mayorArea.spawns.map(\.id)) }
         s.goTo(mayorArea.id, at: mayorArea.entry)
         skipDialogs()
-        s.npcReached(carta)
+        s.interact(with: carta.id)
+        check(s.overlay == .none && s.lastToast == ValdemarDialogue.roomNotCleared && s.scene.walkingTo == nil,
+              "con monstruos en la sala, tocar la carta solo avisa: «\(s.lastToast ?? "-")»")
+        setTown { $0.killedSpawns.formUnion(mayorArea.spawns.map(\.id)) }
+        s.goTo(mayorArea.id, at: mayorArea.entry)
+        skipDialogs()
+        tapNPC(carta.id)
         let first = s.dialog?.lines ?? []
         skipDialogs()
-        s.npcReached(carta)
+        tapNPC(carta.id)
         let again = s.dialog?.lines ?? []
         skipDialogs()
         check(first == carta.thanks && again == ["«…El Abad cumple lo que promete. — M.»"],

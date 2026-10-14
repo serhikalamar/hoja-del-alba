@@ -17,6 +17,7 @@ import UniformTypeIdentifiers
 //   sprites           Hojas de sprites: héroes (todas las poses), enemigos, armas, aldeanos.
 //   hero              Héroe en detalle: razas × poses con armadura, los 18 diseños de armadura,
 //                     opciones de personalización y animación de carrera (frames grandes).
+//   mapa-continente   Mapa del continente de la pausa entero a PNG (fondo, áreas, niebla, iconos) y tiempos de dibujo.
 //   maps              Mapas completos de todas las áreas (pueblo, interiores, campo) + planos `plan_*`.
 //   dungeon           Pisos completos de la mazmorra de la arena.
 //   shop              Tienda del enano: poses del herrero y escena de la forja.
@@ -518,9 +519,28 @@ case "town":
         var town = store.profile.town
         for spawn in bakery.spawns { town.killedSpawns.insert(spawn.id) }
         store.profile.town = town
+        // Ya no se habla al acercarse: se toca al NPC (y si está lejos, el héroe camina hasta él).
         s.scene.load(bakery, heroAt: TilePoint(11, 2), progress: store.profile.town)
+        run(0.5, joy: .zero)
+        check(s.overlay == .none, "al acercarse a Marta no salta nada")
+        check(s.scene.isReachIndicatorShown("marta"), "pero sale el «…» de al alcance sobre ella")
+        s.scene.load(bakery, heroAt: bakery.entry, progress: store.profile.town)
         run(0.3, joy: .zero)
-        check(s.overlay == .dialog && s.dialog?.speaker.hasPrefix("Marta") == true, "al acercarse a Marta empieza su diálogo")
+        check(!s.scene.isReachIndicatorShown("marta"), "desde la puerta no está al alcance")
+        check(s.interact(with: "marta") == .walk, "tocarla de lejos: el héroe camina hasta ella")
+        run(0.4, joy: .zero)
+        let walked = s.scene.heroFeetTile() != bakery.entry
+        run(0.2, joy: CGVector(dx: 1, dy: 0))
+        check(walked && s.scene.walkingTo == nil && s.overlay == .none, "mover el joystick cancela el paseo")
+        if let p = s.scene.screenPoint(ofNPC: "marta") {
+            check(s.isNPC(atScreen: CGPoint(x: p.x + 30, y: p.y + 40)) && !s.isNPC(atScreen: CGPoint(x: p.x + 140, y: p.y)),
+                  "el toque en pantalla da con Marta (con margen para el dedo) y no fuera")
+        }
+        check(s.tap(atScreen: s.scene.screenPoint(ofNPC: "marta") ?? .zero) && s.scene.walkingTo == "marta", "se vuelve a tocar")
+        var steps = 0
+        while s.overlay != .dialog && steps < 60 * 15 { steps += 1; t += 1.0 / 60; s.joystick = .zero; s.scene.update(t) }
+        check(s.overlay == .dialog && s.dialog?.speaker.hasPrefix("Marta") == true,
+              String(format: "al llegar (%.1f s) habla Marta", Double(steps) / 60))
         while s.overlay == .dialog { s.advanceDialog() }
         check(store.profile.town.rescued.contains("marta"), "Marta queda rescatada")
 
@@ -646,6 +666,10 @@ case "hero":
     }
     sheet(armed, columns: poseAngles.count, cell: cell + 44, scale: 3, "hero_weapon")
     _ = iron
+
+case "mapa-continente":
+    print("Mapa del continente (pausa):")
+    MainActor.assumeIsolated { continentMapShots() }
 
 case "maps":
     print("Mapas:")
@@ -877,7 +901,7 @@ case "exportar-datos":
 
 default:
     print("""
-    Comandos: balance | town | valdemar | sprites | hero | maps | dungeon | shop | shots | fichas | exportar-datos
+    Comandos: balance | town | valdemar | sprites | hero | maps | mapa-continente | dungeon | shop | shots | fichas | exportar-datos
     Ejemplo: make balance   (o: cd tools/Harness && swift run -c release Harness balance)
     """)
 }

@@ -63,7 +63,7 @@ class CombatScene: SKScene {
     }
 
     func updateHero(_ dt: TimeInterval) {
-        let input = combatDelegate?.joystick ?? .zero
+        let input = movementInput()
         let magnitude = min(1, input.length)
         if magnitude > 0.05 {
             let dir = input.normalized
@@ -583,6 +583,10 @@ class CombatScene: SKScene {
 
     /// ¿Suelta este jefe su pieza única? (en las mazmorras de historia repetidas, no siempre).
     func dropsSpecialPart(_ enemy: EnemyNode) -> Bool { true }
+
+    /// Hacia dónde quiere ir el héroe este frame (-1...1). Por defecto, el joystick o el teclado; la exploración
+    /// lo sustituye mientras el héroe camina solo hasta un NPC tocado.
+    func movementInput() -> CGVector { combatDelegate?.joystick ?? .zero }
 
     /// Nueva posición del héroe tras moverse (límites, colisiones…).
     func moveHero(from old: CGPoint, to new: CGPoint) -> CGPoint { new }

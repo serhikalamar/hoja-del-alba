@@ -358,6 +358,23 @@ enum Sprites {
         }
         return PixelGrid(PixelSprite(rows: rows, palette: markerPalette)).outlined()
     }
+
+    /// Bocadillo "…" junto a la cabeza de un NPC al alcance (se puede tocar para hablar). `frame` 0-2: 1, 2 o 3 puntos.
+    static func talkBubble(frame: Int) -> PixelGrid {
+        let n = max(0, min(2, frame)) + 1
+        let dots = "ww" + (0..<3).map { $0 < n ? "dd" : "ww" }.joined(separator: "ww") + "wwh"
+        let rows = [
+            ".wwwwwwwwwwwww.",
+            "wwwwwwwwwwwwwwh",
+            dots,
+            dots,
+            "wwwwwwwwwwwwwwh",
+            ".whhhhhhhhhhhh.",
+            "..wh...........",
+            ".wh............",
+        ]
+        return PixelGrid(PixelSprite(rows: rows, palette: ["w": 0xF4ECD8, "h": 0xC2B8A0, "d": 0x1A1C2C])).outlined()
+    }
 }
 
 // MARK: - Accesos con caché
@@ -369,6 +386,24 @@ enum Art {
 
     static func heroImage(_ look: HeroLook, pose: HeroArt.Pose = .idle0) -> CGImage {
         ArtCache.image("hero.\(pose.rawValue).\(look.cacheKey)", grid: { HeroArt.grid(look, pose: pose) })
+    }
+
+    /// Busto del héroe (cabeza y hombros con su casco y peto) recortado del dibujo de `HeroArt`, para el retrato del HUD.
+    static func heroBust(_ look: HeroLook, side: Int = 30) -> CGImage {
+        ArtCache.image("heroBust.\(side).\(look.cacheKey)", grid: {
+            let full = HeroArt.grid(look, pose: .idle0)
+            let opaque = { (y: Int) in (0..<full.width).filter { full[$0, y] != nil } }
+            let top = (0..<full.height).first { !opaque($0).isEmpty } ?? 0
+            // Centro de la cabeza: las columnas con pixeles de las primeras filas (pelo, orejas, casco).
+            let columns = (top..<min(full.height, top + 18)).flatMap(opaque)
+            let center = ((columns.min() ?? 0) + (columns.max() ?? full.width - 1)) / 2
+            let x0 = center - side / 2, y0 = top - 1
+            var out = PixelGrid(width: side, height: side)
+            for y in 0..<side {
+                for x in 0..<side { out[x, y] = full[x0 + x, y0 + y] }
+            }
+            return out
+        })
     }
 
     static func gearIcon(_ item: Item) -> CGImage? {

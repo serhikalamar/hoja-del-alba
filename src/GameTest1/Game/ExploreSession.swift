@@ -50,9 +50,13 @@ struct Dialog: Equatable {
 final class ExploreSession: CombatDelegate {
     enum Overlay: Equatable {
         case none, dialog, paused, smithy, dead, victory
+        /// Ficha del personaje (retrato del HUD) y panel de la misión seguida (botón "!"): pausan el juego.
+        case profile, quests
     }
 
     private(set) var overlay: Overlay = .none
+    /// Mapa del continente abierto desde la pausa (Esc solo lo cierra a él).
+    var showingMap = false
     private(set) var areaID = Valdehierro.townID
     private(set) var hp: Double = 0
     private(set) var maxHP: Double = 0
@@ -121,6 +125,25 @@ final class ExploreSession: CombatDelegate {
         if let quest = profile.trackedQuest { return profile.trackerText(quest) }
         return ValdemarDialogue.hudObjective(profile)
     }
+
+    /// Misión seguida por el HUD (la elegida o la primera activa).
+    var trackedQuest: Quest? { store.profile.trackedQuest }
+
+    /// Sigue otra misión en el HUD.
+    func track(_ questID: String) {
+        guard store.profile.track(questID) else { return }
+        store.save()
+    }
+
+    /// Avisos del botón "!" (misiones nuevas o listas para entregar).
+    var questAlerts: [QuestAlert] { store.profile.questAlerts }
+
+    /// Avisos que el jugador ya ha visto al abrir el panel: el "!" solo rebota con los nuevos.
+    private(set) var seenAlerts: Set<QuestAlert> = []
+    var hasNewAlert: Bool { !Set(questAlerts).isSubset(of: seenAlerts) }
+
+    /// Dónde ir para el siguiente objetivo.
+    func destination(of quest: Quest) -> QuestPlace? { store.profile.destination(of: quest) }
 
     /// Diario de la pausa.
     var activeQuests: [Quest] { store.profile.activeQuests }
@@ -340,7 +363,56 @@ final class ExploreSession: CombatDelegate {
         }
     }
 
-    func npcReached(_ npc: NPC) {
+    // MARK: - Tocar a un NPC
+    //
+    // Se habla tocando (iPhone) o pulsando (Mac) al NPC, o con la tecla de acción con uno al alcance. Lejos, el héroe
+    // camina hasta él. Puertas, salidas, bajadas y el botín siguen por proximidad (ver `NPCInteraction`).
+
+    /// Toque o clic en la pantalla (coordenadas de SwiftUI). Devuelve si ha caído sobre un NPC.
+    @discardableResult
+    func tap(atScreen point: CGPoint) -> Bool {
+        guard overlay == .none, let id = scene.npcID(atScreen: point) else { return false }
+        interact(with: id)
+        return true
+    }
+
+    /// ¿Hay un NPC bajo este punto de la pantalla? (el joystick no se activa al tocarlo).
+    func isNPC(atScreen point: CGPoint) -> Bool {
+        overlay == .none && scene.npcID(atScreen: point) != nil
+    }
+
+    /// Tocar a un NPC: habla si está al alcance; si no, el héroe camina hasta él y habla al llegar.
+    @discardableResult
+    func interact(with npcID: String) -> NPCTapDecision? {
+        guard overlay == .none, let npc = scene.visibleNPC(npcID) else { return nil }
+        guard scene.canTalk(toNPC: npcID) else {
+            showToast(ValdemarDialogue.roomNotCleared)
+            return .unreachable
+        }
+        if scene.isInReach(ofNPC: npcID) {
+            scene.cancelWalk()
+            talk(to: npc)
+            return .talk
+        }
+        return scene.walk(toNPC: npcID) ? .walk : .unreachable
+    }
+
+    /// Tecla de acción (Mac): habla con el NPC más cercano al alcance. Devuelve si había alguno.
+    @discardableResult
+    func talkToNearest() -> Bool {
+        guard overlay == .none, let npc = scene.closestNPCInReach() else { return false }
+        scene.cancelWalk()
+        talk(to: npc)
+        return true
+    }
+
+    /// El héroe ha llegado caminando hasta el NPC tocado.
+    func walkArrived(at npc: NPC) {
+        talk(to: npc)
+    }
+
+    /// Habla con un NPC (rescate, pista o conversación) sin mirar la distancia.
+    func talk(to npc: NPC) {
         guard overlay == .none else { return }
         let needsRescue = (npc.role == .villager || npc.role == .princess) && !store.profile.isRescued(npc.id)
         if needsRescue, !npc.thanks.isEmpty {
@@ -510,6 +582,32 @@ final class ExploreSession: CombatDelegate {
 
     func resume() {
         guard overlay == .paused else { return }
+        overlay = .none
+        showingMap = false
+        applyEquipment()
+        scene.setRunning(true)
+    }
+
+    /// Ficha del personaje (al tocar el retrato del HUD). Pausa el juego.
+    func openProfile() {
+        guard overlay == .none else { return }
+        joystick = .zero
+        scene.setRunning(false)
+        overlay = .profile
+    }
+
+    /// Panel de la misión seguida (botón "!" del HUD). Pausa el juego y da por vistos los avisos.
+    func openQuests() {
+        guard overlay == .none else { return }
+        joystick = .zero
+        scene.setRunning(false)
+        seenAlerts = Set(questAlerts)
+        overlay = .quests
+    }
+
+    /// Cierra la ficha o el panel de misiones y sigue jugando.
+    func closePanel() {
+        guard overlay == .profile || overlay == .quests else { return }
         overlay = .none
         applyEquipment()
         scene.setRunning(true)

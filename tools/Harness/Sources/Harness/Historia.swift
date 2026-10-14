@@ -141,6 +141,24 @@ final class StoryBot {
         }
     }
 
+    /// Toca a un NPC como el jugador (`ExploreSession.interact`): si está lejos camina hasta él y habla al llegar.
+    /// Con la sala sin despejar no pasa nada. Si no encuentra camino (no debería), habla directamente y lo apunta.
+    func tap(_ npc: NPC) {
+        guard s.scene.canTalk(toNPC: npc.id) else { return }
+        switch s.interact(with: npc.id) {
+        case .walk?:
+            for _ in 0..<(60 * 30) where s.overlay == .none && s.scene.walkingTo != nil { step(.zero) }
+        case .talk?:
+            break
+        default:
+            break
+        }
+        if s.overlay == .none {
+            result.stuck.append("sin camino hasta \(npc.id) en \(s.areaID)")
+            s.talk(to: npc)
+        }
+    }
+
     private func step(_ joy: CGVector) {
         t += 1.0 / 60
         seconds += 1.0 / 60
@@ -485,7 +503,7 @@ final class StoryBot {
             guard !npcs.isEmpty else { break }
             for npc in npcs {
                 let before = profile.finishedQuests.map(\.reward.xp).reduce(0, +)
-                s.npcReached(npc)
+                tap(npc)
                 skipDialogs()
                 result.questXP += profile.finishedQuests.map(\.reward.xp).reduce(0, +) - before
             }
@@ -693,7 +711,7 @@ final class StoryBot {
             if let house = houses.first(where: { $0.id == stop.id }) {
                 clear(house.id)
                 for npc in house.npcs where npc.role == .villager {
-                    s.npcReached(npc)
+                    tap(npc)
                     skipDialogs()
                 }
             } else {
@@ -704,7 +722,7 @@ final class StoryBot {
         // Lo que se le resistió (la Bruja…), una vez más con el equipo nuevo.
         for house in houses where !profile.town.rescued.contains(where: { id in house.npcs.contains { $0.id == id } }) {
             clear(house.id)
-            for npc in house.npcs where npc.role == .villager { s.npcReached(npc); skipDialogs() }
+            for npc in house.npcs where npc.role == .villager { tap(npc); skipDialogs() }
         }
         checkpoint("Pueblo liberado")
         if !profile.isQuestDone(ValdemarQuests.liberar) { result.blocked.append("pueblo sin liberar") }
@@ -723,7 +741,7 @@ final class StoryBot {
         if profile.isQuestDone(ValdemarQuests.hilos) {
             clear("mayor")
             if let letter = Valdehierro.area("mayor")?.npcs.first(where: { $0.role == .clue }) {
-                s.npcReached(letter)
+                tap(letter)
                 skipDialogs()
             }
             backToTown()
@@ -754,7 +772,7 @@ final class StoryBot {
             clear("castle")
             if let castle = Valdehierro.area("castle"), profile.town.isCleared(castle),
                let princess = castle.npcs.first(where: { $0.role == .princess }) {
-                s.npcReached(princess)
+                tap(princess)
                 skipDialogs()
             }
         } else {

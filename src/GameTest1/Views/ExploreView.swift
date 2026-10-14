@@ -17,8 +17,19 @@ struct ExploreView: View {
                 .ignoresSafeArea()
 
             #if os(iOS)
+            // Tocar a un NPC habla con él (o camina hasta él); en el resto de la pantalla, el joystick de siempre.
             if session.overlay == .none {
-                JoystickArea { session.joystick = $0 }
+                JoystickArea(onChange: { session.joystick = $0 },
+                             isTappable: { session.isNPC(atScreen: $0) },
+                             onTap: { session.tap(atScreen: $0) })
+                    .ignoresSafeArea()
+            }
+            #else
+            // Mac: clic sobre un NPC para hablar con él.
+            if session.overlay == .none {
+                Color.clear
+                    .contentShape(Rectangle())
+                    .onTapGesture(coordinateSpace: .local) { session.tap(atScreen: $0) }
                     .ignoresSafeArea()
             }
             #endif
@@ -66,13 +77,21 @@ struct ExploreView: View {
                 guard let session else { return }
                 switch session.overlay {
                 case .none: session.pause()
-                case .paused: session.resume()
+                case .paused:
+                    // Esc con el mapa abierto solo cierra el mapa.
+                    if session.showingMap { session.showingMap = false } else { session.resume() }
                 case .smithy: session.closeSmithy()
+                case .profile, .quests: session.closePanel()
                 default: break
                 }
             }
+            // Espacio, Intro o E: pasa el diálogo o habla con el NPC más cercano al alcance.
             keyboard.onAction = { [weak session] in
-                if session?.overlay == .dialog { session?.advanceDialog() }
+                switch session?.overlay {
+                case .dialog?: session?.advanceDialog()
+                case .none?: session?.talkToNearest()
+                default: break
+                }
             }
             keyboard.start()
         }
@@ -111,6 +130,10 @@ struct ExploreView: View {
             }
         case .smithy:
             SmithyView(session: session)
+        case .profile:
+            CharacterSheetView { session.closePanel() }
+        case .quests:
+            QuestPanelView(session: session)
         case .dead:
             ZStack {
                 Color.black.opacity(0.6).ignoresSafeArea()
@@ -159,7 +182,11 @@ private struct ExploreHUD: View {
     let session: ExploreSession
 
     var body: some View {
-        HStack(alignment: .top) {
+        let playing = session.overlay == .none
+        HStack(alignment: .top, spacing: 8) {
+            // Retrato del héroe: abre su ficha.
+            HeroPortraitButton(look: HeroLook(profile: store.profile)) { session.openProfile() }
+                .disabled(!playing)
             VStack(alignment: .leading, spacing: 4) {
                 HPBar(hp: session.hp, maxHP: session.maxHP, width: 170)
                 LevelBadge(level: session.level, progress: session.xpProgress)
@@ -169,20 +196,30 @@ private struct ExploreHUD: View {
                     .shadow(color: .black, radius: 0, x: 2, y: 2)
             }
             Spacer()
-            Text(session.objective)
-                .font(Theme.font(11, weight: .bold))
-                .foregroundStyle(Theme.text)
-                .padding(.horizontal, 8)
-                .padding(.vertical, 4)
-                .background(Color.black.opacity(0.5))
-            Spacer()
-            HStack(alignment: .top, spacing: 12) {
-                GoldLabel(amount: store.profile.gold)
-                    .shadow(color: .black, radius: 0, x: 2, y: 2)
-                if session.overlay == .none {
-                    Button("II") { session.pause() }
-                        .buttonStyle(.pixel(Theme.panelLight, size: 14))
+            // Arriba a la derecha (no en el centro, donde tapaba el "!" del Capitán): oro, "!" de la misión y pausa;
+            // debajo, el objetivo en corto (al tocarlo también se abre el panel de la misión).
+            VStack(alignment: .trailing, spacing: 4) {
+                HStack(alignment: .center, spacing: 10) {
+                    GoldLabel(amount: store.profile.gold)
+                        .shadow(color: .black, radius: 0, x: 2, y: 2)
+                    QuestButton(alerts: session.questAlerts.count, isNew: session.hasNewAlert) { session.openQuests() }
+                        .disabled(!playing)
+                    if playing {
+                        Button("II") { session.pause() }
+                            .buttonStyle(.pixel(Theme.panelLight, size: 14, minHeight: 44))
+                            .frame(minWidth: 44)
+                    }
                 }
+                Text(session.objective)
+                    .font(Theme.font(10, weight: .bold))
+                    .foregroundStyle(Theme.text)
+                    .lineLimit(2)
+                    .multilineTextAlignment(.trailing)
+                    .frame(maxWidth: 230, alignment: .trailing)
+                    .padding(.horizontal, 6)
+                    .padding(.vertical, 3)
+                    .background(Color.black.opacity(0.45))
+                    .onTapGesture { if playing { session.openQuests() } }
             }
         }
     }
@@ -267,11 +304,19 @@ private struct PauseMenu: View {
     @Environment(GameStore.self) private var store
     let session: ExploreSession
     @Binding var showingInventory: Bool
-    @State private var tab = Tab.journal
-
-    enum Tab { case journal, map }
 
     var body: some View {
+        if session.showingMap {
+            // Mapa del continente a pantalla completa (`ContinentMapView.swift`).
+            ContinentMapView(profile: store.profile, currentAreaID: session.areaID, heroTile: session.heroTile) {
+                session.showingMap = false
+            }
+        } else {
+            menu
+        }
+    }
+
+    private var menu: some View {
         HStack(alignment: .top, spacing: 14) {
             VStack(spacing: 10) {
                 Text("PAUSA").font(Theme.font(26, weight: .black)).foregroundStyle(Theme.gold)
@@ -279,7 +324,7 @@ private struct PauseMenu: View {
                     .buttonStyle(.pixel(Theme.green, text: .black, size: 16, minHeight: 46))
                 Button("▤ INVENTARIO") { showingInventory = true }
                     .buttonStyle(.pixel(Theme.blue, text: .black, size: 14, minHeight: 42))
-                Button(tab == .journal ? "✦ MAPA" : "✎ DIARIO") { tab = tab == .journal ? .map : .journal }
+                Button("✦ MAPA") { session.showingMap = true }
                     .buttonStyle(.pixel(Theme.panelLight, size: 13, minHeight: 40))
                 Button("◀ Salir a personajes") { store.go(to: .characterSelect) }
                     .buttonStyle(.pixel(Theme.panelLight, size: 11, minHeight: 36))
@@ -290,18 +335,13 @@ private struct PauseMenu: View {
                     .multilineTextAlignment(.center)
             }
             .frame(width: 200)
-            Group {
-                switch tab {
-                case .journal: QuestJournalView(session: session)
-                case .map: ContinentMapView(profile: store.profile, currentAreaID: session.areaID)
-                }
-            }
-            .frame(width: 400, height: 300)
+            QuestJournalView(session: session)
+                .frame(width: 400, height: 300)
         }
         .padding(18)
         .pixelPanel()
         #if DEBUG
-        .onAppear { if DebugLaunch.pauseTab == "mapa" { tab = .map } }
+        .onAppear { if DebugLaunch.pauseTab == "mapa" { session.showingMap = true } }
         #endif
     }
 }
@@ -339,64 +379,6 @@ struct QuestJournalView: View {
             .frame(maxWidth: .infinity, alignment: .leading)
         }
         .padding(10)
-        .background(Color.black.opacity(0.3))
-    }
-}
-
-/// Mapa del continente (M10): esquema de `zonas.md` §1 con las áreas visitadas, los caminos y dónde está el héroe.
-struct ContinentMapView: View {
-    let profile: PlayerProfile
-    let currentAreaID: String
-
-    var body: some View {
-        let continent = World.continent(profile.continentID) ?? World.continents[0]
-        let layout = continent.mapLayout
-        let visited = profile.visitedAreaIDs ?? []
-        // Un interior se marca en su exterior (la casa del alcalde en el pueblo).
-        let here = layout[currentAreaID] != nil ? currentAreaID : (World.outside(of: currentAreaID)?.areaID ?? currentAreaID)
-        GeometryReader { geo in
-            let cols = (layout.values.map(\.x).max() ?? 0) + 1, rows = (layout.values.map(\.y).max() ?? 0) + 1
-            let cellW = geo.size.width / CGFloat(cols), cellH = (geo.size.height - 24) / CGFloat(rows)
-            let center = { (p: TilePoint) in CGPoint(x: (CGFloat(p.x) + 0.5) * cellW, y: 24 + (CGFloat(p.y) + 0.5) * cellH) }
-            ZStack {
-                Text(continent.name.uppercased())
-                    .font(Theme.font(14, weight: .black)).foregroundStyle(Theme.gold)
-                    .position(x: geo.size.width / 2, y: 10)
-                // Caminos entre áreas (salidas que llevan a otra área del esquema).
-                Path { path in
-                    for (id, from) in layout {
-                        for exit in World.area(id)?.exits ?? [] {
-                            guard let to = layout[exit.toArea] else { continue }
-                            path.move(to: center(from))
-                            path.addLine(to: center(to))
-                        }
-                    }
-                }
-                .stroke(Theme.textDim, style: StrokeStyle(lineWidth: 3, dash: [6, 4]))
-                ForEach(Array(layout.keys.sorted()), id: \.self) { id in
-                    let area = World.area(id)
-                    let seen = visited.contains(id) || id == here
-                    VStack(spacing: 2) {
-                        Text(seen ? (area?.name ?? id) : "???")
-                            .font(Theme.font(10, weight: .black))
-                            .foregroundStyle(id == here ? Color.black : Theme.text)
-                            .multilineTextAlignment(.center)
-                        if seen, let area {
-                            let range = area.levelRange
-                            Text(range.lowerBound == range.upperBound ? "Nv \(range.lowerBound)" : "Nv \(range.lowerBound)-\(range.upperBound)")
-                                .font(Theme.font(9, weight: .bold))
-                                .foregroundStyle(id == here ? Color.black : Theme.textDim)
-                        }
-                    }
-                    .padding(6)
-                    .frame(width: cellW - 16, height: min(54, cellH - 14))
-                    .background(id == here ? Theme.gold : (seen ? Theme.panelLight : Color.black.opacity(0.6)))
-                    .overlay(Rectangle().strokeBorder(Theme.border, lineWidth: 2))
-                    .position(center(layout[id]!))
-                }
-            }
-        }
-        .padding(8)
         .background(Color.black.opacity(0.3))
     }
 }

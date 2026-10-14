@@ -69,6 +69,8 @@ public struct PlayerProfile: Codable, Equatable, Sendable {
     public var seenBossIntros: Set<String>?
     /// Pistas (`role: .clue`) leídas alguna vez: la segunda lectura es más corta.
     public var readClueIDs: Set<String>?
+    /// Misión que el jugador ha elegido seguir en el HUD (nil = la primera activa, como antes).
+    public var trackedQuestID: String?
 
     /// Área actual con valor por defecto.
     public var areaID: String { currentAreaID ?? Valdehierro.townID }

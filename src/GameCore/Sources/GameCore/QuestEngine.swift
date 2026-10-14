@@ -405,8 +405,12 @@ extension PlayerProfile {
     /// Misiones entregadas.
     public var finishedQuests: [Quest] { World.quests.filter { isQuestDone($0.id) } }
 
-    /// La misión que sigue el HUD: la primera activa (la historia va antes que las opcionales).
-    public var trackedQuest: Quest? { activeQuests.first }
+    /// La misión que sigue el HUD: la elegida por el jugador (`track`) si sigue activa; si no, la primera activa
+    /// (la historia va antes que las opcionales).
+    public var trackedQuest: Quest? {
+        if let id = trackedQuestID, let quest = World.quest(id), isActive(quest) { return quest }
+        return activeQuests.first
+    }
 
     /// Líneas del diario de una misión.
     public func journal(_ quest: Quest) -> [QuestObjectiveLine] {

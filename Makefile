@@ -1,4 +1,4 @@
-.PHONY: project open test build mac clean harness-link balance historia check-town check-valdemar sprites hero maps dungeon shop shots fichas datos verify admin admin-build admin-test
+.PHONY: project open test build mac clean harness-link balance historia check-town check-valdemar sprites hero maps mapa-continente dungeon shop shots fichas datos verify admin admin-build admin-test
 
 # Genera GameTest1.xcodeproj a partir de project.yml
 project:
@@ -56,6 +56,9 @@ hero: harness-link
 	$(HARNESS) hero
 maps: harness-link
 	$(HARNESS) maps
+# Mapa del continente de la pausa entero a PNG + tiempos de dibujo → tools/Harness/output/continente_*.png
+mapa-continente: harness-link
+	$(HARNESS) mapa-continente
 dungeon: harness-link
 	$(HARNESS) dungeon
 shop: harness-link

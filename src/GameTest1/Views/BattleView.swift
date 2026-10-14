@@ -5,6 +5,8 @@ import SwiftUI
 struct BattleView: View {
     @Environment(GameStore.self) private var store
     let session: BattleSession
+    /// Ficha del personaje abierta desde el retrato del HUD (con la arena en pausa).
+    @State private var showingProfile = false
     #if os(macOS)
     @State private var keyboard = KeyboardMovement()
     #endif
@@ -22,7 +24,10 @@ struct BattleView: View {
             #endif
 
             VStack(spacing: 10) {
-                BattleHUD(session: session)
+                BattleHUD(session: session) {
+                    session.pause()
+                    showingProfile = session.phase == .paused
+                }
                 if let banner = session.banner {
                     Text(banner)
                         .font(Theme.font(20, weight: .black))
@@ -38,6 +43,18 @@ struct BattleView: View {
 
             overlay
         }
+        .onChange(of: session.phase) { _, phase in
+            if phase != .paused { showingProfile = false }
+        }
+        #if DEBUG
+        .onAppear {
+            if DebugLaunch.openProfile {
+                DebugLaunch.openProfile = false
+                session.pause()
+                showingProfile = true
+            }
+        }
+        #endif
         #if os(macOS)
         .onAppear {
             let session = self.session
@@ -63,7 +80,11 @@ struct BattleView: View {
         case .intro:
             Dimmed { LevelIntroPanel(session: session) }
         case .paused:
-            Dimmed { PausePanel(session: session) }
+            if showingProfile {
+                CharacterSheetView { session.resume() }
+            } else {
+                Dimmed { PausePanel(session: session) }
+            }
         case .intermission:
             IntermissionView(session: session)
         case .waveBreak:
@@ -114,9 +135,13 @@ private struct Dimmed<Content: View>: View {
 private struct BattleHUD: View {
     @Environment(GameStore.self) private var store
     let session: BattleSession
+    /// Al tocar el retrato: ficha del personaje.
+    let onPortrait: () -> Void
 
     var body: some View {
-        HStack(alignment: .top) {
+        HStack(alignment: .top, spacing: 8) {
+            HeroPortraitButton(look: HeroLook(profile: store.profile), action: onPortrait)
+                .disabled(session.phase != .fighting)
             VStack(alignment: .leading, spacing: 4) {
                 HPBar(hp: session.hp, maxHP: session.maxHP, width: 170)
                 LevelBadge(level: session.level, progress: session.xpProgress)
@@ -154,7 +179,8 @@ private struct BattleHUD: View {
                 .shadow(color: .black, radius: 0, x: 2, y: 2)
                 if session.phase == .fighting {
                     Button("II") { session.pause() }
-                        .buttonStyle(.pixel(Theme.panelLight, size: 14))
+                        .buttonStyle(.pixel(Theme.panelLight, size: 14, minHeight: 44))
+                        .frame(minWidth: 44)
                 }
             }
         }
@@ -166,7 +192,13 @@ private struct BattleHUD: View {
 /// Joystick flotante: aparece donde el jugador toca y arrastra.
 struct JoystickArea: View {
     var onChange: (CGVector) -> Void
+    /// ¿Este punto cae sobre algo que se toca (un NPC)? Entonces no aparece el joystick: es un toque.
+    var isTappable: (CGPoint) -> Bool = { _ in false }
+    /// Toque sobre algo `isTappable` (sin arrastrar).
+    var onTap: (CGPoint) -> Void = { _ in }
     @State private var origin: CGPoint?
+    /// Toque que empezó sobre un NPC (si se arrastra lejos, pasa a ser el joystick desde ahí).
+    @State private var tapStart: CGPoint?
     @State private var knob: CGSize = .zero
     private let radius: CGFloat = 55
 
@@ -183,6 +215,14 @@ struct JoystickArea: View {
             .gesture(
                 DragGesture(minimumDistance: 0)
                     .onChanged { value in
+                        if origin == nil, tapStart == nil, isTappable(value.startLocation) {
+                            tapStart = value.startLocation
+                        }
+                        if let start = tapStart {
+                            guard hypot(value.location.x - start.x, value.location.y - start.y) > 24 else { return }
+                            tapStart = nil
+                            origin = start
+                        }
                         if origin == nil { origin = value.startLocation }
                         let start = origin ?? value.startLocation
                         var dx = value.location.x - start.x
@@ -197,6 +237,11 @@ struct JoystickArea: View {
                         onChange(length < 6 ? .zero : CGVector(dx: dx / radius, dy: -dy / radius))
                     }
                     .onEnded { _ in
+                        if let start = tapStart {
+                            tapStart = nil
+                            onTap(start)
+                            return
+                        }
                         origin = nil
                         knob = .zero
                         onChange(.zero)

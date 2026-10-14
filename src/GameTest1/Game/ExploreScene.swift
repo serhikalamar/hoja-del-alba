@@ -26,12 +26,12 @@ final class ExploreScene: CombatScene {
     private var respawnCheck: TimeInterval = 0
     /// Jefes que ya se han presentado en esta visita.
     private var introducedBosses: Set<String> = []
-    /// NPC con el que se está hablando (no se repite hasta alejarse).
-    private var nearNPC: String?
+    /// Paseo automático hasta un NPC tocado (se cancela con el joystick o las teclas).
+    private var walk: NPCWalk?
     private let cam = SKCameraNode()
     private var ground: SKSpriteNode?
     private let props = SKNode()
-    private var npcNodes: [(npc: NPC, node: SKSpriteNode, bubble: SKNode, marker: SKNode?)] = []
+    private var npcNodes: [NPCEntry] = []
     private var onPortal = true
     private var lockedCooldown: TimeInterval = 0
 
@@ -102,7 +102,9 @@ final class ExploreScene: CombatScene {
         lootContinent = World.continent(map.continentID)
         fieldRespawn.reset()
         introducedBosses.removeAll()
-        nearNPC = nil
+        cancelWalk()
+        npcNodes.forEach { $0.node.removeFromParent() }
+        npcNodes.removeAll()
         clearCombat()
         props.removeAllChildren()
         ground?.removeFromParent()
@@ -274,6 +276,8 @@ final class ExploreScene: CombatScene {
     // MARK: - Aldeanos
 
     private func buildNPCs() {
+        // Al rehacerlos (tras hablar), el "…" de quien ya estaba al alcance sigue a la vista sin parpadear.
+        let shown = Set(npcNodes.filter(\.reachShown).map(\.npc.id))
         npcNodes.forEach { $0.node.removeFromParent() }
         npcNodes.removeAll()
         for (npc, spot) in story.npcs {
@@ -304,9 +308,37 @@ final class ExploreScene: CombatScene {
                 node.addChild(m)
                 markerNode = m
             }
+            // Al alcance: bocadillo "…" junto a la cabeza y un brillo suave a sus pies (se puede tocar para hablar).
+            let reach = reachIndicator(headY: node.size.height / 2, footY: -node.size.height / 2 + footOffset)
+            if npc.role == .princess { reach.xScale = -1 }
+            node.addChild(reach)
             addChild(node)
-            npcNodes.append((npc, node, bubble, markerNode))
+            let wasShown = shown.contains(npc.id)
+            reach.alpha = wasShown ? 1 : 0
+            npcNodes.append(NPCEntry(npc: npc, spot: spot, node: node, bubble: bubble, marker: markerNode, reach: reach,
+                                     feet: CGPoint(x: c.x, y: c.y), bodyHalfWidth: chibi == nil ? 16 : 22, reachShown: wasShown))
         }
+    }
+
+    /// "…" que se escribe solo junto a la cabeza + halo dorado en el suelo. Oculto hasta que el héroe está al alcance.
+    private func reachIndicator(headY: CGFloat, footY: CGFloat) -> SKNode {
+        let root = SKNode()
+        root.name = "reach"
+        let frames = (0..<3).map { f in Art.gridTexture("talkBubble.\(f)", Sprites.talkBubble(frame: f)) }
+        let bubble = SKSpriteNode(texture: frames[0])
+        bubble.size = CGSize(width: frames[0].size().width * PX, height: frames[0].size().height * PX)
+        bubble.anchorPoint = CGPoint(x: 0, y: 0)
+        bubble.position = CGPoint(x: 10, y: headY - 22)
+        bubble.zPosition = 302
+        bubble.run(.repeatForever(.animate(with: frames + [frames[2]], timePerFrame: 0.3)))
+        root.addChild(bubble)
+        let glow = makeGlow(radius: 34, color: 0xFFCD45, alpha: 0.7)
+        glow.yScale = 0.4
+        glow.position = CGPoint(x: 0, y: footY)
+        glow.zPosition = -1
+        glow.run(.repeatForever(.sequence([.fadeAlpha(to: 0.35, duration: 0.7), .fadeAlpha(to: 0.75, duration: 0.7)])))
+        root.addChild(glow)
+        return root
     }
 
     private func isRescued(_ npc: NPC) -> Bool {
@@ -481,6 +513,8 @@ final class ExploreScene: CombatScene {
         updateAggro()
         updateCombat(dt)
         guard running else { return }
+        updateWalk(dt)
+        guard running else { return }
         // Fuera de combate se recupera vida poco a poco.
         if !enemies.contains(where: \.isAggro), hp < stats.maxHP {
             hp = min(stats.maxHP, hp + stats.maxHP * 0.04 * dt)
@@ -520,29 +554,139 @@ final class ExploreScene: CombatScene {
         return cleared || isRescued(npc)
     }
 
+    /// Ya no se habla al acercarse: solo se muestra el bocadillo de súplica de lejos y el "…" al alcance.
     private func updateNPCs() {
         let cleared = progress.isCleared(map)
-        var closest: (npc: NPC, distance: CGFloat)?
-        for entry in npcNodes {
+        let feet = heroFeet
+        for i in npcNodes.indices {
+            let entry = npcNodes[i]
             let distance = entry.node.position.distance(to: hero.position)
-            let near = distance < 220
-            entry.bubble.alpha = near && entry.marker == nil ? 1 : 0
-            if distance < 80, canTalk(to: entry.npc, cleared: cleared), distance < (closest?.distance ?? .infinity) {
-                closest = (entry.npc, distance)
-            }
+            entry.bubble.alpha = distance < 220 && entry.marker == nil ? 1 : 0
+            let inReach = isInReach(entry, from: feet) && canTalk(to: entry.npc, cleared: cleared)
+            guard inReach != entry.reachShown else { continue }
+            npcNodes[i].reachShown = inReach
+            entry.reach.removeAction(forKey: "fade")
+            entry.reach.run(.fadeAlpha(to: inReach ? 1 : 0, duration: 0.15), withKey: "fade")
         }
-        // Se habla al llegar; para volver a hablar hay que alejarse y volver.
-        if let npc = closest?.npc {
-            if nearNPC != npc.id {
-                nearNPC = npc.id
-                session?.npcReached(npc)
-            }
-        } else if let id = nearNPC, let entry = npcNodes.first(where: { $0.npc.id == id }),
-                  entry.node.position.distance(to: hero.position) > 110 {
-            nearNPC = nil
-        } else if nearNPC != nil, !npcNodes.contains(where: { $0.npc.id == nearNPC }) {
-            nearNPC = nil
+    }
+
+    /// ¿Se ve el "…" de "al alcance" sobre este NPC? (banco de pruebas: sin vista las acciones no corren).
+    func isReachIndicatorShown(_ id: String) -> Bool { entry(id)?.reachShown ?? false }
+
+    // MARK: - Tocar a un NPC
+
+    private var heroFeet: CGPoint { CGPoint(x: hero.position.x, y: hero.position.y - heroFootOffset) }
+
+    private func isInReach(_ entry: NPCEntry, from feet: CGPoint) -> Bool {
+        NPCInteraction.isInReach(dx: Double(entry.feet.x - feet.x), dy: Double(entry.feet.y - feet.y), tileSize: Double(T))
+    }
+
+    private func entry(_ id: String) -> NPCEntry? { npcNodes.first { $0.npc.id == id } }
+
+    /// Punto de la escena bajo un punto de la pantalla (coordenadas de SwiftUI, Y hacia abajo, del tamaño de la escena).
+    func scenePoint(fromScreen p: CGPoint) -> CGPoint {
+        CGPoint(x: cam.position.x + p.x - size.width / 2, y: cam.position.y + size.height / 2 - p.y)
+    }
+
+    /// Dónde se ve un NPC en la pantalla (el centro de su dibujo; para el banco de pruebas).
+    func screenPoint(ofNPC id: String) -> CGPoint? {
+        guard let p = entry(id)?.node.position else { return nil }
+        return CGPoint(x: p.x - cam.position.x + size.width / 2, y: cam.position.y + size.height / 2 - p.y)
+    }
+
+    /// NPC bajo un toque en la pantalla (con margen para el dedo).
+    func npcID(atScreen p: CGPoint) -> String? { npcID(atScene: scenePoint(fromScreen: p)) }
+
+    func npcID(atScene p: CGPoint) -> String? {
+        let boxes = npcNodes.map { e in
+            NPCHitBox(id: e.npc.id, centerX: Double(e.node.position.x), centerY: Double(e.node.position.y),
+                      halfWidth: Double(e.bodyHalfWidth), halfHeight: Double(e.node.size.height / 2 - 4))
         }
+        return NPCInteraction.pick(x: Double(p.x), y: Double(p.y), among: boxes, tileSize: Double(T))
+    }
+
+    /// El NPC visible con ese id (con su texto del área actual).
+    func visibleNPC(_ id: String) -> NPC? { entry(id)?.npc }
+
+    /// ¿Se puede hablar ya con él? (en un interior, con la sala despejada).
+    func canTalk(toNPC id: String) -> Bool {
+        guard let e = entry(id) else { return false }
+        return canTalk(to: e.npc, cleared: progress.isCleared(map))
+    }
+
+    /// ¿Está al alcance para hablar sin caminar?
+    func isInReach(ofNPC id: String) -> Bool {
+        guard let e = entry(id) else { return false }
+        return isInReach(e, from: heroFeet)
+    }
+
+    /// El más cercano al alcance con el que se puede hablar (tecla de acción en Mac).
+    func closestNPCInReach() -> NPC? {
+        let cleared = progress.isCleared(map)
+        let feet = heroFeet
+        let candidates = npcNodes.filter { canTalk(to: $0.npc, cleared: cleared) }
+            .map { (id: $0.npc.id, distance: Double($0.feet.distance(to: feet))) }
+        return NPCInteraction.closestInReach(candidates, tileSize: Double(T)).flatMap(visibleNPC)
+    }
+
+    /// NPC hacia el que camina el héroe (nil si no hay paseo).
+    var walkingTo: String? { walk?.npcID }
+
+    /// Empieza a caminar hasta un NPC por las casillas (sin muros, puertas, salidas ni casillas cerradas).
+    /// Devuelve false si no hay camino.
+    @discardableResult
+    func walk(toNPC id: String) -> Bool {
+        guard let e = entry(id) else { return false }
+        let passable = { [self] (p: TilePoint) in map.isStrollable(p) && !isLocked(p) }
+        guard let path = TilePathfinder.path(from: heroFeetTile(),
+                                             isGoal: { NPCInteraction.isTalkTile($0, npc: e.spot) && passable($0) },
+                                             passable: passable) else { return false }
+        walk = NPCWalk(npcID: id, waypoints: path.dropFirst().map { center(of: $0) })
+        return true
+    }
+
+    func cancelWalk() {
+        walk = nil
+    }
+
+    /// Mientras camina solo: el joystick o las teclas lo cancelan; si no, va hacia la siguiente casilla del camino.
+    override func movementInput() -> CGVector {
+        let user = super.movementInput()
+        if user.length > 0.05 {
+            cancelWalk()
+            return user
+        }
+        guard let walk else { return user }
+        let feet = heroFeet
+        guard walk.next < walk.waypoints.count else { return .zero }
+        let target = walk.waypoints[walk.next]
+        return (target - feet).normalized
+    }
+
+    /// Avanza el paseo: siguiente casilla, llegada (habla) o atasco (se cancela).
+    private func updateWalk(_ dt: TimeInterval) {
+        guard var current = walk else { return }
+        guard let e = entry(current.npcID) else { cancelWalk(); return }
+        let feet = heroFeet
+        if isInReach(e, from: feet) {
+            cancelWalk()
+            hero.setWalking(false)
+            session?.walkArrived(at: e.npc)
+            return
+        }
+        while current.next < current.waypoints.count, current.waypoints[current.next].distance(to: feet) < 6 {
+            current.next += 1
+        }
+        if current.next >= current.waypoints.count { cancelWalk(); return }
+        // Atasco: sin avanzar casi nada en 0,8 s (un enemigo en medio, un borde): se deja de caminar.
+        if feet.distance(to: current.lastFeet) > 4 {
+            current.lastFeet = feet
+            current.stuck = 0
+        } else {
+            current.stuck += dt
+            if current.stuck > 0.8 { cancelWalk(); return }
+        }
+        walk = current
     }
 
     private func checkPortals() {
@@ -595,3 +739,37 @@ final class ExploreScene: CombatScene {
         tile(at: CGPoint(x: hero.position.x, y: hero.position.y - heroFootOffset))
     }
 }
+
+/// Un NPC en la escena: su dibujo, bocadillos y marcas, la casilla donde está y sus pies.
+private struct NPCEntry {
+    let npc: NPC
+    let spot: TilePoint
+    let node: SKSpriteNode
+    let bubble: SKNode
+    let marker: SKNode?
+    /// "…" y brillo de "al alcance".
+    let reach: SKNode
+    /// Centro de su casilla (los pies).
+    let feet: CGPoint
+    /// Medio ancho del cuerpo dibujado (el lienzo es más ancho que el chibi).
+    let bodyHalfWidth: CGFloat
+    var reachShown = false
+}
+
+/// Paseo automático hasta un NPC tocado: casillas del camino (centros) y la siguiente a la que ir.
+private struct NPCWalk {
+    let npcID: String
+    let waypoints: [CGPoint]
+    var next = 0
+    var lastFeet = CGPoint(x: -9999, y: -9999)
+    var stuck: TimeInterval = 0
+}
+
+#if DEBUG
+extension ExploreScene {
+    /// El NPC visible más lejano del héroe (modo debug `paseo`).
+    func debugFarthestNPC() -> String? {
+        npcNodes.max { $0.feet.distance(to: heroFeet) < $1.feet.distance(to: heroFeet) }?.npc.id
+    }
+}
+#endif
