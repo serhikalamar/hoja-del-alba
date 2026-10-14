@@ -31,7 +31,7 @@ enum DebugLaunch {
         case "campo":
             debugStoryProgress(store)
             store.startTown(at: ("valdemar.huertos", World.area("valdemar.huertos").map(World.startPoint) ?? TilePoint(2, 2)))
-        case "diario", "mapa":
+        case "diario", "mapa", "inventario":
             debugStoryProgress(store)
             DebugLaunch.pauseTab = args[i + 1]
             store.startTown(at: (Valdehierro.townID, TilePoint(21, 14)))

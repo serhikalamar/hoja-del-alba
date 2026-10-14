@@ -26,6 +26,28 @@ struct HeroPortraitButton: View {
     }
 }
 
+// MARK: - Botones de icono del HUD (mapa, inventario)
+
+/// Botón cuadrado de 44 pt con un icono pixel-art, del mismo estilo que el "!" de la misión.
+struct HUDIconButton: View {
+    let key: String
+    let icon: () -> PixelGrid
+    let label: String
+    let action: () -> Void
+
+    var body: some View {
+        Button(action: action) {
+            PixelImage(image: Art.gridImage(key, icon()), scale: 2)
+                .frame(width: 44, height: 44)
+                .background(Theme.panel.opacity(0.9))
+                .overlay(Rectangle().strokeBorder(Color.black, lineWidth: 3))
+                .contentShape(Rectangle())
+        }
+        .buttonStyle(.plain)
+        .accessibilityLabel(label)
+    }
+}
+
 // MARK: - Botón "!" de la misión
 
 /// "!" dorado (el mismo dibujo que sobre los NPC). Punto rojo si hay misiones nuevas o para entregar; rebota si

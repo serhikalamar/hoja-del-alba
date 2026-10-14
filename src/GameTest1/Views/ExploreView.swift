@@ -6,7 +6,6 @@ import SwiftUI
 struct ExploreView: View {
     @Environment(GameStore.self) private var store
     let session: ExploreSession
-    @State private var showingInventory = false
     #if os(macOS)
     @State private var keyboard = KeyboardMovement()
     #endif
@@ -77,9 +76,7 @@ struct ExploreView: View {
                 guard let session else { return }
                 switch session.overlay {
                 case .none: session.pause()
-                case .paused:
-                    // Esc con el mapa abierto solo cierra el mapa.
-                    if session.showingMap { session.showingMap = false } else { session.resume() }
+                case .paused: session.resume()   // también cierra el mapa o el inventario
                 case .smithy: session.closeSmithy()
                 case .profile, .quests: session.closePanel()
                 default: break
@@ -111,10 +108,15 @@ struct ExploreView: View {
         case .paused:
             ZStack {
                 Color.black.opacity(0.6).ignoresSafeArea()
-                if showingInventory {
+                if session.showingMap {
+                    // Mapa del continente a pantalla completa (`ContinentMapView.swift`); al cerrar se sigue jugando.
+                    ContinentMapView(profile: store.profile, currentAreaID: session.areaID, heroTile: session.heroTile) {
+                        session.resume()
+                    }
+                } else if session.showingInventory {
                     VStack(spacing: 8) {
                         HStack {
-                            Button("◀ VOLVER") { showingInventory = false }
+                            Button("◀ VOLVER") { session.resume() }
                                 .buttonStyle(.pixel(Theme.panelLight, size: 14, minHeight: 44))
                             Text("INVENTARIO").font(Theme.font(20, weight: .black)).foregroundStyle(Theme.gold)
                             Spacer()
@@ -125,7 +127,7 @@ struct ExploreView: View {
                     .padding(16)
                     .background(Theme.background.opacity(0.96).ignoresSafeArea())
                 } else {
-                    PauseMenu(session: session, showingInventory: $showingInventory)
+                    PauseMenu(session: session)
                 }
             }
         case .smithy:
@@ -202,6 +204,11 @@ private struct ExploreHUD: View {
                 HStack(alignment: .center, spacing: 10) {
                     GoldLabel(amount: store.profile.gold)
                         .shadow(color: .black, radius: 0, x: 2, y: 2)
+                    // Mapa e inventario, junto al "!" de la misión (pausan el juego mientras están abiertos).
+                    HUDIconButton(key: "hud.mapa", icon: Sprites.mapIcon, label: "Mapa") { session.openMap() }
+                        .disabled(!playing)
+                    HUDIconButton(key: "hud.inventario", icon: Sprites.bagIcon, label: "Inventario") { session.openInventory() }
+                        .disabled(!playing)
                     QuestButton(alerts: session.questAlerts.count, isNew: session.hasNewAlert) { session.openQuests() }
                         .disabled(!playing)
                     if playing {
@@ -298,50 +305,28 @@ private struct SmithyView: View {
     }
 }
 
-// MARK: - Pausa: diario de misiones y mapa del continente
+// MARK: - Pausa: continuar o cambiar de personaje
 
 private struct PauseMenu: View {
     @Environment(GameStore.self) private var store
     let session: ExploreSession
-    @Binding var showingInventory: Bool
 
     var body: some View {
-        if session.showingMap {
-            // Mapa del continente a pantalla completa (`ContinentMapView.swift`).
-            ContinentMapView(profile: store.profile, currentAreaID: session.areaID, heroTile: session.heroTile) {
-                session.showingMap = false
-            }
-        } else {
-            menu
+        VStack(spacing: 12) {
+            Text("PAUSA").font(Theme.font(28, weight: .black)).foregroundStyle(Theme.gold)
+            Button("▶ CONTINUAR") { session.resume() }
+                .buttonStyle(.pixel(Theme.green, text: .black, size: 18, minHeight: 50))
+            Button("◀ CAMBIAR DE PERSONAJE") { store.go(to: .characterSelect) }
+                .buttonStyle(.pixel(Theme.panelLight, size: 13, minHeight: 44))
         }
-    }
-
-    private var menu: some View {
-        HStack(alignment: .top, spacing: 14) {
-            VStack(spacing: 10) {
-                Text("PAUSA").font(Theme.font(26, weight: .black)).foregroundStyle(Theme.gold)
-                Button("▶ CONTINUAR") { session.resume() }
-                    .buttonStyle(.pixel(Theme.green, text: .black, size: 16, minHeight: 46))
-                Button("▤ INVENTARIO") { showingInventory = true }
-                    .buttonStyle(.pixel(Theme.blue, text: .black, size: 14, minHeight: 42))
-                Button("✦ MAPA") { session.showingMap = true }
-                    .buttonStyle(.pixel(Theme.panelLight, size: 13, minHeight: 40))
-                Button("◀ Salir a personajes") { store.go(to: .characterSelect) }
-                    .buttonStyle(.pixel(Theme.panelLight, size: 11, minHeight: 36))
-                Text("La forja y el ritual están en la casa del enano (barrio este).")
-                    .font(Theme.font(9, weight: .bold))
-                    .foregroundStyle(Theme.textDim)
-                    .frame(maxWidth: 190)
-                    .multilineTextAlignment(.center)
-            }
-            .frame(width: 200)
-            QuestJournalView(session: session)
-                .frame(width: 400, height: 300)
-        }
-        .padding(18)
+        .frame(width: 260)
+        .padding(24)
         .pixelPanel()
         #if DEBUG
-        .onAppear { if DebugLaunch.pauseTab == "mapa" { session.showingMap = true } }
+        .onAppear {
+            if DebugLaunch.pauseTab == "mapa" { session.openMap() }
+            if DebugLaunch.pauseTab == "inventario" { session.openInventory() }
+        }
         #endif
     }
 }

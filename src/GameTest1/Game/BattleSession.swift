@@ -241,8 +241,19 @@ final class BattleSession: CombatDelegate {
         phase = .paused
     }
 
+    /// Inventario abierto desde su botón del HUD (el combate queda en pausa).
+    var showingInventory = false
+
+    /// Botón de inventario del HUD: pausa y abre el inventario (al volver se sigue luchando).
+    func openInventory() {
+        if phase == .fighting { pause() }
+        guard phase == .paused else { return }
+        showingInventory = true
+    }
+
     func resume() {
         guard phase == .paused else { return }
+        showingInventory = false
         // Puede haber cambiado de equipo en el inventario de la pausa.
         applyEquipment(hp: hp)
         scene.setRunning(true)

@@ -178,6 +178,7 @@ private struct BattleHUD: View {
                 }
                 .shadow(color: .black, radius: 0, x: 2, y: 2)
                 if session.phase == .fighting {
+                    HUDIconButton(key: "hud.inventario", icon: Sprites.bagIcon, label: "Inventario") { session.openInventory() }
                     Button("II") { session.pause() }
                         .buttonStyle(.pixel(Theme.panelLight, size: 14, minHeight: 44))
                         .frame(minWidth: 44)
@@ -313,13 +314,12 @@ private struct LevelIntroPanel: View {
 private struct PausePanel: View {
     @Environment(GameStore.self) private var store
     let session: BattleSession
-    @State private var showingInventory = false
 
     var body: some View {
-        if showingInventory {
+        if session.showingInventory {
             VStack(spacing: 8) {
                 HStack {
-                    Button("◀ VOLVER") { showingInventory = false }
+                    Button("◀ VOLVER") { session.resume() }
                         .buttonStyle(.pixel(Theme.panelLight, size: 14, minHeight: 44))
                     Text("INVENTARIO").font(Theme.font(20, weight: .black)).foregroundStyle(Theme.gold)
                     Spacer()
@@ -334,13 +334,11 @@ private struct PausePanel: View {
                 Text("PAUSA").font(Theme.font(28, weight: .black)).foregroundStyle(Theme.gold)
                 Button("▶ CONTINUAR") { session.resume() }
                     .buttonStyle(.pixel(Theme.green, text: .black, size: 18, minHeight: 50))
-                Button("▤ INVENTARIO") { showingInventory = true }
-                    .buttonStyle(.pixel(Theme.blue, text: .black, size: 16, minHeight: 46))
                 if session.isStory {
                     Button("◀ Salir de la mazmorra") { session.leaveStory() }
                         .buttonStyle(.pixel(Theme.panelLight, size: 12, minHeight: 40))
                 } else {
-                    Button("◀ Abandonar la arena") { store.go(to: .characterSelect) }
+                    Button("◀ CAMBIAR DE PERSONAJE") { store.go(to: .characterSelect) }
                         .buttonStyle(.pixel(Theme.panelLight, size: 12, minHeight: 40))
                 }
                 Text(session.isStory ? "Los minerales y el oro conseguidos se conservan."

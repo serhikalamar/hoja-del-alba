@@ -55,8 +55,9 @@ final class ExploreSession: CombatDelegate {
     }
 
     private(set) var overlay: Overlay = .none
-    /// Mapa del continente abierto desde la pausa (Esc solo lo cierra a él).
+    /// Mapa del continente o inventario abiertos desde sus botones del HUD (el juego queda en pausa).
     var showingMap = false
+    var showingInventory = false
     private(set) var areaID = Valdehierro.townID
     private(set) var hp: Double = 0
     private(set) var maxHP: Double = 0
@@ -580,10 +581,27 @@ final class ExploreSession: CombatDelegate {
         overlay = .paused
     }
 
+    /// Botón de mapa del HUD: pausa y abre el mapa (al cerrarlo se sigue jugando).
+    func openMap() {
+        if overlay == .none { pause() }
+        guard overlay == .paused else { return }
+        showingInventory = false
+        showingMap = true
+    }
+
+    /// Botón de inventario del HUD: pausa y abre el inventario (cambiar equipo, sin vender ni forjar).
+    func openInventory() {
+        if overlay == .none { pause() }
+        guard overlay == .paused else { return }
+        showingMap = false
+        showingInventory = true
+    }
+
     func resume() {
         guard overlay == .paused else { return }
         overlay = .none
         showingMap = false
+        showingInventory = false
         applyEquipment()
         scene.setRunning(true)
     }

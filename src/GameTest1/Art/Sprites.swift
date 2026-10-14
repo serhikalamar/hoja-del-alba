@@ -359,6 +359,47 @@ enum Sprites {
         return PixelGrid(PixelSprite(rows: rows, palette: markerPalette)).outlined()
     }
 
+    /// Icono del botón de mapa del HUD: pergamino doblado en tres, con bosque, lago, camino y una cruz roja.
+    static func mapIcon() -> PixelGrid {
+        let rows = [
+            "ccccsccccscccc",
+            "cggcsccccsccbc",
+            "cgggsccccscbbc",
+            "ccgcsccccsccbc",
+            "ccccspcpcscccc",
+            "ccccpcccpscccc",
+            "cccpsccccspccc",
+            "ccpcsccccsccpc",
+            "cpccsccccsrcrc",
+            "ccccsccccscrcc",
+            "ccccsccccsrcrc",
+            "ccccsccccscccc",
+        ]
+        let palette: [Character: UInt32] = ["c": 0xF2D9A0, "s": 0xC9A86A, "g": 0x5A8A3A, "b": 0x3B7DC9, "p": 0x8A5A30, "r": 0xD83C3C]
+        return PixelGrid(PixelSprite(rows: rows, palette: palette)).outlined()
+    }
+
+    /// Icono del botón de inventario del HUD: mochila de cuero con hebilla dorada.
+    static func bagIcon() -> PixelGrid {
+        let rows = [
+            "....bbbbb....",
+            "...b.....b...",
+            "..bbbbbbbbb..",
+            ".bllllllllldb",
+            "blllllllllldb",
+            "bllddddddlldb",
+            "blldyyyydlldb",
+            "bllddyyddlldb",
+            "blllllllllldb",
+            "bllllllllllddb",
+            "blllllllllldb",
+            ".bdddddddddb.",
+            "..bbbbbbbbb..",
+        ]
+        let palette: [Character: UInt32] = ["b": 0x4A2A14, "l": 0xA8683A, "d": 0x7A4A2A, "y": 0xFFCD45]
+        return PixelGrid(PixelSprite(rows: rows.map { String($0.prefix(13)) }, palette: palette)).outlined()
+    }
+
     /// Bocadillo "…" junto a la cabeza de un NPC al alcance (se puede tocar para hablar). `frame` 0-2: 1, 2 o 3 puntos.
     static func talkBubble(frame: Int) -> PixelGrid {
         let n = max(0, min(2, frame)) + 1
