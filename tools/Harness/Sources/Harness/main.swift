@@ -18,6 +18,7 @@ import UniformTypeIdentifiers
 //   hero              Héroe en detalle: razas × poses con armadura, los 18 diseños de armadura,
 //                     opciones de personalización y animación de carrera (frames grandes).
 //   mapa-continente   Mapa del continente de la pausa entero a PNG (fondo, áreas, niebla, iconos) y tiempos de dibujo.
+//   mapa-mundo        Mapa del mundo (Ardenia): los 6 continentes, los futuros en gris, rutas; tiempo del fondo.
 //   maps              Mapas completos de todas las áreas (pueblo, interiores, campo) + planos `plan_*`.
 //   dungeon           Pisos completos de la mazmorra de la arena.
 //   shop              Tienda del enano: poses del herrero y escena de la forja.
@@ -671,6 +672,10 @@ case "mapa-continente":
     print("Mapa del continente (pausa):")
     MainActor.assumeIsolated { continentMapShots() }
 
+case "mapa-mundo":
+    print("Mapa del mundo (pausa):")
+    MainActor.assumeIsolated { worldMapShots() }
+
 case "maps":
     print("Mapas:")
     for area in World.areas {  // pueblo, interiores y áreas de campo (map-designer)
@@ -901,7 +906,7 @@ case "exportar-datos":
 
 default:
     print("""
-    Comandos: balance | town | valdemar | sprites | hero | maps | mapa-continente | dungeon | shop | shots | fichas | exportar-datos
+    Comandos: balance | town | valdemar | sprites | hero | maps | mapa-continente | mapa-mundo | dungeon | shop | shots | fichas | exportar-datos
     Ejemplo: make balance   (o: cd tools/Harness && swift run -c release Harness balance)
     """)
 }

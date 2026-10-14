@@ -98,15 +98,17 @@ enum ContinentMapArt {
     // MARK: Caché
 
     static func areaKey(_ id: String, castleOpen: Bool) -> String { "area.\(id).\(castleOpen)" }
-    static func backgroundKey(_ layout: ContinentLayout) -> String { "fondo.\(layout.continentID).\(layout.width)x\(layout.height)" }
+    static func backgroundKey(_ layout: ContinentLayout, framed: Bool = true) -> String {
+        "fondo.\(layout.continentID).\(layout.width)x\(layout.height).\(framed)"
+    }
     static func fogKey(_ id: String) -> String { "niebla.\(id)" }
 
     static func cachedArea(_ area: AreaMap, castleOpen: Bool) -> CGImage {
         ContinentMapCache.shared.image(areaKey(area.id, castleOpen: castleOpen)) { areaGrid(area, castleOpen: castleOpen).makeCGImage() }
     }
 
-    static func cachedBackground(_ layout: ContinentLayout, areas: [String: AreaMap]) -> CGImage {
-        ContinentMapCache.shared.image(backgroundKey(layout)) { background(layout, areas: areas).makeCGImage() }
+    static func cachedBackground(_ layout: ContinentLayout, areas: [String: AreaMap], framed: Bool = true) -> CGImage {
+        ContinentMapCache.shared.image(backgroundKey(layout, framed: framed)) { background(layout, areas: areas, framed: framed).makeCGImage() }
     }
 
     static func cachedFog(_ area: AreaMap) -> CGImage {
@@ -169,7 +171,8 @@ enum ContinentMapArt {
     }
 
     /// Fondo del continente (`backgroundScale` px por casilla).
-    static func background(_ layout: ContinentLayout, areas: [String: AreaMap]) -> MapCanvas {
+    /// `framed`: con marco de pergamino y rosa de los vientos (el continente suelto); sin ellos va dentro del mundo.
+    static func background(_ layout: ContinentLayout, areas: [String: AreaMap], framed: Bool = true) -> MapCanvas {
         let S = backgroundScale
         let W = layout.width, H = layout.height
         var c = MapCanvas(width: W * S, height: H * S, fill: Ink.deep[0])
@@ -338,8 +341,8 @@ enum ContinentMapArt {
                 c.pixels[py * c.width + px] = color
             }
         }
-        // Olas sueltas en el mar.
-        for gy in stride(from: 4, to: H * S - 4, by: 11) {
+        // Olas sueltas en el mar (solo en el continente suelto: dentro del mundo, el mar es liso para que case).
+        for gy in framed ? Array(stride(from: 4, to: H * S - 4, by: 11)) : [] {
             for gx in stride(from: 3, to: W * S - 6, by: 14) {
                 let x = gx + TownArt.hash(gx, gy, 31) % 7, y = gy + TownArt.hash(gx, gy, 32) % 5
                 guard TownArt.chance(gx, gy, 33, 0.45), coast(MapPoint(Double(x) * inv, Double(y) * inv)) > 2.2 else { continue }
@@ -451,6 +454,7 @@ enum ContinentMapArt {
         for s in sprites.sorted(by: { ($0.y, $0.x) < ($1.y, $1.x) }) { c.draw(s.grid, x: s.x, y: s.y - s.grid.height) }
 
         // 6. Rosa de los vientos en el mar y marco de pergamino.
+        guard framed else { return c }
         let rose = compassRose(), rs = 3, rw = rose.width * rs, rh = rose.height * rs, m = 3 * S
         let corners = [(m, H * S - rh - m), (W * S - rw - m, H * S - rh - m), (W * S - rw - m, m), (m, m)]
         if let spot = corners.first(where: { corner in

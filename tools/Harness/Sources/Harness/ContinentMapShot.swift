@@ -113,3 +113,54 @@ func continentMapShots() {
         }
     }
 }
+
+/// `Harness mapa-mundo`: el mapa del mundo de la pausa (Ardenia) entero a PNG: el fondo del mundo con los continentes
+/// futuros en gris y, encima, los jugables con su fondo y sus áreas (todas visitadas). Mide el fondo del mundo.
+/// Salida: `mundo.png` (3 px por casilla) y `mundo_grande.png` (6 px por casilla).
+@MainActor
+func worldMapShots() {
+    func ms(_ start: CFAbsoluteTime) -> String { String(format: "%.0f ms", (CFAbsoluteTimeGetCurrent() - start) * 1000) }
+    var t0 = CFAbsoluteTimeGetCurrent()
+    let world = World.worldLayout
+    print("Mundo: \(world.width)×\(world.height) casillas, colocación en \(ms(t0))")
+    for c in world.continents {
+        print("  \(c.id)\(c.isPlayable ? "" : " (próximamente)"): lienzo \(c.frame.x),\(c.frame.y) \(c.frame.width)×\(c.frame.height)")
+    }
+    for r in world.routes {
+        print("  ruta \(r.id) (\(r.route.kind.rawValue)): " + r.points.map { String(format: "(%.0f, %.0f)", $0.x, $0.y) }.joined(separator: " → "))
+    }
+    t0 = CFAbsoluteTimeGetCurrent()
+    let background = ContinentMapArt.worldBackground(world).makeCGImage()
+    print("  fondo del mundo \(background.width)×\(background.height) px: \(ms(t0))")
+
+    let T = 6
+    let w = world.width * T, h = world.height * T
+    let ctx = CGContext(data: nil, width: w, height: h, bitsPerComponent: 8, bytesPerRow: 0,
+                        space: CGColorSpace(name: CGColorSpace.sRGB)!, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+    func draw(_ image: CGImage, _ r: TileRect, smooth: Bool) {
+        ctx.interpolationQuality = smooth ? .high : .none
+        ctx.draw(image, in: CGRect(x: r.x * T, y: h - r.maxY * T, width: r.width * T, height: r.height * T))
+    }
+    draw(background, TileRect(x: 0, y: 0, width: world.width, height: world.height), smooth: false)
+    for pc in world.continents where pc.isPlayable {
+        let areas = Dictionary(uniqueKeysWithValues: pc.layout.areaIDs.compactMap { World.area($0) }.map { ($0.id, $0) })
+        draw(ContinentMapArt.background(pc.layout, areas: areas, framed: false).makeCGImage(), pc.frame, smooth: true)
+        for id in pc.layout.areaIDs {
+            guard let area = areas[id], let f = pc.frame(of: id) else { continue }
+            draw(ContinentMapArt.areaGrid(area, castleOpen: false).makeCGImage(), f, smooth: true)
+        }
+    }
+    if let hero = world.point(of: TilePoint(21, 14), in: Valdehierro.townID) {
+        let face = ContinentMapArt.heroFace(HeroLook(profile: PlayerProfile.newGame())).outlined(0xFFCD75).makeCGImage()
+        ctx.interpolationQuality = .none
+        ctx.draw(face, in: CGRect(x: hero.x * Double(T) - Double(face.width), y: Double(h) - hero.y * Double(T) - Double(face.height),
+                                  width: Double(face.width * 2), height: Double(face.height * 2)))
+    }
+    let full = ctx.makeImage()!
+    save(full, "mundo_grande")
+    let small = CGContext(data: nil, width: w / 2, height: h / 2, bitsPerComponent: 8, bytesPerRow: 0,
+                          space: CGColorSpace(name: CGColorSpace.sRGB)!, bitmapInfo: CGImageAlphaInfo.premultipliedLast.rawValue)!
+    small.interpolationQuality = .high
+    small.draw(full, in: CGRect(x: 0, y: 0, width: w / 2, height: h / 2))
+    save(small.makeImage()!, "mundo")
+}
